@@ -41,29 +41,29 @@ function OptionsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>GPS Settings</Text>
-      <View style={styles.pickerContainer}>
-        <Text style={styles.label}>GPS mode</Text>
-        <Picker
-          selectedValue={gpsMode}
-          onValueChange={(itemValue) => setGpsMode(itemValue)}
-          style={styles.picker}
-        >
-          <Picker.Item label="Off" value="Off" />
-          <Picker.Item label="Log Only" value="Log Only" />
-          <Picker.Item label="Log & Sync" value="Log & Sync" />
-        </Picker>
-      </View>
+      <Text style={styles.label}>GPS mode</Text>
+      <Picker
+        selectedValue={gpsMode}
+        onValueChange={(itemValue) => setGpsMode(itemValue)}
+        style={styles.picker}
+      >
+        <Picker.Item label="Off" value="Off" />
+        <Picker.Item label="Log Only" value="Log Only" />
+        <Picker.Item label="Log & Sync" value="Log & Sync" />
+      </Picker>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
+      <Text style={styles.label}>Survey</Text>
       <TextInput
         style={styles.input}
-        placeholder="Survey"
+        placeholder="Name"
         value={survey}
         onChangeText={setSurvey}
       />
+      <Text style={styles.label}>Station</Text>
       <TextInput
+        placeholder="Name"
         style={styles.input}
-        placeholder="Station"
         value={station}
         onChangeText={setStation}
       />
@@ -73,7 +73,7 @@ function OptionsScreen() {
 
 function ProgramScreen() {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.centered]}>
       <Text style={styles.statusText}>4 start times</Text>
       <View style={styles.nfcIcon}>
         {/* Placeholder for NFC Icon */}
@@ -116,10 +116,14 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  centered: {
+    alignItems: "center",
+  },
   container: {
     flex: 1,
+    padding: 15,
     backgroundColor: "#fff",
-    alignItems: "center",
+    alignItems: "left",
     justifyContent: "center",
   },
   statusText: {
@@ -170,19 +174,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
-  pickerContainer: {
-    height: 50,
-    width: '100%',
-    marginBottom: 20,
-  },
   picker: {
     flex: 1,
-    height: 50,
     width: '100%',
     marginBottom: 20,
   },
   input: {
-    height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 10,
