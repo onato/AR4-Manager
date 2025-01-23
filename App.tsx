@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { StyleSheet, Text, View, FlatList, Switch, TextInput, Image } from "react-native";
 import { Picker } from '@react-native-picker/picker';
+import colors from './colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -89,8 +90,17 @@ function ProgramScreen() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator
+      <Tab.Navigator style={styles.app}
         screenOptions={({ route }) => ({
+          headerStyle: {
+            backgroundColor: colors.docGreen, // Green header background
+          },
+          headerTintColor: 'white', // Header text color
+          tabBarStyle: {
+            backgroundColor: colors.docGreenLight, // Green tab bar
+          },
+          tabBarActiveTintColor: colors.docYellow, // Active tab text/icon color
+          tabBarInactiveTintColor: 'white', // Inactive tab text/icon color
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -116,6 +126,9 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  app: {
+    backgroundColor: colors.docGreen,
+  },
   centered: {
     alignItems: "center",
   },
