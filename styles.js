@@ -38,6 +38,19 @@ const styles = StyleSheet.create({
     width: "90%",
     alignItems: "center",
   },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
   buttonText: {
     color: "white",
     fontSize: 16,
@@ -74,6 +87,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     width: "100%",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 
