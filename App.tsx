@@ -15,15 +15,6 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator style={styles.app}
         screenOptions={({ route }) => ({
-          headerStyle: {
-            backgroundColor: colors.docGreen, // Green header background
-          },
-          headerTintColor: 'white', // Header text color
-          tabBarStyle: {
-            backgroundColor: colors.docGreenLight, // Green tab bar
-          },
-          tabBarActiveTintColor: colors.docYellow, // Active tab text/icon color
-          tabBarInactiveTintColor: 'white', // Inactive tab text/icon color
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
