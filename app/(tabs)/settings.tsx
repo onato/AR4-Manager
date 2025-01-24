@@ -1,9 +1,9 @@
 import { View, Text, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import styles from "../styles";
+import styles from "../../styles";
 import React from "react";
 
-export function OptionsScreen() {
+export default function Tab() {
   const [gpsMode, setGpsMode] = React.useState("Off");
   const [survey, setSurvey] = React.useState("");
   const [station, setStation] = React.useState("");

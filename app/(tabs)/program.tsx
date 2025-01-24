@@ -1,13 +1,13 @@
 import { View, Image, Text } from "react-native";
-import styles from "../styles";
+import styles from "../../styles";
 
-export function ProgramScreen() {
+export default function Tab() {
   return (
     <View style={[styles.container, styles.centered]}>
       <Text style={styles.statusText}>4 start times</Text>
       <View style={styles.nfcIcon}>
         <Image
-          source={require("../assets/nfc_logo.png")}
+          source={require("../../assets/nfc_logo.png")}
           style={styles.nfcImage}
         />
       </View>
