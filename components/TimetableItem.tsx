@@ -1,7 +1,6 @@
-import React from 'react';
-import { View, Text, Switch } from 'react-native';
-import styles from '../styles';
-import colors from '../colors';
+import React from "react";
+import { View, Text, Switch } from "react-native";
+import styles from "../styles";
 
 interface TimetableItemProps {
   item: {
@@ -15,10 +14,10 @@ interface TimetableItemProps {
 const TimetableItem: React.FC<TimetableItemProps> = ({ item }) => (
   <View style={styles.item}>
     <Text style={styles.text}>{item.protocol}</Text>
-    <Text style={styles.text}>{item.start} - {item.end}</Text>
-    <Switch
-      value={item.enabled}
-    />
+    <Text style={styles.text}>
+      {item.start} - {item.end}
+    </Text>
+    <Switch value={item.enabled} />
   </View>
 );
 
