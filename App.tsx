@@ -4,9 +4,9 @@ import { StatusBar } from "expo-status-bar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import colors from './colors';
-import { ProgramScreen } from "./components/ProgramScreen.tsx"
-import { OptionsScreen } from "./components/OptionsScreen.tsx"
-import { TimetableScreen } from "./components/TimetableScreen.tsx"
+import { ProgramScreen } from "./screens/ProgramScreen.tsx"
+import { OptionsScreen } from "./screens/OptionsScreen.tsx"
+import { TimetableScreen } from "./screens/TimetableScreen.tsx"
 
 const Tab = createBottomTabNavigator();
 
