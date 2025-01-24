@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import Ionicons from '@expo/vector-icons/Ionicons';
 import styles from "./styles";
 import { ProgramScreen } from "./screens/ProgramScreen.tsx";
 import { OptionsScreen } from "./screens/OptionsScreen.tsx";
@@ -19,7 +19,7 @@ export default function App() {
             let iconName;
 
             if (route.name === "TIMETABLE") {
-              iconName = focused ? "calendar" : "calendar-outline";
+              iconName = focused ? "timer" : "timer-outline";
             } else if (route.name === "OPTIONS") {
               iconName = focused ? "settings" : "settings-outline";
             } else if (route.name === "PROGRAM") {

@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContainer: {
-    backgroundColor: "blue",
+    backgroundColor: colors.docGreen,
     padding: 15,
     borderRadius: 5,
     position: "absolute",
