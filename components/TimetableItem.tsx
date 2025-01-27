@@ -13,20 +13,28 @@ interface TimetableItemProps {
   };
   onPress: () => void;
   selected: boolean;
+  onSave: (updatedItem: any) => void;
   editMode: boolean;
 }
 
-const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, editMode }) => {
+const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, editMode, onSave }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSave = (updatedItem: any) => {
-    // Handle save logic here
+    onSave(updatedItem);
     setModalVisible(false);
   };
 
+  const handlePress = () => {
+    if (editMode) {
+      onPress();
+    } else {
+      setModalVisible(true);
+    }
+  };
   return (
     <>
-      <TouchableOpacity onPress={onPress} style={[styles.item, selected && styles.selected, { minHeight: 44, minWidth: 44, flexDirection: 'row', alignItems: 'center' }]}>
+      <TouchableOpacity onPress={handlePress} style={[styles.item, selected && styles.selected, { minHeight: 44, minWidth: 44, flexDirection: 'row', alignItems: 'center' }]}>
         {editMode && (
           <>
             {selected ? (

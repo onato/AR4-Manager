@@ -37,7 +37,17 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
-    setTimeframes([...timeframes, updatedItem]);
+    setTimeframes((prevTimeframes) => {
+      const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
+      if (index !== -1) {
+        // Update existing item
+        const newTimeframes = [...prevTimeframes];
+        newTimeframes[index] = updatedItem;
+        return newTimeframes;
+      }
+      // Add new item
+      return [...prevTimeframes, updatedItem];
+    });
     setModalVisible(false);
   };
 
@@ -111,6 +121,7 @@ export default function Tab() {
             onPress={() => editMode && handleSelectItem(item.id)}
             selected={selectedItems.includes(item.id)}
             editMode={editMode}
+            onSave={handleSave}
           />
         )}
         keyExtractor={(item) => item.id}
