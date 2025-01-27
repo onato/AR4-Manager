@@ -19,6 +19,8 @@ export default function Tab() {
   ]);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const [newItem, setNewItem] = useState({
     id: "",
     protocol: "",
@@ -41,9 +43,28 @@ export default function Tab() {
     setModalVisible(false);
   };
 
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+    setSelectedItems([]);
+  };
+
+  const handleSelectItem = (id) => {
+    if (selectedItems.includes(id)) {
+      setSelectedItems(selectedItems.filter(item => item !== id));
+    } else {
+      setSelectedItems([...selectedItems, id]);
+    }
+  };
+
+  const handleDelete = () => {
+    setTimeframes(timeframes.filter(item => !selectedItems.includes(item.id)));
+    setEditMode(false);
+  };
+
   return (
     <View>
       <Button title="Add" onPress={handleAdd} />
+      <Button title={editMode ? "Delete" : "Edit"} onPress={editMode ? handleDelete : toggleEditMode} />
       <EditTimetableModal
         visible={modalVisible}
         item={newItem}
@@ -52,7 +73,13 @@ export default function Tab() {
       />
       <FlatList
         data={timeframes}
-        renderItem={({ item }) => <TimetableItem item={item} />}
+        renderItem={({ item }) => (
+          <TimetableItem
+            item={item}
+            onPress={() => editMode && handleSelectItem(item.id)}
+            selected={selectedItems.includes(item.id)}
+          />
+        )}
         keyExtractor={(item) => item.id}
       />
     </View>

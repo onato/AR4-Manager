@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Switch } from "react-native";
+import { View, Text, Switch, TouchableOpacity, StyleSheet } from "react-native";
 import EditTimetableModal from "./EditTimetableModal";
 import styles from "../styles";
 
@@ -10,9 +10,11 @@ interface TimetableItemProps {
     end: string;
     enabled: boolean;
   };
+  onPress: () => void;
+  selected: boolean;
 }
 
-const TimetableItem: React.FC<TimetableItemProps> = ({ item }) => {
+const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSave = (updatedItem: any) => {
@@ -22,13 +24,13 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item }) => {
 
   return (
     <>
-      <View style={styles.item} onTouchEnd={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={onPress} style={[styles.item, selected && styles.selected]}>
         <Text style={styles.text}>{item.protocol}</Text>
         <Text style={styles.text}>
           {item.start} - {item.end}
         </Text>
         <Switch value={item.enabled} />
-      </View>
+      </TouchableOpacity>
       <EditTimetableModal
         visible={modalVisible}
         item={item}

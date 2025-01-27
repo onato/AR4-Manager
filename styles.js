@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  selected: {
+    backgroundColor: "#d3d3d3",
+  },
 });
 
 export default styles;
