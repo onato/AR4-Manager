@@ -32,6 +32,7 @@ export default function Tab() {
   });
 
   const handleAdd = () => {
+    setEditMode(false);
     setNewItem({ id: (timeframes.length + 1).toString(), protocol: "", start: "", end: "", enabled: false });
     setModalVisible(true);
   };
