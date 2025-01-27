@@ -23,17 +23,19 @@ export default function Tab() {
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  const [newItem, setNewItem] = useState({
+  const defaultNewItem = {
     id: "",
-    protocol: "",
-    start: "",
-    end: "",
-    enabled: false,
-  });
+    protocol: "High",
+    start: "12:00",
+    end: "13:00",
+    enabled: true,
+  };
+
+  const [newItem, setNewItem] = useState(defaultNewItem);
 
   const handleAdd = () => {
     setEditMode(false);
-    setNewItem({ id: (timeframes.length + 1).toString(), protocol: "", start: "", end: "", enabled: false });
+    setNewItem({ ...defaultNewItem, id: (timeframes.length + 1).toString() });
     setModalVisible(true);
   };
 
