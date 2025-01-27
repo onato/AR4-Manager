@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Button } from 'react-native';
+import { Modal, View, Text, TextInput, Button, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../styles';
 
 interface EditTimetableModalProps {
@@ -20,6 +21,23 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const [end, setEnd] = useState(item.end);
   const [enabled, setEnabled] = useState(item.enabled);
 
+  const [showStartPicker, setShowStartPicker] = useState(false);
+  const [showEndPicker, setShowEndPicker] = useState(false);
+
+  const handleStartChange = (event: any, selectedDate: Date | undefined) => {
+    setShowStartPicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      setStart(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }
+  };
+
+  const handleEndChange = (event: any, selectedDate: Date | undefined) => {
+    setShowEndPicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      setEnd(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }
+  };
+
   const handleSave = () => {
     onSave({ ...item, protocol, start, end, enabled });
   };
@@ -29,11 +47,30 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
       <View style={styles.modalContainer}>
         <Text style={styles.modalTitle}>Edit Timetable Item</Text>
         <TextInput style={styles.input} value={protocol} onChangeText={setProtocol} placeholder="Protocol" />
-        <TextInput style={styles.input} value={start} onChangeText={setStart} placeholder="Start Time" />
-        <TextInput style={styles.input} value={end} onChangeText={setEnd} placeholder="End Time" />
+        <Text style={styles.label}>Start Time</Text>
+        <Button title={start} onPress={() => setShowStartPicker(true)} />
+        {showStartPicker && (
+          <DateTimePicker
+            value={new Date()}
+            mode="time"
+            display="default"
+            onChange={handleStartChange}
+          />
+        )}
+
+        <Text style={styles.label}>End Time</Text>
+        <Button title={end} onPress={() => setShowEndPicker(true)} />
+        {showEndPicker && (
+          <DateTimePicker
+            value={new Date()}
+            mode="time"
+            display="default"
+            onChange={handleEndChange}
+          />
+        )}
         <View style={styles.buttonRow}>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={onCancel} />
+            <Button title="Cancel" onPress={onCancel} color='gray' />
           </View>
           <View style={styles.button}>
             <Button title="Save" onPress={handleSave} />
