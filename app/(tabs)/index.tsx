@@ -1,6 +1,8 @@
-import { FlatList, Button, View } from "react-native";
+import { FlatList, View, Text, TouchableOpacity, BackHandler } from "react-native";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
 
@@ -61,10 +63,40 @@ export default function Tab() {
     setEditMode(false);
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      if (editMode) {
+        setEditMode(false);
+        setSelectedItems([]);
+        return true; // Prevent default behavior (app closing)
+      }
+      return false; // Allow default behavior
+    };
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () => backHandler.remove();
+  }, [editMode]);
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (editMode) {
+          setEditMode(false);
+          setSelectedItems([]);
+        }
+      };
+    }, [editMode])
+  );
   return (
     <View>
-      <Button title="Add" onPress={handleAdd} />
-      <Button title={editMode ? "Delete" : "Edit"} onPress={editMode ? handleDelete : toggleEditMode} />
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <TouchableOpacity onPress={handleAdd} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
+          <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={editMode ? handleDelete : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
+          <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Delete" : "Edit"}</Text>
+        </TouchableOpacity>
+      </View>
       <EditTimetableModal
         visible={modalVisible}
         item={newItem}
@@ -78,6 +110,7 @@ export default function Tab() {
             item={item}
             onPress={() => editMode && handleSelectItem(item.id)}
             selected={selectedItems.includes(item.id)}
+            editMode={editMode}
           />
         )}
         keyExtractor={(item) => item.id}
