@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Button, Platform } from 'react-native';
+import { Modal, View, Text, Button, Platform } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import styles from '../styles';
 
@@ -44,9 +45,19 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
 
   return (
     <Modal visible={visible} animationType="slide" transparent={false}>
-      <View style={styles.modalContainer}>
+      <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
         <Text style={styles.modalTitle}>Edit Timetable Item</Text>
-        <TextInput style={styles.input} value={protocol} onChangeText={setProtocol} placeholder="Protocol" />
+        <Text style={styles.label}>Protocol</Text>
+        <Picker
+          selectedValue={protocol}
+          onValueChange={(itemValue) => setProtocol(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="High" value="High" />
+          <Picker.Item label="Low" value="Low" />
+          <Picker.Item label="Bat" value="Bat" />
+          <Picker.Item label="Tier1" value="Tier1" />
+        </Picker>
         <Text style={styles.label}>Start Time</Text>
         <Button title={start} onPress={() => setShowStartPicker(true)} />
         {showStartPicker && (

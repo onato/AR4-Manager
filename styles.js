@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   picker: {
-    flex: 1,
     width: "100%",
     marginBottom: 20,
   },
