@@ -18,8 +18,8 @@ interface EditTimetableModalProps {
 
 const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, onSave, onCancel }) => {
   const [protocol, setProtocol] = useState(item.protocol);
-  const [start, setStart] = useState(item.start);
-  const [end, setEnd] = useState(item.end);
+  const [start, setStart] = useState(`${item.start_hour}:${item.start_minute.toString().padStart(2, '0')}`);
+  const [end, setEnd] = useState(`${item.end_hour}:${item.end_minute.toString().padStart(2, '0')}`);
   const [enabled, setEnabled] = useState(item.enabled);
 
   const [showStartPicker, setShowStartPicker] = useState(false);
@@ -62,7 +62,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         <Button title={start} onPress={() => setShowStartPicker(true)} />
         {showStartPicker && (
           <DateTimePicker
-            value={new Date()}
+            value={new Date(Date.UTC(1970, 0, 1, item.start_hour, item.start_minute))}
             mode="time"
             display="default"
             onChange={handleStartChange}
@@ -73,7 +73,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         <Button title={end} onPress={() => setShowEndPicker(true)} />
         {showEndPicker && (
           <DateTimePicker
-            value={new Date()}
+            value={new Date(Date.UTC(1970, 0, 1, item.end_hour, item.end_minute))}
             mode="time"
             display="default"
             onChange={handleEndChange}

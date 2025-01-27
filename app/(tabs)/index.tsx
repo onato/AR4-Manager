@@ -8,14 +8,13 @@ import React from "react";
 
 export default function Tab() {
   const [timeframes, setTimeframes] = useState([
-    { id: "1", protocol: "High", start: "08:00", end: "10:00", enabled: true },
-    { id: "2", protocol: "Low", start: "10:00", end: "12:00", enabled: false },
-    { id: "3", protocol: "Bat", start: "12:00", end: "14:00", enabled: true },
+    { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
+    { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: false },
+    { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },
     {
       id: "4",
       protocol: "Tier1",
-      start: "14:00",
-      end: "16:00",
+      start_hour: 14, start_minute: 0, end_hour: 16, end_minute: 0,
       enabled: false,
     },
   ]);
@@ -26,8 +25,10 @@ export default function Tab() {
   const defaultNewItem = {
     id: "",
     protocol: "High",
-    start: "12:00",
-    end: "13:00",
+    start_hour: 12,
+    start_minute: 0,
+    end_hour: 13,
+    end_minute: 0,
     enabled: true,
   };
 
@@ -40,6 +41,10 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
+    updatedItem.start_hour = parseInt(updatedItem.start.split(':')[0], 10);
+    updatedItem.start_minute = parseInt(updatedItem.start.split(':')[1], 10);
+    updatedItem.end_hour = parseInt(updatedItem.end.split(':')[0], 10);
+    updatedItem.end_minute = parseInt(updatedItem.end.split(':')[1], 10);
     setTimeframes((prevTimeframes) => {
       const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
       if (index !== -1) {

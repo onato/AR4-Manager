@@ -46,7 +46,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, 
         )}
         <Text style={styles.text}>{item.protocol}</Text>
         <Text style={styles.text}>
-          {item.start} - {item.end}
+          {item.start_hour}:{item.start_minute.toString().padStart(2, '0')} - {item.end_hour}:{item.end_minute.toString().padStart(2, '0')}
         </Text>
         <Switch value={item.enabled} />
       </TouchableOpacity>
