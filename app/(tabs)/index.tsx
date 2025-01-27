@@ -41,10 +41,17 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
-    updatedItem.start_hour = parseInt(updatedItem.start.split(':')[0], 10);
-    updatedItem.start_minute = parseInt(updatedItem.start.split(':')[1], 10);
-    updatedItem.end_hour = parseInt(updatedItem.end.split(':')[0], 10);
-    updatedItem.end_minute = parseInt(updatedItem.end.split(':')[1], 10);
+    setTimeframes((prevTimeframes) => {
+      const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
+      if (index !== -1) {
+        // Update existing item
+        const newTimeframes = [...prevTimeframes];
+        newTimeframes[index] = updatedItem;
+        return newTimeframes;
+      }
+      // Add new item
+      return [...prevTimeframes, updatedItem];
+    });
     setTimeframes((prevTimeframes) => {
       const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
       if (index !== -1) {

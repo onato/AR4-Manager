@@ -28,14 +28,14 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const handleStartChange = (event: any, selectedDate: Date | undefined) => {
     setShowStartPicker(Platform.OS === 'ios');
     if (selectedDate) {
-      setStart(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setStart(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
   };
 
   const handleEndChange = (event: any, selectedDate: Date | undefined) => {
     setShowEndPicker(Platform.OS === 'ios');
     if (selectedDate) {
-      setEnd(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setEnd(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
   };
 
@@ -62,7 +62,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         <Button title={start} onPress={() => setShowStartPicker(true)} />
         {showStartPicker && (
           <DateTimePicker
-            value={new Date(Date.UTC(1970, 0, 1, item.start_hour, item.start_minute))}
+            value={new Date(1970, 0, 1, item.start_hour, item.start_minute)}
             mode="time"
             display="default"
             onChange={handleStartChange}
@@ -73,7 +73,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         <Button title={end} onPress={() => setShowEndPicker(true)} />
         {showEndPicker && (
           <DateTimePicker
-            value={new Date(Date.UTC(1970, 0, 1, item.end_hour, item.end_minute))}
+            value={new Date(1970, 0, 1, item.end_hour, item.end_minute)}
             mode="time"
             display="default"
             onChange={handleEndChange}
