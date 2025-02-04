@@ -17,10 +17,10 @@ interface EditTimetableModalProps {
 }
 
 const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, onSave, onCancel }) => {
-  const [protocol, setProtocol] = useState(item.protocol);
-  const [start, setStart] = useState(`${item.start_hour}:${item.start_minute.toString().padStart(2, '0')}`);
-  const [end, setEnd] = useState(`${item.end_hour}:${item.end_minute.toString().padStart(2, '0')}`);
-  const [enabled, setEnabled] = useState(item.enabled);
+  const [protocol, setProtocol] = useState(item?.protocol || 'High');
+  const [start, setStart] = useState(item ? `${item.start_hour}:${item.start_minute.toString().padStart(2, '0')}` : '12:00');
+  const [end, setEnd] = useState(item ? `${item.end_hour}:${item.end_minute.toString().padStart(2, '0')}` : '13:00');
+  const [enabled, setEnabled] = useState(item?.enabled || true);
 
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
