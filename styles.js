@@ -25,14 +25,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   nfcImage: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
     marginBottom: 20,
   },
   buttonContainer: {
-    backgroundColor: colors.docGreen,
-    padding: 15,
-    borderRadius: 5,
     position: "absolute",
     bottom: 30,
     width: "90%",
@@ -47,14 +44,24 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
   },
+  submitButton: {
+    backgroundColor: colors.docGreen,
+    padding: 20,
+    borderRadius: 5,
+  },
   button: {
     flex: 1,
     marginHorizontal: 5,
+    padding: 20,
   },
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  disabledButton: {
+    backgroundColor: 'gray',
+    opacity: 0.5,
   },
   item: {
     flexDirection: "row",

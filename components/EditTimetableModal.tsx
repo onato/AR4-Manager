@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, Button, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
 
 interface EditTimetableModalProps {
@@ -25,23 +25,31 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
-  const handleStartChange = (event: any, selectedDate: Date | undefined) => {
+  const handleStartChange = (selectedDate: Date | undefined) => {
     setShowStartPicker(Platform.OS === 'ios');
     if (selectedDate) {
       setStart(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
+    setShowStartPicker(false)
   };
 
-  const handleEndChange = (event: any, selectedDate: Date | undefined) => {
+  const handleEndChange = (selectedDate: Date | undefined) => {
     setShowEndPicker(Platform.OS === 'ios');
     if (selectedDate) {
       setEnd(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
+    setShowEndPicker(false)
   };
 
   const handleSave = () => {
     onSave({ ...item, protocol, start, end, enabled });
   };
+
+  function time(hour, minute) {
+    const date = new Date();
+    date.setHours(hour, minute, 0, 0);
+    return date;
+  }
 
   return (
     <Modal visible={visible} animationType="slide" transparent={false}>
@@ -58,27 +66,35 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           <Picker.Item label="Bat" value="Bat" />
           <Picker.Item label="Tier1" value="Tier1" />
         </Picker>
-        <Text style={styles.label}>Start Time</Text>
+        <Text style={styles.label}>Start</Text>
         <Button title={start} onPress={() => setShowStartPicker(true)} />
-        {showStartPicker && (
-          <DateTimePicker
-            value={new Date(1970, 0, 1, item.start_hour, item.start_minute)}
-            mode="time"
-            display="default"
-            onChange={handleStartChange}
-          />
-        )}
+        <DatePicker
+          title="Start Time"
+          modal
+          open={showStartPicker}
+          date={time(item.start_hour, item.start_minute)}
+          mode="time"
+          minuteInterval={5}
+          onConfirm={handleStartChange}
+          onCancel={() => {
+            setShowStartPicker(false)
+          }}
+        />
 
-        <Text style={styles.label}>End Time</Text>
+        <Text style={styles.label}>Stop</Text>
         <Button title={end} onPress={() => setShowEndPicker(true)} />
-        {showEndPicker && (
-          <DateTimePicker
-            value={new Date(1970, 0, 1, item.end_hour, item.end_minute)}
-            mode="time"
-            display="default"
-            onChange={handleEndChange}
-          />
-        )}
+        <DatePicker
+          title="Stop Time"
+          modal
+          open={showEndPicker}
+          date={time(item.end_hour, item.end_minute)}
+          mode="time"
+          minuteInterval={5}
+          onConfirm={handleEndChange}
+          onCancel={() => {
+            setShowEndPicker(false)
+          }}
+        />
         <View style={styles.buttonRow}>
           <View style={styles.button}>
             <Button title="Cancel" onPress={onCancel} color='gray' />
