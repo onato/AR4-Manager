@@ -1,12 +1,13 @@
 import { View, Text, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "../../styles";
+import { Station } from "doc-nfc-module";
 import React from "react";
 
 export default function Tab() {
   const [gpsMode, setGpsMode] = React.useState("Off");
   const [survey, setSurvey] = React.useState("");
-  const [station, setStation] = React.useState("");
+  const [station, setStation] = React.useState(Station[0]);
 
   return (
     <View style={styles.container}>
@@ -31,12 +32,15 @@ export default function Tab() {
         onChangeText={setSurvey}
       />
       <Text style={styles.label}>Station</Text>
-      <TextInput
-        placeholder="Name"
-        style={styles.input}
-        value={station}
-        onChangeText={setStation}
-      />
+      <Picker
+        selectedValue={station}
+        onValueChange={(itemValue) => setStation(itemValue)}
+        style={styles.picker}
+      >
+        {Object.entries(Station).map(([stationName, stationValue]) => (
+          <Picker.Item key={stationValue} label={stationName} value={stationValue} />
+        ))}
+      </Picker>
     </View>
   );
 }
