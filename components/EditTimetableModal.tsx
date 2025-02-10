@@ -3,6 +3,7 @@ import { Modal, View, Text, Button, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
+import { Protocol } from 'doc-nfc-module';
 
 interface EditTimetableModalProps {
   visible: boolean;
@@ -61,13 +62,16 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           onValueChange={(itemValue) => setProtocol(itemValue)}
           style={styles.picker}
         >
-          <Picker.Item label="High" value="High" />
-          <Picker.Item label="Low" value="Low" />
-          <Picker.Item label="Bat" value="Bat" />
-          <Picker.Item label="Tier1" value="Tier1" />
+          {Object.values(Protocol).map((protocolValue) => (
+            <Picker.Item key={protocolValue} label={protocolValue} value={protocolValue} />
+          ))}
         </Picker>
         <Text style={styles.label}>Start</Text>
-        <Button title={start} onPress={() => setShowStartPicker(true)} />
+        <Button
+          title={start}
+          onPress={() => setShowStartPicker(true)}
+          disabled={protocol.indexOf("Tier1") !== -1}
+        />
         <DatePicker
           title="Start Time"
           modal
@@ -82,7 +86,11 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         />
 
         <Text style={styles.label}>Stop</Text>
-        <Button title={end} onPress={() => setShowEndPicker(true)} />
+        <Button
+          title={end}
+          onPress={() => setShowEndPicker(true)}
+          disabled={protocol.indexOf("Tier1") !== -1}
+        />
         <DatePicker
           title="Stop Time"
           modal
@@ -95,6 +103,11 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
             setShowEndPicker(false)
           }}
         />
+        {protocol.indexOf("Tier1") !== -1 && (
+          <Text style={styles.infoText}>
+            The times are set automatically by the device when using a Tier1 protocol.
+          </Text>
+        )}
         <View style={styles.buttonRow}>
           <View style={styles.button}>
             <Button title="Cancel" onPress={onCancel} color='gray' />
