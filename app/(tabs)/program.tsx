@@ -45,13 +45,19 @@ export default function Tab() {
       const payload = example.convertToByteArray(tag.id);
       responseCode = await NfcManager.transceive(payload);
 
+      console.log(typeof(responseCode));
+
+      setIconState(IconState.Alert);
       if(responseCode == 0) {
         setIconState(IconState.Checkmark);
+      } else if(responseCode.toString() == "1,15") {
+        setNfcResult(`The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.`);
       } else {
-        setIconState(IconState.Alert);
+        setNfcResult(`Error: ${responseCode}`);
       }
     } catch (error) {
       setNfcResult(`Error: ${error.message}`);
+      setIconState(IconState.Alert);
       console.error("Error:", error);
     } finally {
       NfcManager.cancelTechnologyRequest();
@@ -78,7 +84,9 @@ export default function Tab() {
           <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.nfcResult}>{nfcResult}</Text>
+      {iconState === IconState.Alert && (
+        <Text style={styles.nfcResult}>{nfcResult}</Text>
+      )}
     </View>
   );
 }
