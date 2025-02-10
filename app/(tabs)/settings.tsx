@@ -28,8 +28,16 @@ export default function Tab() {
       <TextInput
         style={styles.input}
         placeholder="Name"
+        autoCorrect={false}
+        autoCapitalize="none"
+        keyboardType="default"
+        autoCapitalize="characters"
         value={survey}
-        onChangeText={setSurvey}
+        maxLength={7}
+        onChangeText={(text) => {
+          const filteredText = text.replace(/[^A-Z0-9_]/g, '_');
+          setSurvey(filteredText);
+        }}
       />
       <Text style={styles.label}>Station</Text>
       <Picker

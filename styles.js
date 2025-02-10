@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 10,
-    paddingHorizontal: 10,
+    padding: 15,
     width: "100%",
   },
   modalContainer: {
