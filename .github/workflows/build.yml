@@ -21,25 +21,10 @@ jobs:
         node-version: 18
         cache: yarn
 
-    - name: Debug GH_PAT
-      run: echo "GH_PAT is set to a secret."
-
-    - name: Set up .netrc for GitHub authentication
-      run: |
-        echo "machine github.com login x-access-token password ${{ secrets.GH_PAT }}" > ~/.netrc
-        chmod 600 ~/.netrc
-        cat ~/.netrc # Debugging: Show file contents (remove after confirming it works)
-        curl -u "x-access-token:${{ secrets.GH_PAT }}" -i https://api.github.com/repos/onato/doc-nfc-module
-
-    - name: Set up Git credentials
-      run: |
-        git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
-
-    - name: Set up authentication for private GitHub repo
-      run: echo "//github.com/:_authToken=${{ secrets.GH_PAT }}" > ~/.npmrc
-
     - name: Install dependencies
       run: yarn install
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
     - name: Set up JDK 17 (Required for latest Gradle)
       uses: actions/setup-java@v3
