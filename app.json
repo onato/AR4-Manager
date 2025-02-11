@@ -4,6 +4,9 @@
     "slug": "AR4-Manager",
     "scheme": "ar4-manager",
     "version": "1.0.0",
+    "android": {
+      "versionCode": 2
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
