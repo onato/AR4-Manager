@@ -26,6 +26,9 @@ jobs:
         echo "machine github.com login ${{ secrets.GH_PAT }}" > ~/.netrc
         chmod 600 ~/.netrc
 
+    - name: Verify GitHub access
+      run: git ls-remote https://github.com/onato/doc-nfc-module.git
+
     - name: Install dependencies
       run: yarn install
 
