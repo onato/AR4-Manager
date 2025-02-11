@@ -35,8 +35,8 @@ jobs:
       run: |
         git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
 
-    - name: Verify GitHub access
-      run: GIT_CURL_VERBOSE=1 git ls-remote https://github.com/onato/doc-nfc-module.git
+    - name: Set up authentication for private GitHub repo
+      run: echo "//github.com/:_authToken=${{ secrets.GH_PAT }}" > ~/.npmrc
 
     - name: Install dependencies
       run: yarn install
