@@ -29,6 +29,7 @@ jobs:
         echo "machine github.com login x-access-token password ${{ secrets.GH_PAT }}" > ~/.netrc
         chmod 600 ~/.netrc
         cat ~/.netrc # Debugging: Show file contents (remove after confirming it works)
+        curl -u "x-access-token:${{ secrets.GH_PAT }}" -i https://api.github.com/repos/onato/doc-nfc-module
 
     - name: Verify GitHub access
       run: GIT_CURL_VERBOSE=1 git ls-remote https://github.com/onato/doc-nfc-module.git
