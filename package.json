@@ -15,7 +15,7 @@
     "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
-    "doc-nfc-module": "git://github.com/onato/doc-nfc-module.git",
+    "doc-nfc-module": "git+https://github.com/onato/doc-nfc-module.git",
     "expo": "~52.0.27",
     "expo-constants": "~17.0.4",
     "expo-linking": "~7.0.4",
