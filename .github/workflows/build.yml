@@ -21,8 +21,10 @@ jobs:
         node-version: 18
         cache: yarn
 
-    - name: Set up authentication for private GitHub repo
-      run: echo "//github.com/:_authToken=${{ secrets.GH_PAT }}" > ~/.npmrc
+    - name: Set up .netrc for GitHub authentication
+      run: |
+        echo "machine github.com login ${{ secrets.GH_PAT }}" > ~/.netrc
+        chmod 600 ~/.netrc
 
     - name: Install dependencies
       run: yarn install

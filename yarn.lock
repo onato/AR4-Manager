@@ -3068,9 +3068,9 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-"doc-nfc-module@git+ssh://git@github.com:onato/doc-nfc-module.git":
+"doc-nfc-module@git://github.com/onato/doc-nfc-module.git":
   version "1.0.0"
-  resolved "git+ssh://git@github.com:onato/doc-nfc-module.git#1a59fd84ad06ad9b86f72dff0ab9f381df4a7f62"
+  resolved "git://github.com/onato/doc-nfc-module.git#1a59fd84ad06ad9b86f72dff0ab9f381df4a7f62"
 
 doctrine@^2.1.0:
   version "2.1.0"
