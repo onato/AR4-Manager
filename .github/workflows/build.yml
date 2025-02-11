@@ -21,13 +21,17 @@ jobs:
         node-version: 18
         cache: yarn
 
+    - name: Debug GH_PAT
+      run: echo "GH_PAT is set to a secret."
+
     - name: Set up .netrc for GitHub authentication
       run: |
         echo "machine github.com login x-access-token password ${{ secrets.GH_PAT }}" > ~/.netrc
         chmod 600 ~/.netrc
+        cat ~/.netrc # Debugging: Show file contents (remove after confirming it works)
 
     - name: Verify GitHub access
-      run: git ls-remote https://github.com/onato/doc-nfc-module.git
+      run: GIT_CURL_VERBOSE=1 git ls-remote https://github.com/onato/doc-nfc-module.git
 
     - name: Install dependencies
       run: yarn install
