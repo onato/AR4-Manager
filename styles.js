@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     opacity: 0.5,
   },
+  list: {
+    backgroundColor: "white",
+  },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -70,9 +73,16 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    minHeight: 44,
+    minWidth: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+  },
+  largeText: {
+    fontSize: 46,
   },
   sectionTitle: {
     fontSize: 18,
@@ -82,14 +92,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginBottom: 5,
+    padding: 15,
   },
   picker: {
-    width: "100%",
+    width: "50%",
     marginBottom: 20,
   },
   input: {
     borderColor: "#ccc",
-    borderWidth: 1,
+    borderBottomWidth: 1,
     marginBottom: 10,
     padding: 15,
     width: "100%",
@@ -108,6 +119,10 @@ const styles = StyleSheet.create({
   selected: {
     backgroundColor: "#d3d3d3",
   },
+  hStack: {
+    flexDirection: "row",
+    gap: 10, // Adds space between children
+  }
 });
 
 export default styles;

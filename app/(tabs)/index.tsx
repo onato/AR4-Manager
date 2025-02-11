@@ -5,6 +5,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
+import styles from "../../styles";
 
 export default function Tab() {
   const [timeframes, setTimeframes] = useState([
@@ -129,6 +130,7 @@ export default function Tab() {
         onCancel={handleCancel}
       />
       <FlatList
+        style={styles.list}
         data={timeframes}
         renderItem={({ item }) => (
           <TimetableItem

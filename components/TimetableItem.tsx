@@ -34,7 +34,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, 
   };
   return (
     <>
-      <TouchableOpacity onPress={handlePress} style={[styles.item, selected && styles.selected, { minHeight: 44, minWidth: 44, flexDirection: 'row', alignItems: 'center' }]}>
+      <TouchableOpacity onPress={handlePress} style={[styles.item, selected && styles.selected]}>
         {editMode && (
           <>
             {selected ? (
@@ -44,10 +44,12 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, 
             )}
           </>
         )}
-        <Text style={styles.text}>{item.protocol}</Text>
-        <Text style={styles.text}>
-          {item.start_hour}:{item.start_minute.toString().padStart(2, '0')} - {item.end_hour}:{item.end_minute.toString().padStart(2, '0')}
-        </Text>
+        <View>
+          <Text style={styles.largeText}>
+            {item.start_hour.toString().padStart(2, '0')}:{item.start_minute.toString().padStart(2, '0')} - {item.end_hour.toString().padStart(2, '0')}:{item.end_minute.toString().padStart(2, '0')}
+          </Text>
+          <Text style={styles.text}>{item.protocol}</Text>
+        </View>
         <Switch
           value={item.enabled}
           onValueChange={(newValue) => onSave({ ...item, enabled: newValue })}

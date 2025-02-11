@@ -12,22 +12,23 @@ export default function Tab() {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>GPS Settings</Text>
-      <Text style={styles.label}>GPS mode</Text>
-      <Picker
-        selectedValue={gpsMode}
-        onValueChange={(itemValue) => setGpsMode(itemValue)}
-        style={styles.picker}
-      >
-        <Picker.Item label="Off" value="Off" />
-        <Picker.Item label="Log Only" value="Log Only" />
-        <Picker.Item label="Log & Sync" value="Log & Sync" />
-      </Picker>
+      <View style={styles.hStack}>
+        <Text style={styles.label}>GPS mode</Text>
+        <Picker
+          selectedValue={gpsMode}
+          onValueChange={(itemValue) => setGpsMode(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Off" value="Off" />
+          <Picker.Item label="Log Only" value="Log Only" />
+          <Picker.Item label="Log & Sync" value="Log & Sync" />
+        </Picker>
+      </View>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
-      <Text style={styles.label}>Survey</Text>
       <TextInput
         style={styles.input}
-        placeholder="Name"
+        placeholder="Survey Name"
         autoCorrect={false}
         autoCapitalize="none"
         keyboardType="default"
@@ -39,16 +40,18 @@ export default function Tab() {
           setSurvey(filteredText);
         }}
       />
-      <Text style={styles.label}>Station</Text>
-      <Picker
-        selectedValue={station}
-        onValueChange={(itemValue) => setStation(itemValue)}
-        style={styles.picker}
-      >
-        {Object.entries(Station).map(([stationName, stationValue]) => (
-          <Picker.Item key={stationValue} label={stationName} value={stationValue} />
-        ))}
-      </Picker>
+      <View style={styles.hStack}>
+        <Text style={styles.label}>Station:</Text>
+        <Picker
+          selectedValue={station}
+          onValueChange={(itemValue) => setStation(itemValue)}
+          style={styles.picker}
+        >
+          {Object.entries(Station).map(([stationName, stationValue]) => (
+            <Picker.Item key={stationValue} label={stationName} value={stationValue} />
+          ))}
+        </Picker>
+      </View>
     </View>
   );
 }
