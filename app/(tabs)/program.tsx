@@ -74,7 +74,7 @@ export default function Tab() {
           <Ionicons name="alert-circle" size={64} color="red" />
         ) : (
           <Image
-            source={require("../../assets/nfc_logo.png")}
+            source={require("../../assets/images/nfc_logo.png")}
             style={styles.nfcImage}
           />
         )}
