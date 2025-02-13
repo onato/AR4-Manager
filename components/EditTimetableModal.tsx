@@ -43,7 +43,9 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   };
 
   const handleSave = () => {
-    onSave({ ...item, protocol, start, end, enabled });
+    const [startHour, startMinute] = start.split(':').map(Number);
+    const [endHour, endMinute] = end.split(':').map(Number);
+    onSave({ ...item, protocol, start_hour: startHour, start_minute: startMinute, end_hour: endHour, end_minute: endMinute, enabled });
   };
 
   function time(hour, minute) {

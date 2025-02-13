@@ -31,11 +31,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   };
 
   const handlePress = () => {
-    if (editMode) {
-      onPress();
-    } else {
-      setModalVisible(true);
-    }
+    setModalVisible(true);
   };
 
   const handleSwitch = (updatedItem: any) => {
@@ -53,7 +49,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
           <Text style={styles.text}>{item.protocol}</Text>
         </View>
         {editMode ? (
-          <TouchableOpacity onPress={handleDelete} style={{ marginLeft: 10 }}>
+          <TouchableOpacity onPress={handleDelete} style={{ marginLeft: 10, padding: 10 }}>
             <Ionicons name="trash" size={24} color="red" />
           </TouchableOpacity>
         ) : (

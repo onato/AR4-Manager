@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
   },
   list: {
     backgroundColor: "white",
+    marginBottom: 50,
   },
   item: {
     flexDirection: "row",
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   largeText: {
-    fontSize: 46,
+    fontSize: 40,
   },
   sectionTitle: {
     fontSize: 18,

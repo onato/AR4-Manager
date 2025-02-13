@@ -66,7 +66,6 @@ export default function Tab() {
 
   const handleDelete = (id) => {
     setTimeframes((prevTimeframes) => prevTimeframes.filter(item => item.id !== id));
-    setEditMode(false);
   };
 
   useEffect(() => {

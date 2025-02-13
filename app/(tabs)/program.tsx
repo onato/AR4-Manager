@@ -50,7 +50,7 @@ export default function Tab() {
 
       setIconState(IconState.Alert);
       if(responseCode == 0) {
-        success();
+        showSuccess();
       } else if(responseCode.toString() == "1,15") {
         showError(`The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.`);
       } else {
