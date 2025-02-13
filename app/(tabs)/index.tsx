@@ -116,7 +116,7 @@ export default function Tab() {
   return (
     <View>
       <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-        <TouchableOpacity onPress={handleAdd} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
+        <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={{ minHeight: 44, minWidth: 44, justifyContent: "center", opacity: timeframes.length >= 6 ? 0.5 : 1 }}>
           <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={editMode ? handleDelete : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
