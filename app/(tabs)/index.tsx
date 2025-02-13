@@ -1,13 +1,14 @@
 import { FlatList, View, Text, TouchableOpacity, BackHandler } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
-import { useState, useCallback, useEffect } from "react";
-import { useFocusEffect } from '@react-navigation/native';
+import { useState, useCallback, useEffect, useLayoutEffect } from "react";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
 import styles from "../../styles";
 
 export default function Tab() {
+  const navigation = useNavigation();
   const [timeframes, setTimeframes] = useState([
     { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
     { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: false },
@@ -113,16 +114,22 @@ export default function Tab() {
       };
     }, [editMode])
   );
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={{ minHeight: 44, minWidth: 44, justifyContent: "center", opacity: timeframes.length >= 6 ? 0.5 : 1 }}>
+            <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={editMode ? handleDelete : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
+            <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Delete" : "Edit"}</Text>
+          </TouchableOpacity>
+        </View>
+      ),
+    });
+  }, [navigation, timeframes.length, editMode, selectedItems]);
   return (
     <View>
-      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-        <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={{ minHeight: 44, minWidth: 44, justifyContent: "center", opacity: timeframes.length >= 6 ? 0.5 : 1 }}>
-          <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={editMode ? handleDelete : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
-          <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Delete" : "Edit"}</Text>
-        </TouchableOpacity>
-      </View>
       <EditTimetableModal
         visible={modalVisible}
         item={newItem}
