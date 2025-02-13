@@ -8,7 +8,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Timetable',
           tabBarIcon: ({ focused, color, size }) => <Ionicons size={size} name={focused ? "calendar" : "calendar-outline"} color={color} />,
         }}
       />
