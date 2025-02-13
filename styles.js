@@ -86,24 +86,26 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: "bold",
     marginVertical: 10,
   },
   label: {
     fontSize: 16,
+    fontWeight: "bold",
     marginBottom: 5,
-    padding: 15,
   },
   picker: {
-    width: "50%",
+    width: "100%",
     marginBottom: 20,
+    backgroundColor: "#eee"
   },
   input: {
     borderColor: "#ccc",
     borderBottomWidth: 1,
     marginBottom: 10,
     padding: 15,
+    paddingLeft: 0,
     width: "100%",
   },
   modalContainer: {
