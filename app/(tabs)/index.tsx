@@ -110,7 +110,7 @@ export default function Tab() {
             <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
           </TouchableOpacity>
           <TouchableOpacity onPress={editMode ? () => setEditMode(false) : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
-            <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Done" : "Edit"}</Text>
+            <Text style={{ marginHorizontal: 10, fontSize: 18, fontWeight: editMode ? "bold" : "normal", width: 50, textAlign: "center" }}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
       ),
