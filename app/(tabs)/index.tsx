@@ -53,17 +53,6 @@ export default function Tab() {
       // Add new item
       return [...prevTimeframes, updatedItem];
     });
-    setTimeframes((prevTimeframes) => {
-      const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
-      if (index !== -1) {
-        // Update existing item
-        const newTimeframes = [...prevTimeframes];
-        newTimeframes[index] = updatedItem;
-        return newTimeframes;
-      }
-      // Add new item
-      return [...prevTimeframes, updatedItem];
-    });
     setModalVisible(false);
   };
 
