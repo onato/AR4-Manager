@@ -5,7 +5,7 @@ import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
-import styles from "../../styles";
+import styles, { headerButton, headerButtonText } from "../../styles";
 
 export default function Tab() {
   const navigation = useNavigation();
@@ -94,18 +94,18 @@ export default function Tab() {
     navigation.setOptions({
       headerRight: () => (
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={{ minHeight: 44, minWidth: 44, justifyContent: "center", opacity: timeframes.length >= 6 ? 0.5 : 1 }}>
-            <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
+          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={[headerButton, { opacity: timeframes.length >= 6 ? 0.5 : 1 }]}>
+            <Ionicons name="add" size={24} style={headerButtonText} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={editMode ? () => setEditMode(false) : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
-            <Text style={{ marginHorizontal: 10, fontSize: 18, fontWeight: editMode ? "bold" : "normal", width: 50, textAlign: "center" }}>{editMode ? "Done" : "Edit"}</Text>
+          <TouchableOpacity onPress={editMode ? () => setEditMode(false) : toggleEditMode} style={headerButton}>
+            <Text style={[headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
       ),
     });
   }, [navigation, timeframes.length, editMode]);
   return (
-    <View>
+    <View style={styles.listContainer}>
       <EditTimetableModal
         visible={modalVisible}
         item={newItem}

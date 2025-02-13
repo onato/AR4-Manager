@@ -4,6 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./EditTimetableModal";
 import * as Haptics from 'expo-haptics';
 import styles from "../styles";
+import colors from "../colors";
 
 interface TimetableItemProps {
   item: {
@@ -56,6 +57,8 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
           <Switch
             value={item.enabled}
             onValueChange={(newValue) => handleSwitch({ ...item, enabled: newValue })}
+            thumbColor={item.enabled ? colors.docBlue: "#f4f3f4"}
+            trackColor={{ false: "#767577", true: colors.docBlueLight }}
           />
         )}
       </TouchableOpacity>

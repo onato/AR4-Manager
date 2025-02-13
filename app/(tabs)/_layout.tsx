@@ -1,10 +1,18 @@
 import { Tabs } from 'expo-router';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import colors from '../../colors.js';
+import { StatusBar } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ }}>
+    <>
+    <StatusBar backgroundColor={colors.docGreen} barStyle="light-content" />
+    <Tabs screenOptions={{
+      tabBarActiveTintColor: colors.docBlue,
+      headerStyle: { backgroundColor: colors.docGreen },
+      headerTintColor: '#FFFFFF'
+    }}>
       <Tabs.Screen
         name="index"
         options={{
@@ -27,6 +35,7 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </>
   );
 }
 

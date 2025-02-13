@@ -2,9 +2,6 @@ import { StyleSheet } from "react-native";
 import colors from "./colors";
 
 const styles = StyleSheet.create({
-  app: {
-    backgroundColor: colors.docGreen,
-  },
   centered: {
     alignItems: "center",
   },
@@ -45,7 +42,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   submitButton: {
-    backgroundColor: colors.docGreen,
+    backgroundColor: colors.docBlue,
     padding: 20,
     borderRadius: 5,
   },
@@ -60,14 +57,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   disabledButton: {
-    backgroundColor: 'gray',
+    backgroundColor: colors.docGrey,
     opacity: 0.5,
   },
+  listContainer: {
+    flex: 1,
+  },
   list: {
-    backgroundColor: "white",
-    marginBottom: 50,
   },
   item: {
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -98,7 +97,7 @@ const styles = StyleSheet.create({
   picker: {
     width: "100%",
     marginBottom: 20,
-    backgroundColor: "#eee"
+    backgroundColor: colors.docGrey,
   },
   input: {
     borderColor: "#ccc",
@@ -119,13 +118,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  selected: {
-    backgroundColor: "#d3d3d3",
-  },
-  hStack: {
-    flexDirection: "row",
-    gap: 10, // Adds space between children
-  }
 });
+
+export const headerButton = {
+  minHeight: 44,
+  minWidth: 44,
+  justifyContent: "center",
+};
+
+export const headerButtonText = {
+  marginHorizontal: 10,
+  fontSize: 18,
+  width: 50,
+  textAlign: "center",
+  color: "white",
+};
 
 export default styles;
