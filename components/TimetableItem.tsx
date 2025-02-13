@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Switch, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./EditTimetableModal";
+import * as Haptics from 'expo-haptics';
 import styles from "../styles";
 
 interface TimetableItemProps {
@@ -32,6 +33,12 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, 
       setModalVisible(true);
     }
   };
+
+  const handleSwitch = (updatedItem: any) => {
+    onSave(updatedItem);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+  }
+
   return (
     <>
       <TouchableOpacity onPress={handlePress} style={[styles.item, selected && styles.selected]}>
@@ -52,7 +59,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, onPress, selected, 
         </View>
         <Switch
           value={item.enabled}
-          onValueChange={(newValue) => onSave({ ...item, enabled: newValue })}
+          onValueChange={(newValue) => handleSwitch({ ...item, enabled: newValue })}
         />
       </TouchableOpacity>
       <EditTimetableModal

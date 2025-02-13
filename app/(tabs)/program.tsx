@@ -4,6 +4,7 @@ import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import AR4, {LogEntry, Station, GpsMode} from "doc-nfc-module";
+import * as Haptics from 'expo-haptics';
 
 enum IconState {
   Default,
@@ -49,21 +50,29 @@ export default function Tab() {
 
       setIconState(IconState.Alert);
       if(responseCode == 0) {
-        setIconState(IconState.Checkmark);
+        success();
       } else if(responseCode.toString() == "1,15") {
-        setNfcResult(`The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.`);
+        showError(`The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.`);
       } else {
-        setNfcResult(`Error: ${responseCode}`);
+        showError(`Error: ${responseCode}`);
       }
     } catch (error) {
-      setNfcResult(`Error: ${error.message}`);
-      setIconState(IconState.Alert);
+      showError(`Error: ${error.message}`);
       console.error("Error:", error);
     } finally {
       NfcManager.cancelTechnologyRequest();
     }
     setIsButtonDisabled(false);
   };
+  const showSuccess = () => {
+    setIconState(IconState.Checkmark);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  };
+  const showError = (message) => {
+    setNfcResult(message);
+    setIconState(IconState.Alert);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+  }
   return (
     <View style={[styles.container, styles.centered]}>
       <Text style={styles.statusText}>4 start times</Text>
