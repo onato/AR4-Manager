@@ -23,7 +23,6 @@ export default function Tab() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
   const defaultNewItem = {
     id: "",
     protocol: "High",
@@ -74,19 +73,10 @@ export default function Tab() {
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
-    setSelectedItems([]);
   };
 
-  const handleSelectItem = (id) => {
-    if (selectedItems.includes(id)) {
-      setSelectedItems(selectedItems.filter(item => item !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
-    }
-  };
-
-  const handleDelete = () => {
-    setTimeframes(timeframes.filter(item => !selectedItems.includes(item.id)));
+  const handleDelete = (id) => {
+    setTimeframes((prevTimeframes) => prevTimeframes.filter(item => item.id !== id));
     setEditMode(false);
   };
 
@@ -94,7 +84,6 @@ export default function Tab() {
     const backAction = () => {
       if (editMode) {
         setEditMode(false);
-        setSelectedItems([]);
         return true; // Prevent default behavior (app closing)
       }
       return false; // Allow default behavior
@@ -109,7 +98,6 @@ export default function Tab() {
       return () => {
         if (editMode) {
           setEditMode(false);
-          setSelectedItems([]);
         }
       };
     }, [editMode])
@@ -121,13 +109,13 @@ export default function Tab() {
           <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={{ minHeight: 44, minWidth: 44, justifyContent: "center", opacity: timeframes.length >= 6 ? 0.5 : 1 }}>
             <Ionicons name="add" size={24} style={{ marginHorizontal: 10 }} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={editMode ? handleDelete : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
-            <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Delete" : "Edit"}</Text>
+          <TouchableOpacity onPress={editMode ? () => setEditMode(false) : toggleEditMode} style={{ minHeight: 44, minWidth: 44, justifyContent: "center" }}>
+            <Text style={{ marginHorizontal: 10, fontSize: 18 }}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [navigation, timeframes.length, editMode, selectedItems]);
+  }, [navigation, timeframes.length, editMode]);
   return (
     <View>
       <EditTimetableModal
@@ -142,10 +130,10 @@ export default function Tab() {
         renderItem={({ item }) => (
           <TimetableItem
             item={item}
-            onPress={() => editMode && handleSelectItem(item.id)}
-            selected={selectedItems.includes(item.id)}
+            onPress={() => editMode && handleDelete(item.id)}
             editMode={editMode}
             onSave={handleSave}
+            onDelete={handleDelete}
           />
         )}
         keyExtractor={(item) => item.id}
