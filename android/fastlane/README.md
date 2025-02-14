@@ -29,7 +29,15 @@ Runs all the tests
 [bundle exec] fastlane android deploy
 ```
 
-Deploy a new version to the Google Play
+
+
+### android increment_version_code
+
+```sh
+[bundle exec] fastlane android increment_version_code
+```
+
+Increment the version code in version.properties
 
 ----
 
