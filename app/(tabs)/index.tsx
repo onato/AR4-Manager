@@ -2,6 +2,7 @@ import { FlatList, View, Text, TouchableOpacity, BackHandler } from "react-nativ
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
+import { loadTimeframes, saveTimeframes } from "../../utils/storage";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
@@ -9,17 +10,25 @@ import styles from "../../styles";
 
 export default function Tab() {
   const navigation = useNavigation();
-  const [timeframes, setTimeframes] = useState([
-    { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
-    { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: false },
-    { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },
-    {
-      id: "4",
-      protocol: "Tier1",
-      start_hour: 14, start_minute: 0, end_hour: 16, end_minute: 0,
-      enabled: false,
-    },
-  ]);
+  const [timeframes, setTimeframes] = useState([]);
+
+  useEffect(() => {
+    const fetchTimeframes = async () => {
+      const storedTimeframes = await loadTimeframes();
+      if (storedTimeframes) {
+        setTimeframes(storedTimeframes);
+      } else {
+        setTimeframes([
+          { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
+          { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: false },
+          { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },
+          { id: "4", protocol: "Tier1 Day", start_hour: 14, start_minute: 0, end_hour: 16, end_minute: 0, enabled: false },
+        ]);
+      }
+    };
+
+    fetchTimeframes();
+  }, []);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -54,6 +63,10 @@ export default function Tab() {
     });
     setModalVisible(false);
   };
+
+  useEffect(() => {
+    saveTimeframes(timeframes);
+  }, [timeframes]); // Runs every time `timeframes` changes
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
