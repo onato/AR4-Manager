@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.docBlue,
     color: 'white',
+    borderRadius: 5,
   },
   buttonText: {
     color: "white",
