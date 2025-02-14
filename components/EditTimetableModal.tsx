@@ -3,7 +3,9 @@ import { Modal, View, Text, Button, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
+import colors from '../colors';
 import { Protocol } from 'doc-nfc-module';
+import BorderedButton from '../components/BorderedButton.tsx';
 
 interface EditTimetableModalProps {
   visible: boolean;
@@ -69,7 +71,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           ))}
         </Picker>
         <Text style={styles.label}>Start</Text>
-        <Button
+        <BorderedButton
           title={start}
           onPress={() => setShowStartPicker(true)}
           disabled={protocol.indexOf("Tier1") !== -1}
@@ -80,6 +82,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           open={showStartPicker}
           date={time(item.start_hour, item.start_minute)}
           mode="time"
+          buttonColor={colors.docBlue}
+          dividerColor={colors.docYellow}
           minuteInterval={5}
           onConfirm={handleStartChange}
           onCancel={() => {
@@ -88,7 +92,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         />
 
         <Text style={styles.label}>Stop</Text>
-        <Button
+        <BorderedButton
           title={end}
           onPress={() => setShowEndPicker(true)}
           disabled={protocol.indexOf("Tier1") !== -1}
@@ -106,16 +110,16 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           }}
         />
         {protocol.indexOf("Tier1") !== -1 && (
-          <Text style={styles.infoText}>
+          <Text style={{ padding: 10 }}>
             The times are set automatically by the device when using a Tier1 protocol.
           </Text>
         )}
         <View style={styles.buttonRow}>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={onCancel} color='gray' />
+            <BorderedButton title="Cancel" onPress={onCancel} color='gray' />
           </View>
           <View style={styles.button}>
-            <Button title="Save" onPress={handleSave} />
+            <BorderedButton title="Save" onPress={handleSave} />
           </View>
         </View>
       </View>

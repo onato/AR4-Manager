@@ -5,7 +5,7 @@ import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
-import styles, { headerButton, headerButtonText } from "../../styles";
+import styles from "../../styles";
 
 export default function Tab() {
   const navigation = useNavigation();
@@ -36,7 +36,6 @@ export default function Tab() {
   const [newItem, setNewItem] = useState(defaultNewItem);
 
   const handleAdd = () => {
-    setEditMode(false);
     setNewItem({ ...defaultNewItem, id: (timeframes.length + 1).toString() });
     setModalVisible(true);
   };
@@ -56,49 +55,29 @@ export default function Tab() {
     setModalVisible(false);
   };
 
-  const handleCancel = () => {
-    setModalVisible(false);
-  };
-
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
   const handleDelete = (id) => {
-    setTimeframes((prevTimeframes) => prevTimeframes.filter(item => item.id !== id));
+    setTimeframes((prev) => prev.filter((item) => item.id !== id));
   };
 
-  useEffect(() => {
-    const backAction = () => {
-      if (editMode) {
-        setEditMode(false);
-        return true; // Prevent default behavior (app closing)
-      }
-      return false; // Allow default behavior
-    };
-
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-
-    return () => backHandler.remove();
-  }, [editMode]);
   useFocusEffect(
     useCallback(() => {
-      return () => {
-        if (editMode) {
-          setEditMode(false);
-        }
-      };
-    }, [editMode])
+      return () => setEditMode(false);
+    }, [])
   );
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={[headerButton, { opacity: timeframes.length >= 6 ? 0.5 : 1 }]}>
-            <Ionicons name="add" size={24} style={headerButtonText} />
+        <View style={styles.headerButtonsContainer}>
+          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={[styles.headerButton, { opacity: timeframes.length >= 6 ? 0.5 : 1 }]}>
+            <Ionicons name="add" size={24} style={styles.headerButtonText} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={editMode ? () => setEditMode(false) : toggleEditMode} style={headerButton}>
-            <Text style={[headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
+          <TouchableOpacity onPress={() => setEditMode(!editMode)} style={styles.headerButton}>
+            <Text style={[styles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
       ),
@@ -110,7 +89,7 @@ export default function Tab() {
         visible={modalVisible}
         item={newItem}
         onSave={handleSave}
-        onCancel={handleCancel}
+        onCancel={() => setModalVisible(false)}
       />
       <FlatList
         style={styles.list}

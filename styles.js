@@ -51,13 +51,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     padding: 20,
   },
+  borderedButton: {
+    width: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
+    alignItems: 'center',
+    backgroundColor: colors.docBlue,
+    color: 'white',
+  },
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
   disabledButton: {
-    backgroundColor: colors.docGrey,
+    backgroundColor: 'gray',
     opacity: 0.5,
   },
   listContainer: {
@@ -118,20 +127,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
+  headerButtonsContainer: {
+    flexDirection: "row",
+    paddingRight: 10,
+  },
+  headerButton: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: "center",
+  },
+  headerButtonText: {
+    marginHorizontal: 5,
+    fontSize: 18,
+    textAlign: "center",
+    color: "white",
+  }
 });
-
-export const headerButton = {
-  minHeight: 44,
-  minWidth: 44,
-  justifyContent: "center",
-};
-
-export const headerButtonText = {
-  marginHorizontal: 10,
-  fontSize: 18,
-  width: 50,
-  textAlign: "center",
-  color: "white",
-};
 
 export default styles;
