@@ -1,13 +1,11 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import colors from "../../colors";
-import AR4, {LogEntry, Station, GpsMode} from "doc-nfc-module";
 import * as Haptics from 'expo-haptics';
 import { loadTimeframes, loadSettings } from "../../utils/storage";
-import { scanNfc } from "../../utils/AR4Sender";
+import AR4Sender from "../../utils/AR4Sender";
 import { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import BorderedButton from "../../components/BorderedButton.tsx";
@@ -23,10 +21,10 @@ export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
-  const [settings, setSettings] = useState({ gpsMode: "Off", survey: "", station: Station.BIRM });
+  const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
 
   React.useEffect(() => {
-    NfcManager.start();
+    AR4Sender.start();
   }, []);
 
   useFocusEffect(() => {
@@ -52,7 +50,7 @@ export default function Tab() {
   const handleNfcScan = async () => {
     setIconState(IconState.Sending);
     
-    const result = await scanNfc(timeframes, settings);
+    const result = await AR4Sender.send(timeframes, settings);
     
     if (result.success) {
       showSuccess();
@@ -63,7 +61,7 @@ export default function Tab() {
     }
   };
   const cancelNfcScan = () => {
-    NfcManager.cancelTechnologyRequest();
+    AR4Sender.cancel();
     setIconState(IconState.Default);
   };
 

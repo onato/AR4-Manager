@@ -1,7 +1,13 @@
-import NfcManager, { NfcTech } from "react-native-nfc-manager";
+import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import AR4 from "doc-nfc-module";
 
-export const scanNfc = async (timeframes, settings) => {
+const start = () => {
+    NfcManager.start();
+}
+const cancel = () => {
+    NfcManager.cancelTechnologyRequest();
+}
+const send = async (timeframes, settings) => {
   try {
     // Request NfcV technology
     await NfcManager.requestTechnology(NfcTech.NfcV);
@@ -34,3 +40,4 @@ const handleResponseCode = (responseCode) => {
     return { success: false, error: `Error: ${responseCode}` };
   }
 };
+export default { start, cancel, send };
