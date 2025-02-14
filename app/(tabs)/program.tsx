@@ -5,6 +5,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import AR4, {LogEntry, Station, GpsMode} from "doc-nfc-module";
 import * as Haptics from 'expo-haptics';
+import { loadTimeframes } from "../../utils/storage";
+import { useState } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 
 enum IconState {
   Default,
@@ -16,10 +19,22 @@ export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
   const [iconState, setIconState] = React.useState(IconState.Default);
+  const [timeframes, setTimeframes] = useState([]);
 
   React.useEffect(() => {
     NfcManager.start();
   }, []);
+
+  useFocusEffect(() => {
+    const fetchTimeframes = async () => {
+      const storedTimeframes = await loadTimeframes();
+      if (storedTimeframes) {
+        setTimeframes(storedTimeframes);
+      }
+    };
+
+    fetchTimeframes();
+  });
 
   const scanNfc = async () => {
     setIsButtonDisabled(true);
@@ -34,16 +49,8 @@ export default function Tab() {
         throw new Error('No NFC tag detected');
       }
 
-      const logEntries = [
-        new LogEntry(10, 31, 11, 9, "Forest"),
-        new LogEntry(13, 15, 15, 10, "Tier1 Night"),
-        new LogEntry(15, 15, 17, 45, "Tier1 Day"),
-        new LogEntry(18, 15, 20, 15, "Bat"),
-        new LogEntry(20, 15, 22, 45, "High"),
-        new LogEntry(23, 10, 23, 45, "Low")
-      ];
-      const example = new AR4(logEntries, Station.BIRM, GpsMode.LogOnly, "Ste-Wil");
-      const payload = example.convertToByteArray(tag.id);
+      const settings = new AR4(timeframes, Station.BIRM, GpsMode.LogOnly, "Ste-Wil");
+      const payload = settings.convertToByteArray(tag.id);
       responseCode = await NfcManager.transceive(payload);
 
       console.log(typeof(responseCode));
@@ -75,7 +82,7 @@ export default function Tab() {
   }
   return (
     <View style={[styles.container, styles.centered]}>
-      <Text style={styles.statusText}>4 start times</Text>
+      <Text style={styles.statusText}>{timeframes.length} start times</Text>
       <View style={styles.nfcIcon}>
         {iconState === IconState.Checkmark ? (
           <Ionicons name="checkmark-circle" size={64} color="green" />

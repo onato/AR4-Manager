@@ -3,6 +3,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import { loadTimeframes, saveTimeframes } from "../../utils/storage";
+import {timeframeStore, defaultNewItem} from "../../utils/TimeframeStore.js";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
@@ -18,12 +19,7 @@ export default function Tab() {
       if (storedTimeframes) {
         setTimeframes(storedTimeframes);
       } else {
-        setTimeframes([
-          { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
-          { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: false },
-          { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },
-          { id: "4", protocol: "Tier1 Day", start_hour: 14, start_minute: 0, end_hour: 16, end_minute: 0, enabled: false },
-        ]);
+        setTimeframes(timeframeStore.defaultTimeframes);
       }
     };
 
@@ -32,20 +28,11 @@ export default function Tab() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const defaultNewItem = {
-    id: "",
-    protocol: "High",
-    start_hour: 12,
-    start_minute: 0,
-    end_hour: 13,
-    end_minute: 0,
-    enabled: true,
-  };
-
-  const [newItem, setNewItem] = useState(defaultNewItem);
+  
+  const [newItem, setNewItem] = useState(defaultNewItem());
 
   const handleAdd = () => {
-    setNewItem({ ...defaultNewItem, id: (timeframes.length + 1).toString() });
+    setNewItem({ ...defaultNewItem(), id: (timeframes.length + 1).toString() });
     setModalVisible(true);
   };
 
