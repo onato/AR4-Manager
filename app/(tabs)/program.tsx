@@ -8,6 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { loadTimeframes, loadSettings } from "../../utils/storage";
 import { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
+import BorderedButton from "../../components/BorderedButton.tsx";
 
 enum IconState {
   Default,
@@ -18,7 +19,6 @@ enum IconState {
 
 export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
   const [settings, setSettings] = useState({ gpsMode: "Off", survey: "", station: Station.BIRM });
@@ -47,8 +47,12 @@ export default function Tab() {
     fetchSettings();
   });
 
+  const cancelNfcScan = () => {
+    NfcManager.cancelTechnologyRequest();
+    setIconState(IconState.Default);
+  };
+
   const scanNfc = async () => {
-    setIsButtonDisabled(true);
     setIconState(IconState.Sending);
     let responseCode = 0;
     try {
@@ -75,12 +79,12 @@ export default function Tab() {
         showError(`Error: ${responseCode}`);
       }
     } catch (error) {
-      showError(`Error: ${error.message}`);
-      console.error("Error:", error);
+      if(error.message) {
+        showError(`Error: ${error.message}`);
+      }
     } finally {
       NfcManager.cancelTechnologyRequest();
     }
-    setIsButtonDisabled(false);
   };
   const showSuccess = () => {
     setIconState(IconState.Success);
@@ -109,9 +113,16 @@ export default function Tab() {
         )}
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity title="CONNECT & UPDATE" style={[styles.submitButton, isButtonDisabled && styles.disabledButton]} onPress={scanNfc} disabled={isButtonDisabled}>
-          <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
-        </TouchableOpacity>
+        {iconState !== IconState.Sending && (
+          <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={scanNfc}>
+            <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
+          </BorderedButton>
+        )}
+        {iconState === IconState.Sending && (
+          <BorderedButton title="CANCEL" style={styles.submitButton} color="gray" onPress={cancelNfcScan}>
+            <Text style={styles.buttonText}>CANCEL</Text>
+          </BorderedButton>
+        )}
       </View>
       {iconState === IconState.Error && (
         <Text style={styles.nfcResult}>{nfcResult}</Text>
