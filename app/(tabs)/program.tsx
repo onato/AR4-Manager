@@ -97,7 +97,7 @@ export default function Tab() {
           </BorderedButton>
         )}
         {iconState === IconState.Sending && (
-          <BorderedButton title="CANCEL" style={styles.submitButton} color="gray" onPress={cancelNfcScan}>
+          <BorderedButton title="CANCEL" style={styles.submitButton} color={colors.docGrayLight} onPress={cancelNfcScan}>
             <Text style={styles.buttonText}>CANCEL</Text>
           </BorderedButton>
         )}

@@ -51,14 +51,14 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
         </View>
         {editMode ? (
           <TouchableOpacity onPress={handleDelete} style={styles.listRowAccessory}>
-            <Ionicons name="trash" size={24} color="red" style={{align: 'right'}}/>
+            <Ionicons name="remove-circle" size={24} color="red" style={{align: 'right'}}/>
           </TouchableOpacity>
         ) : (
           <Switch
             value={item.enabled}
             onValueChange={(newValue) => handleSwitch({ ...item, enabled: newValue })}
             thumbColor={item.enabled ? colors.docBlue: "#f4f3f4"}
-            trackColor={{ false: "#767577", true: colors.docBlueLight }}
+            trackColor={{ false: "#767577", true: colors.docGrayLight }}
             style={styles.listRowAccessory}
           />
         )}

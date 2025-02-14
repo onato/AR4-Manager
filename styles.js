@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   disabledButton: {
-    backgroundColor: 'gray',
+    backgroundColor: colors.docGrayLight,
     opacity: 0.5,
   },
   listContainer: {
@@ -88,13 +88,13 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   text: {
-    fontSize: 18,
+    fontSize: 22,
+  },
+  largeText: {
+    fontSize: 38,
   },
   timespan: {
     padding: 10,
-  },
-  largeText: {
-    fontSize: 40,
   },
   sectionTitle: {
     fontSize: 25,
@@ -109,14 +109,14 @@ const styles = StyleSheet.create({
   picker: {
     width: "100%",
     marginBottom: 20,
-    backgroundColor: colors.docGrey,
+    backgroundColor: colors.docGray,
   },
   input: {
     marginBottom: 10,
     padding: 15,
     paddingLeft: 0,
     width: "100%",
-    backgroundColor: colors.docGrey,
+    backgroundColor: colors.docGray,
   },
   modalContainer: {
     flex: 1,
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   listRowAccessory: {
     padding: 20,
-    paddingRight: 10,
+    paddingRight: 0,
     width: 50,
   }
 });
