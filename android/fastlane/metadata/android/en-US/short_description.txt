@@ -1,0 +1,1 @@
+Easily program AR4 sound recorders via NFC for quick and consistent setup.

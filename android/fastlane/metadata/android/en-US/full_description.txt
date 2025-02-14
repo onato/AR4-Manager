@@ -1,0 +1,3 @@
+The AR4 Manager is intended for using the NFC programming capability of the AR4 sound recorders when setting up a number of units with the same settings.
+
+The AR4 acoustic recorder has been developed by the Department of Conservation’s electronics team to provide New Zealand conservation practitioners with a quality acoustic recorder at low cost. It is designed to be a light weight, weatherproof/waterproof, small and easy to use device and includes the option of using inbuilt recording protocols for standardised monitoring.
