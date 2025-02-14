@@ -42,9 +42,10 @@ export default function Tab() {
       </Picker>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
-      <Text style={styles.label}>Survey Name</Text>
+      <Text style={styles.label}>Survey</Text>
       <TextInput
         style={styles.input}
+        placeholder="Name"
         autoCorrect={false}
         autoCapitalize="none"
         keyboardType="default"
