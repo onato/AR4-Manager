@@ -76,7 +76,7 @@ export default function Tab() {
   }
   return (
     <View style={[styles.container, styles.centered]}>
-      <Text style={styles.statusText}>{timeframes.length} start times</Text>
+      <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled start times</Text>
       <View style={styles.nfcIcon}>
         {iconState === IconState.Success ? (
           <Ionicons name="checkmark-circle" size={64} color="green" />

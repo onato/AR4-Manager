@@ -17,7 +17,8 @@ const send = async (timeframes, settings) => {
       throw new Error("No NFC tag detected");
     }
 
-    const ar4Settings = new AR4(timeframes, settings.station, settings.gpsMode, settings.survey);
+    const enabledTimeframes = timeframes.filter(timeframe => timeframe.enabled);
+    const ar4Settings = new AR4(enabledTimeframes, settings.station, settings.gpsMode, settings.survey);
     const payload = ar4Settings.convertToByteArray(tag.id);
     const responseCode = await NfcManager.transceive(payload);
 
