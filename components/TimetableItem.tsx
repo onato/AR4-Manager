@@ -43,15 +43,15 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   return (
     <>
       <TouchableOpacity onPress={handlePress} style={styles.item}>
-        <View>
+        <View style={styles.timespan}>
           <Text style={styles.largeText}>
             {item.start_hour.toString().padStart(2, '0')}:{item.start_minute.toString().padStart(2, '0')} - {item.end_hour.toString().padStart(2, '0')}:{item.end_minute.toString().padStart(2, '0')}
           </Text>
           <Text style={styles.text}>{item.protocol}</Text>
         </View>
         {editMode ? (
-          <TouchableOpacity onPress={handleDelete} style={{ marginLeft: 10, padding: 10 }}>
-            <Ionicons name="trash" size={24} color="red" />
+          <TouchableOpacity onPress={handleDelete} style={styles.listRowAccessory}>
+            <Ionicons name="trash" size={24} color="red" style={{align: 'right'}}/>
           </TouchableOpacity>
         ) : (
           <Switch
@@ -59,6 +59,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
             onValueChange={(newValue) => handleSwitch({ ...item, enabled: newValue })}
             thumbColor={item.enabled ? colors.docBlue: "#f4f3f4"}
             trackColor={{ false: "#767577", true: colors.docBlueLight }}
+            style={styles.listRowAccessory}
           />
         )}
       </TouchableOpacity>

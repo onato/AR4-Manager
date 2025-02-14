@@ -80,16 +80,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     minHeight: 44,
     minWidth: 44,
     flexDirection: 'row',
-    alignItems: 'center',
+    paddingRight: 20,
   },
   text: {
     fontSize: 18,
+  },
+  timespan: {
+    padding: 10,
   },
   largeText: {
     fontSize: 40,
@@ -110,8 +112,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.docGrey,
   },
   input: {
-    borderColor: "#ccc",
-    borderBottomWidth: 1,
     marginBottom: 10,
     padding: 15,
     paddingLeft: 0,
@@ -143,6 +143,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     color: "white",
+    width: 50,
+  },
+  listRowAccessory: {
+    padding: 20,
+    paddingRight: 10,
+    width: 50,
   }
 });
 
