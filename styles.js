@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingLeft: 0,
     width: "100%",
+    backgroundColor: colors.docGrey,
   },
   modalContainer: {
     flex: 1,

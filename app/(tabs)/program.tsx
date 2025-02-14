@@ -1,18 +1,19 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import AR4, {LogEntry, Station, GpsMode} from "doc-nfc-module";
 import * as Haptics from 'expo-haptics';
-import { loadTimeframes } from "../../utils/storage";
+import { loadTimeframes, loadSettings } from "../../utils/storage";
 import { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 
 enum IconState {
   Default,
-  Checkmark,
-  Alert
+  Success,
+  Sending,
+  Error,
 }
 
 export default function Tab() {
@@ -20,6 +21,7 @@ export default function Tab() {
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
+  const [settings, setSettings] = useState({ gpsMode: "Off", survey: "", station: Station.BIRM });
 
   React.useEffect(() => {
     NfcManager.start();
@@ -36,9 +38,18 @@ export default function Tab() {
     fetchTimeframes();
   });
 
+  useFocusEffect(() => {
+    const fetchSettings = async () => {
+      const storedSettings = await loadSettings();
+      setSettings(storedSettings);
+    };
+
+    fetchSettings();
+  });
+
   const scanNfc = async () => {
     setIsButtonDisabled(true);
-    setIconState(IconState.Default);
+    setIconState(IconState.Sending);
     let responseCode = 0;
     try {
       // Request NfcV technology
@@ -49,13 +60,13 @@ export default function Tab() {
         throw new Error('No NFC tag detected');
       }
 
-      const settings = new AR4(timeframes, Station.BIRM, GpsMode.LogOnly, "Ste-Wil");
-      const payload = settings.convertToByteArray(tag.id);
+      const ar4Settings = new AR4(timeframes, settings.station, settings.gpsMode, settings.survey);
+      const payload = ar4Settings.convertToByteArray(tag.id);
       responseCode = await NfcManager.transceive(payload);
 
       console.log(typeof(responseCode));
 
-      setIconState(IconState.Alert);
+      setIconState(IconState.Error);
       if(responseCode == 0) {
         showSuccess();
       } else if(responseCode.toString() == "1,15") {
@@ -72,22 +83,24 @@ export default function Tab() {
     setIsButtonDisabled(false);
   };
   const showSuccess = () => {
-    setIconState(IconState.Checkmark);
+    setIconState(IconState.Success);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   };
   const showError = (message) => {
     setNfcResult(message);
-    setIconState(IconState.Alert);
+    setIconState(IconState.Error);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
   }
   return (
     <View style={[styles.container, styles.centered]}>
       <Text style={styles.statusText}>{timeframes.length} start times</Text>
       <View style={styles.nfcIcon}>
-        {iconState === IconState.Checkmark ? (
+        {iconState === IconState.Success ? (
           <Ionicons name="checkmark-circle" size={64} color="green" />
-        ) : iconState === IconState.Alert ? (
+        ) : iconState === IconState.Error ? (
           <Ionicons name="alert-circle" size={64} color="red" />
+        ) : iconState === IconState.Sending ? (
+          <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <Image
             source={require("../../assets/images/nfc_logo.png")}
@@ -100,7 +113,7 @@ export default function Tab() {
           <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
         </TouchableOpacity>
       </View>
-      {iconState === IconState.Alert && (
+      {iconState === IconState.Error && (
         <Text style={styles.nfcResult}>{nfcResult}</Text>
       )}
     </View>

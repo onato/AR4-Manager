@@ -2,12 +2,30 @@ import { View, Text, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "../../styles";
 import { Station } from "doc-nfc-module";
-import React from "react";
+import React, { useEffect } from "react";
+import { loadSettings, saveSettings } from "../../utils/storage";
 
 export default function Tab() {
-  const [gpsMode, setGpsMode] = React.useState("Off");
+  const [gpsMode, setGpsMode] = React.useState("");
   const [survey, setSurvey] = React.useState("");
-  const [station, setStation] = React.useState(Station[0]);
+  const [station, setStation] = React.useState("");
+
+  useEffect(() => {
+    const loadInitialSettings = async () => {
+      const settings = await loadSettings();
+      setGpsMode(settings.gpsMode);
+      setSurvey(settings.survey);
+      setStation(settings.station);
+    };
+    loadInitialSettings();
+  }, []);
+
+  const updateSettings = async (newSettings) => {
+    setGpsMode(newSettings.gpsMode || gpsMode);
+    setSurvey(newSettings.survey);
+    setStation(newSettings.station || station);
+    await saveSettings({ gpsMode: newSettings.gpsMode || gpsMode, survey: newSettings.survey || survey, station: newSettings.station || station });
+  };
 
   return (
     <View style={styles.container}>
@@ -15,7 +33,7 @@ export default function Tab() {
       <Text style={styles.label}>GPS mode</Text>
       <Picker
         selectedValue={gpsMode}
-        onValueChange={(itemValue) => setGpsMode(itemValue)}
+        onValueChange={(itemValue) => updateSettings({ gpsMode: itemValue })}
         style={styles.picker}
       >
         <Picker.Item label="Off" value="Off" />
@@ -24,9 +42,9 @@ export default function Tab() {
       </Picker>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
+      <Text style={styles.label}>Survey Name</Text>
       <TextInput
         style={styles.input}
-        placeholder="Survey Name"
         autoCorrect={false}
         autoCapitalize="none"
         keyboardType="default"
@@ -35,13 +53,13 @@ export default function Tab() {
         maxLength={7}
         onChangeText={(text) => {
           const filteredText = text.replace(/[^A-Z0-9_]/g, '_');
-          setSurvey(filteredText);
+          updateSettings({ survey: filteredText });
         }}
       />
       <Text style={styles.label}>Station</Text>
       <Picker
         selectedValue={station}
-        onValueChange={(itemValue) => setStation(itemValue)}
+        onValueChange={(itemValue) => updateSettings({ station: itemValue })}
         style={styles.picker}
       >
         {Object.entries(Station).map(([stationName, stationValue]) => (
