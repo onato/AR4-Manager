@@ -1,4 +1,5 @@
 import { FlatList, View, Text, TouchableOpacity, BackHandler } from "react-native";
+import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
@@ -40,12 +41,10 @@ export default function Tab() {
     setTimeframes((prevTimeframes) => {
       const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
       if (index !== -1) {
-        // Update existing item
         const newTimeframes = [...prevTimeframes];
         newTimeframes[index] = updatedItem;
         return newTimeframes;
       }
-      // Add new item
       return [...prevTimeframes, updatedItem];
     });
     setModalVisible(false);
@@ -98,13 +97,15 @@ export default function Tab() {
         style={styles.list}
         data={timeframes}
         renderItem={({ item }) => (
-          <TimetableItem
-            item={item}
-            onPress={() => editMode && handleDelete(item.id)}
-            editMode={editMode}
-            onSave={handleSave}
-            onDelete={handleDelete}
-          />
+          <Animated.View entering={FadeIn} exiting={FadeOut} layout={Layout}>
+            <TimetableItem
+              item={item}
+              onPress={() => editMode && handleDelete(item.id)}
+              editMode={editMode}
+              onSave={handleSave}
+              onDelete={handleDelete}
+            />
+          </Animated.View>
         )}
         keyExtractor={(item) => item.id}
       />
