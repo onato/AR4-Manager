@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { View, Text, Switch, TouchableOpacity, StyleSheet } from "react-native";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./EditTimetableModal";
 import * as Haptics from 'expo-haptics';
@@ -15,12 +16,14 @@ interface TimetableItemProps {
     enabled: boolean;
   };
 
+  drag?: () => void; // Define drag as an optional function prop
+
   onSave: (updatedItem: any) => void;
   onDelete: (id: string) => void;
   editMode: boolean;
 }
 
-const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete }) => {
+const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete, drag, isActive }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleDelete = () => {
@@ -28,7 +31,8 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   };
 
   const switchPosition = useSharedValue(0);
-  const deletePosition = useSharedValue(0);
+  const deletePosition = useSharedValue(-50);
+  const dragHandlePosition = useSharedValue(-50);
   const textPosition = useSharedValue(0);
 
   const animatedSwitchStyle = useAnimatedStyle(() => {
@@ -41,6 +45,11 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
       transform: [{ translateX: withTiming(textPosition.value, { duration: 300 }) }],
     };
   });
+  const animatedDragHandleStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: withTiming(dragHandlePosition.value, { duration: 300 }) }],
+    };
+  });
   const animatedDeleteStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: withTiming(deletePosition.value, { duration: 300 }) }],
@@ -49,8 +58,9 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   
 
   React.useEffect(() => {
-    switchPosition.value = editMode ? 100 : 0;
+    switchPosition.value = editMode ? 100 : 25;
     deletePosition.value = editMode ? 0 : -50;
+    dragHandlePosition.value = editMode ? 0 : 50;
     textPosition.value = editMode ? 0 : -50;
   }, [editMode]);
 
@@ -70,7 +80,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
 
   return (
     <>
-      <TouchableOpacity onPress={handlePress} style={styles.item}>
+      <TouchableOpacity onPress={handlePress} disabled={isActive} style={[styles.item, { backgroundColor: isActive ? "#f0f0f0" : "transparent" }]}>
         <Animated.View style={animatedDeleteStyle}>
           <TouchableOpacity onPress={handleDelete} style={styles.listRowAccessory}>
             <Ionicons name="remove-circle" size={24} color="red" style={{align: 'right'}}/>
@@ -93,6 +103,12 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
             style={styles.listRowAccessory}
           />
         </Animated.View>
+        <Animated.View style={animatedDragHandleStyle}>
+          <TouchableOpacity onPressIn={drag} style={styles.grabber}>
+            <MaterialIcons name="drag-handle" size={24} color="gray" />
+          </TouchableOpacity>
+        </Animated.View>
+
       </TouchableOpacity>
       <EditTimetableModal
         visible={modalVisible}

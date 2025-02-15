@@ -1,4 +1,5 @@
-import { FlatList, View, Text, TouchableOpacity, BackHandler } from "react-native";
+import { View, Text, TouchableOpacity, BackHandler } from "react-native";
+import DraggableFlatList from "react-native-draggable-flatlist";
 import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
@@ -93,10 +94,15 @@ export default function Tab() {
         onSave={handleSave}
         onCancel={() => setModalVisible(false)}
       />
-      <FlatList
+      <DraggableFlatList
         style={styles.list}
         data={timeframes}
-        renderItem={({ item }) => (
+        onDragEnd={({ data }) => {
+          const updatedData = data.map((item, index) => ({ ...item, id: index.toString() }));
+          setTimeframes(updatedData);
+        }}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, drag, isActive }) => (
           <Animated.View entering={FadeIn} exiting={FadeOut} layout={Layout}>
             <TimetableItem
               item={item}
@@ -104,6 +110,8 @@ export default function Tab() {
               editMode={editMode}
               onSave={handleSave}
               onDelete={handleDelete}
+              drag={drag}
+              isActive={isActive}
             />
           </Animated.View>
         )}
