@@ -60,7 +60,10 @@ export default function Tab() {
   };
 
   const handleDelete = (id) => {
-    setTimeframes((prev) => prev.filter((item) => item.id !== id));
+    setTimeframes((prev) => {
+      const updatedTimeframes = prev.filter((item) => item.id !== id);
+      return updatedTimeframes.map((item, index) => ({ ...item, id: index.toString() }));
+    });
   };
 
   useFocusEffect(
@@ -76,7 +79,7 @@ export default function Tab() {
           <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={[styles.headerButton, { opacity: timeframes.length >= 6 ? 0.5 : 1 }]}>
             <Ionicons name="add" size={24} style={styles.headerButtonText} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setEditMode(!editMode)} style={styles.headerButton}>
+          <TouchableOpacity onPress={toggleEditMode} style={styles.headerButton}>
             <Text style={[styles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
