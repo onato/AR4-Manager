@@ -39,10 +39,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    backgroundColor: '#F5F5F5',
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
+    bottom: 0,
+    paddingTop: 15,
+    paddingBottom: 15,
   },
   submitButton: {
     backgroundColor: colors.docBlue,
@@ -51,18 +52,20 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    marginHorizontal: 5,
-    padding: 20,
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
   },
   borderedButton: {
-    width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
     minHeight: 44,
-    alignItems: 'center',
     backgroundColor: colors.docBlue,
     color: 'white',
     borderRadius: 5,
+  },
+  textButtonText: {
+    color: "black",
+    fontSize: 18,
+    padding: 5,
   },
   buttonText: {
     color: "white",
@@ -125,12 +128,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
-    padding: 20,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  form: {
+    padding: 20,
   },
   headerButtonsContainer: {
     flexDirection: "row",

@@ -6,6 +6,7 @@ import styles from '../styles';
 import colors from '../colors';
 import { Protocol } from 'doc-nfc-module';
 import BorderedButton from '../components/BorderedButton.tsx';
+import TextButton from '../components/TextButton.tsx';
 
 interface EditTimetableModalProps {
   visible: boolean;
@@ -60,67 +61,69 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
     <View>
     <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
-        <Text style={styles.modalTitle}>Edit Timetable Item</Text>
-        <Text style={styles.label}>Protocol</Text>
-        <Picker
-          selectedValue={protocol}
-          onValueChange={(itemValue) => setProtocol(itemValue)}
-          style={styles.picker}
-        >
-          {Object.values(Protocol).map((protocolValue) => (
-            <Picker.Item key={protocolValue} label={protocolValue} value={protocolValue} />
-          ))}
-        </Picker>
-        <Text style={styles.label}>Start</Text>
-        <BorderedButton
-          title={start}
-          onPress={() => setShowStartPicker(true)}
-          disabled={protocol.indexOf("Tier1") !== -1}
-        />
-        <DatePicker
-          title="Start Time"
-          modal
-          open={showStartPicker}
-          date={time(item.start_hour, item.start_minute)}
-          mode="time"
-          buttonColor={colors.docBlue}
-          dividerColor={colors.docYellow}
-          minuteInterval={5}
-          onConfirm={handleStartChange}
-          onCancel={() => {
-            setShowStartPicker(false)
-          }}
-        />
+        <View style={styles.form}>
+          <Text style={styles.modalTitle}>Edit Timetable Item</Text>
+          <Text style={styles.label}>Protocol</Text>
+          <Picker
+            selectedValue={protocol}
+            onValueChange={(itemValue) => setProtocol(itemValue)}
+            style={styles.picker}
+          >
+            {Object.values(Protocol).map((protocolValue) => (
+              <Picker.Item key={protocolValue} label={protocolValue} value={protocolValue} />
+            ))}
+          </Picker>
+          <Text style={styles.label}>Start</Text>
+          <BorderedButton
+            title={start}
+            onPress={() => setShowStartPicker(true)}
+            disabled={protocol.indexOf("Tier1") !== -1}
+          />
+          <DatePicker
+            title="Start Time"
+            modal
+            open={showStartPicker}
+            date={time(item.start_hour, item.start_minute)}
+            mode="time"
+            buttonColor={colors.docBlue}
+            dividerColor={colors.docYellow}
+            minuteInterval={5}
+            onConfirm={handleStartChange}
+            onCancel={() => {
+              setShowStartPicker(false)
+            }}
+          />
 
-        <Text style={styles.label}>Stop</Text>
-        <BorderedButton
-          title={end}
-          onPress={() => setShowEndPicker(true)}
-          disabled={protocol.indexOf("Tier1") !== -1}
-        />
-        <DatePicker
-          title="Stop Time"
-          modal
-          open={showEndPicker}
-          date={time(item.end_hour, item.end_minute)}
-          mode="time"
-          minuteInterval={5}
-          onConfirm={handleEndChange}
-          onCancel={() => {
-            setShowEndPicker(false)
-          }}
-        />
-        {protocol.indexOf("Tier1") !== -1 && (
-          <Text style={{ padding: 10 }}>
-            The times are set automatically by the device when using a Tier1 protocol.
-          </Text>
-        )}
+          <Text style={styles.label}>Stop</Text>
+          <BorderedButton
+            title={end}
+            onPress={() => setShowEndPicker(true)}
+            disabled={protocol.indexOf("Tier1") !== -1}
+          />
+          <DatePicker
+            title="Stop Time"
+            modal
+            open={showEndPicker}
+            date={time(item.end_hour, item.end_minute)}
+            mode="time"
+            minuteInterval={5}
+            onConfirm={handleEndChange}
+            onCancel={() => {
+              setShowEndPicker(false)
+            }}
+          />
+          {protocol.indexOf("Tier1") !== -1 && (
+            <Text style={{ padding: 10 }}>
+              The times are set automatically by the device when using a Tier1 protocol.
+            </Text>
+          )}
+        </View>
         <View style={styles.buttonRow}>
           <View style={styles.button}>
-            <BorderedButton title="Cancel" onPress={onCancel} color='gray' />
+            <TextButton title="Cancel" onPress={onCancel} color='gray' />
           </View>
           <View style={styles.button}>
-            <BorderedButton title="Save" onPress={handleSave} />
+            <TextButton title="Save" onPress={handleSave} />
           </View>
         </View>
       </View>
