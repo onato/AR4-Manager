@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
     alignItems: "left",
     justifyContent: "center",
   },
+  grabber: {
+    padding: 10,
+  },
   statusText: {
     fontSize: 20,
     fontWeight: "bold",

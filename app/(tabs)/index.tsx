@@ -1,5 +1,8 @@
 import { View, Text, TouchableOpacity, BackHandler } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
+import ReorderableList, {
+  ReorderableListReorderEvent,
+  reorderItems,
+} from 'react-native-reorderable-list';
 import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
@@ -66,6 +69,10 @@ export default function Tab() {
     });
   };
 
+  const handleReorder = ({from, to}: ReorderableListReorderEvent) => {
+    setTimeframes(value => reorderItems(value, from, to));
+  };
+
   useFocusEffect(
     useCallback(() => {
       return () => setEditMode(false);
@@ -86,6 +93,16 @@ export default function Tab() {
       ),
     });
   }, [navigation, timeframes.length, editMode]);
+  const renderItem = ({ item, drag, isActive }) => (
+      <TimetableItem
+        item={item}
+        onPress={() => editMode && handleDelete(item.id)}
+        editMode={editMode}
+        onSave={handleSave}
+        onDelete={handleDelete}
+        isActive={isActive}
+      />
+  );
   return (
     <View style={styles.listContainer}>
       <EditTimetableModal
@@ -94,28 +111,12 @@ export default function Tab() {
         onSave={handleSave}
         onCancel={() => setModalVisible(false)}
       />
-      <DraggableFlatList
+      <ReorderableList
         style={styles.list}
         data={timeframes}
-        onDragEnd={({ data }) => {
-          const updatedData = data.map((item, index) => ({ ...item, id: index.toString() }));
-          setTimeframes(updatedData);
-        }}
+        onReorder={handleReorder}
         keyExtractor={(item) => item.id}
-        renderItem={({ item, drag, isActive }) => (
-          <Animated.View entering={FadeIn} exiting={FadeOut} layout={Layout}>
-            <TimetableItem
-              item={item}
-              onPress={() => editMode && handleDelete(item.id)}
-              editMode={editMode}
-              onSave={handleSave}
-              onDelete={handleDelete}
-              drag={drag}
-              isActive={isActive}
-            />
-          </Animated.View>
-        )}
-        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
       />
     </View>
   );
