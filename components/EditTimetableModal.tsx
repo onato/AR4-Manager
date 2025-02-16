@@ -57,7 +57,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   }
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={false}>
+    <View>
+    <Modal visible={visible} animationType="slide" transparent={true}>
       <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
         <Text style={styles.modalTitle}>Edit Timetable Item</Text>
         <Text style={styles.label}>Protocol</Text>
@@ -124,6 +125,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         </View>
       </View>
     </Modal>
+    </View>
   );
 };
 
