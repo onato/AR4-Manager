@@ -55,7 +55,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
 
   return (
     <>
-      <Pressable disabled={isActive} style={styles.item}>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.item}>
         <Animated.View style={createAnimatedStyle(positions.delete)}>
           <TouchableOpacity onPress={() => onDelete(item.id)} style={styles.listRowAccessory}>
             <Ionicons name="remove-circle" size={24} color="red" />
@@ -90,7 +90,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
             <MaterialIcons name="drag-handle" size={24} color="gray" />
           </TouchableOpacity>
         </Animated.View>
-      </Pressable>
+      </TouchableOpacity>
 
       <EditTimetableModal
         visible={modalVisible}
