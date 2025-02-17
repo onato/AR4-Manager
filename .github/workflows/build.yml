@@ -61,8 +61,8 @@ jobs:
 
     - name: Run Fastlane Android Build
       run: |
-        echo $UPLOAD_KEY_CONTENTS | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
-        echo $PLAYSTORE_JSON_CONTENTS | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
+        echo ${{ secrets.UPLOAD_KEY_CONTENTS }} | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
+        echo ${{ secrets.PLAYSTORE_JSON_CONTENTS }} | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
         cd android
         ./gradlew signingReport
         sed -i 's|json_key_file(".*")|json_key_file("'"$AR4MANAGER_PLAYSTORE_JSON_FILE"'")|' fastlane/Appfile
