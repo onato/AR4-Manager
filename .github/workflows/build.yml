@@ -37,15 +37,10 @@ jobs:
     #
     - name: Install dependencies
       run: |
-        git config --global user.name "${GH_USERNAME}"
-        git config --global user.email "${GH_USERNAME}@users.noreply.github.com"
-        git --no-replace-objects ls-remote https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/onato/doc-nfc-module.git && true
-        git config --global url."https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/".insteadOf git@github.com:
-        git config --global url."https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/".insteadOf ssh://git@github.com/
         npm ci
 
     - name: Run tests
-      run: npm test
+      run: npx jest
     # - name: Set up JDK 17 (Required for latest Gradle)
     #   uses: actions/setup-java@v3
     #   with:
