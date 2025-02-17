@@ -1,0 +1,67 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: npm
+
+    # - name: Set up Git authentication for NPM
+    #   run: |
+    #     git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
+    #
+    # - name: Debug Git Authentication
+    #   run: git ls-remote https://x-access-token:${{ secrets.GH_PAT }}@github.com/onato/doc-nfc-module.git
+    #
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests
+      run: npm test
+    # - name: Set up JDK 17 (Required for latest Gradle)
+    #   uses: actions/setup-java@v3
+    #   with:
+    #     java-version: '17'
+    #     distribution: 'temurin'
+    #     cache: gradle
+    #
+    # - name: Install Fastlane
+    #   run: |
+    #     sudo gem install fastlane -NV
+    #     fastlane --version
+    #
+    # - name: Set up Android SDK
+    #   uses: android-actions/setup-android@v3
+    #
+    # - name: Grant execute permission for Gradle
+    #   run: chmod +x android/gradlew
+    #
+    # - name: Run Fastlane Android Build
+    #   run: |
+    #     echo $UPLOAD_KEY_CONTENTS | base -d > $AR4MANAGER_UPLOAD_STORE_FILE
+    #     echo $PLAYSTORE_JSON_CONTENTS | base -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
+    #     cd android
+    #     ./gradlew signingReport
+    #     sed -i 's|json_key_file(".*")|json_key_file("'"$AR4MANAGER_PLAYSTORE_JSON_FILE"'")|' fastlane/Appfile
+    #     fastlane deploy
+    #   env:
+    #     AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
+    #     AR4MANAGER_PLAYSTORE_JSON_FILE: ${{ runner.temp }}/app.json
+    #     AR4MANAGER_UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
+    #     AR4MANAGER_UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+    #     AR4MANAGER_UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
