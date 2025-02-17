@@ -42,6 +42,11 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
+    if (updatedItem && updatedItem.enabled && timeframes.filter(t => t.enabled).length >= 6) {
+      alert("Cannot enable more than 6 timeframes.");
+      return;
+    }
+
     setTimeframes((prevTimeframes) => {
       const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
       if (index !== -1) {
