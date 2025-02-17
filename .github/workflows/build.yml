@@ -42,6 +42,11 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
+    - name: Configure git
+      run: |
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
     - name: Install Fastlane
       run: |
         sudo gem install fastlane -NV
