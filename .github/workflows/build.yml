@@ -12,6 +12,7 @@ permissions:
 env:
   GH_USERNAME: ${{ github.actor }}
   GH_TOKEN: ${{ secrets.GH_PAT }}
+  GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
 
 jobs:
   build:
