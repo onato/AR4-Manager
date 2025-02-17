@@ -14,7 +14,6 @@ interface EditTimetableModalProps {
     protocol: string;
     start: string;
     end: string;
-    enabled: boolean;
   };
   onSave: (updatedItem: any) => void;
   onCancel: () => void;
@@ -24,7 +23,6 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const [protocol, setProtocol] = useState(item?.protocol || 'High');
   const [start, setStart] = useState(item ? `${item.start_hour}:${item.start_minute.toString().padStart(2, '0')}` : '12:00');
   const [end, setEnd] = useState(item ? `${item.end_hour}:${item.end_minute.toString().padStart(2, '0')}` : '13:00');
-  const [enabled, setEnabled] = useState(item?.enabled || true);
 
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
@@ -48,7 +46,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const handleSave = () => {
     const [startHour, startMinute] = start.split(':').map(Number);
     const [endHour, endMinute] = end.split(':').map(Number);
-    onSave({ ...item, protocol, start_hour: startHour, start_minute: startMinute, end_hour: endHour, end_minute: endMinute, enabled });
+    onSave({ ...item, protocol, start_hour: startHour, start_minute: startMinute, end_hour: endHour, end_minute: endMinute });
   };
 
   function time(hour, minute) {
