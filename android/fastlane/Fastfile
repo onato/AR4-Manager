@@ -9,14 +9,31 @@ platform :android do
   end
 
   lane :deploy do
-    increment_version_code()
+    # increment_version_code()
 
-    gradle(task: "clean")
-    gradle(task: "app:bundleRelease")
-    upload_to_play_store(
-      track: "internal",
-      release_status: "draft",
-    )
+    track = 'internal'
+    latest_version_code = google_play_track_version_codes(
+      track: track
+    ).first
+    current_version_code = read_version_property("versionCode").to_i
+
+    if current_version_code > latest_version_code
+      gradle(task: "clean")
+      gradle(task: "app:bundleRelease")
+      upload_to_play_store(
+        track: "internal",
+        release_status: "draft",
+      )
+    else
+      UI.important("Version code #{current_version_code} has already been deployed.")
+    end
+  end
+
+  def read_version_property(property)
+    File.foreach("../version.properties") do |line|
+      return line.split("=")[1].strip if line.start_with?(property)
+    end
+    nil
   end
 
   def update_version_code(version_file)

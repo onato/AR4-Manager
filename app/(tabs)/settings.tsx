@@ -1,7 +1,7 @@
 import { View, Text, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "../../styles";
-import { Station } from "doc-nfc-module";
+import { Station } from "@onato/doc-nfc-module";
 import React, { useEffect } from "react";
 import { loadSettings, saveSettings } from "../../utils/storage";
 

@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
 import colors from '../colors';
-import { Protocol } from 'doc-nfc-module';
+import { Protocol } from '@onato/doc-nfc-module';
 import BorderedButton from '../components/BorderedButton.tsx';
 import TextButton from '../components/TextButton.tsx';
 
