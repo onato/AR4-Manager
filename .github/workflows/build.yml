@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  GH_USERNAME: ${{ github.actor }}
+  GH_TOKEN: ${{ secrets.GH_PAT }}
+
 jobs:
   build:
 
@@ -30,6 +34,8 @@ jobs:
     #
     - name: Install dependencies
       run: |
+        git config --global user.name "${GH_USERNAME}"
+        git config --global user.email "${GH_USERNAME}@users.noreply.github.com"
         git --no-replace-objects ls-remote https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/onato/doc-nfc-module.git
         git config --global url."https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/".insteadOf git@github.com:
         git config --global url."https://${{ secrets.GH_PAT }}:x-oauth-basic@github.com/".insteadOf ssh://git@github.com/
