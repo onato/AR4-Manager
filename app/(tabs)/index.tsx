@@ -80,10 +80,11 @@ export default function Tab() {
   );
 
   useLayoutEffect(() => {
+    const enabledTimeframesCount = timeframes.filter(item => item.enabled).length;
     navigation.setOptions({
       headerRight: () => (
         <View style={styles.headerButtonsContainer}>
-          <TouchableOpacity onPress={handleAdd} disabled={timeframes.length >= 6} style={[styles.headerButton, { opacity: timeframes.length >= 6 ? 0.5 : 1 }]}>
+          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[styles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]}>
             <Ionicons name="add" size={24} style={styles.headerButtonText} />
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleEditMode} style={styles.headerButton}>
@@ -92,7 +93,7 @@ export default function Tab() {
         </View>
       ),
     });
-  }, [navigation, timeframes.length, editMode]);
+  }, [navigation, timeframes, editMode]);
   const renderItem = ({ item, drag, isActive }) => (
       <TimetableItem
         item={item}
