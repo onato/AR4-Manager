@@ -77,10 +77,7 @@ is_releasable() {
 export is_releasable
 
 latest_version() {
-  git fetch --tags
-
-  tag=$(git describe --tags --abbrev=0)
-
+  tag=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
   echo "$tag"
 }
 
