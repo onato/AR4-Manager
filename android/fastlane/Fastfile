@@ -22,7 +22,6 @@ platform :android do
       gradle(task: "app:bundleRelease")
       upload_to_play_store(
         track: "internal",
-        version_name: current_version_code,
         release_status: "draft",
       )
     else

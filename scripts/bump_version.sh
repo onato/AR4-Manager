@@ -52,7 +52,7 @@ if [ $(is_releasable) == "true" ]; then
     log_error "\n%s Can't create release"
     exit 1
   )
-  log_error "Release created successfully. Failing this step so the workflow stops. The above commit will kick off a new action."
+  log_success "Release created successfully."
 
   log_success "Done"
 else
