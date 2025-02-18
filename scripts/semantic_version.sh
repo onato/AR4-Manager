@@ -88,7 +88,7 @@ generate_item() {
 
   full_hash=$(echo "$1" | awk -F'|' '{print $1}')
   hash=$(echo "$1" | awk -F'|' '{print $2}')
-  author=$(echo "$1" | awk -F'|' '{print $4}')
+  author=$(echo "$1" | awk -F'|' '{print $4}' | sed 's/ *(aider)//g')
   prefix=$(echo "$1" | awk -F'|' '{print $5}' | awk '{print $1}' | sed -e 's/://')
   title=$(echo "$1" | awk -F'|' '{print $5}' | awk '{$1=""; print $0}' | sed -e 's/^[[:space:]]*//')
   body=$(echo "$1" | awk -F'|' '{print $6}' | sed -e 's/^[[:space:]]*//')
@@ -197,7 +197,7 @@ build_changelog() {
   patch=$(echo "$tag" | awk -F. '{print $3}')
   new_patch=$patch
 
-  log=$(git rev-list --pretty='%H|%h|%cs|%cN <%cE>|%s|%b|%(trailers)' HEAD..."$tag" --reverse --no-commit-header)
+  log=$(git rev-list --pretty='%H|%h|%cs|%cN|%s|%b|%(trailers)' HEAD..."$tag" --reverse --no-commit-header)
   num=$(echo "$log" | wc -l | sed -e 's/^[[:space:]]*//')
 
   if [ "$num" -lt 1 ]; then
