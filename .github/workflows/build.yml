@@ -7,12 +7,10 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   GH_USERNAME: ${{ github.actor }}
-  GH_TOKEN: ${{ secrets.GH_PAT }}
-  GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }}
 
 jobs:
   build:
@@ -36,17 +34,22 @@ jobs:
     - name: Run tests
       run: npx jest
 
+    - name: Configure git
+      run: |
+        git config --global user.name "${{ github.actor }}"
+        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+    - name: Bump the version if necessary
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+        scripts/bump_version.sh
+
     - name: Set up JDK 17 (Required for latest Gradle)
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
-
-    - name: Configure git
-      run: |
-        git config --global user.name "${{ github.actor }}"
-        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
     - name: Install Fastlane
       run: |
