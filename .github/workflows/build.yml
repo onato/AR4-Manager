@@ -61,6 +61,7 @@ jobs:
 
     - name: Run Fastlane Android Build
       run: |
+        echo ${{ secrets.GRADLE_PROPERTIES_CONTENTS }} | base64 -d > ~/.gradle/gradle.properties
         echo ${{ secrets.UPLOAD_KEY_CONTENTS }} | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
         echo ${{ secrets.PLAYSTORE_JSON_CONTENTS }} | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
         cd android
@@ -68,8 +69,5 @@ jobs:
         sed -i 's|json_key_file(".*")|json_key_file("'"$AR4MANAGER_PLAYSTORE_JSON_FILE"'")|' fastlane/Appfile
         fastlane deploy
       env:
-        AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
         AR4MANAGER_PLAYSTORE_JSON_FILE: ${{ runner.temp }}/app.json
-        AR4MANAGER_UPLOAD_KEY_ALIAS: ${{ secrets.UPLOAD_KEY_ALIAS }}
-        AR4MANAGER_UPLOAD_STORE_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
-        AR4MANAGER_UPLOAD_KEY_PASSWORD: ${{ secrets.UPLOAD_KEY_PASSWORD }}
+        AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
