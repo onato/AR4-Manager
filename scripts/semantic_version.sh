@@ -142,7 +142,7 @@ new_version() {
   patch=$(echo "$tag" | awk -F. '{print $3}')
   new_patch=$patch
 
-  log=$(git rev-list --pretty='%H|%h|%cs|%cN <%cE>|%s|%b|%(trailers)' HEAD..."$tag" --reverse --no-commit-header)
+  log=$(git rev-list --pretty='%H|%h|%cs|%cN <%cE>|%s|%b|%(trailers)' "$tag"..HEAD --reverse --no-commit-header)
   num=$(echo "$log" | wc -l | sed -e 's/^[[:space:]]*//')
 
   if [ "$num" -lt 1 ]; then
@@ -197,7 +197,7 @@ build_changelog() {
   patch=$(echo "$tag" | awk -F. '{print $3}')
   new_patch=$patch
 
-  log=$(git rev-list --pretty='%H|%h|%cs|%cN|%s|%b|%(trailers)' HEAD..."$tag" --reverse --no-commit-header)
+  log=$(git rev-list --pretty='%H|%h|%cs|%cN|%s|%b|%(trailers)' "$tag"..HEAD --reverse --no-commit-header)
   num=$(echo "$log" | wc -l | sed -e 's/^[[:space:]]*//')
 
   if [ "$num" -lt 1 ]; then
