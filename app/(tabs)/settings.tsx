@@ -20,9 +20,11 @@ export default function Tab() {
     loadInitialSettings();
   }, []);
 
+  const updateSurvey = async (newSettings) => {
+    setSurvey(newSettings.survey);
+  }
   const updateSettings = async (newSettings) => {
     setGpsMode(newSettings.gpsMode || gpsMode);
-    setSurvey(newSettings.survey);
     setStation(newSettings.station || station);
     await saveSettings({ gpsMode: newSettings.gpsMode || gpsMode, survey: newSettings.survey || survey, station: newSettings.station || station });
   };
@@ -54,7 +56,7 @@ export default function Tab() {
         maxLength={7}
         onChangeText={(text) => {
           const filteredText = text.replace(/[^A-Z0-9_]/g, '_');
-          updateSettings({ survey: filteredText });
+          updateSurvey({ survey: filteredText });
         }}
       />
       <Text style={styles.label}>Station</Text>
