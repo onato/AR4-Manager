@@ -5,8 +5,6 @@ set -eu
 
 check_working_directory
 
-git fetch --tags
-
 if [ $(is_releasable) == "true" ]; then
 
   log_success "A new version is available to be released."
