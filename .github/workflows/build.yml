@@ -2,75 +2,75 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 permissions:
   contents: write
 
 env:
   GH_USERNAME: ${{ github.actor }}
+  GH_PACKAGE_TOKEN: ${{ secrets.GH_PACKAGE_TOKEN }} # Used in .npmrc for downloading private packages
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
 
-    - name: Install dependencies
-      run: |
-        npm ci
+      - name: Install dependencies
+        run: |
+          npm ci
 
-    - name: Run tests
-      run: npx jest
+      - name: Run tests
+        run: npx jest
 
-    - name: Configure git
-      run: |
-        git config --global user.name "${{ github.actor }}"
-        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Configure git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
-    - name: Bump the version if necessary
-      run: |
-        echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
-        scripts/bump_version.sh
+      - name: Bump the version if necessary
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
+          scripts/bump_version.sh
 
-    - name: Set up JDK 17 (Required for latest Gradle)
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+      - name: Set up JDK 17 (Required for latest Gradle)
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
 
-    - name: Install Fastlane
-      run: |
-        sudo gem install fastlane -NV
-        fastlane --version
+      - name: Install Fastlane
+        run: |
+          sudo gem install fastlane -NV
+          fastlane --version
 
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v3
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
 
-    - name: Grant execute permission for Gradle
-      run: chmod +x android/gradlew
+      - name: Grant execute permission for Gradle
+        run: chmod +x android/gradlew
 
-    - name: Run Fastlane Android Build
-      run: |
-        echo ${{ secrets.GRADLE_PROPERTIES_CONTENTS }} | base64 -d > ~/.gradle/gradle.properties
-        echo ${{ secrets.UPLOAD_KEY_CONTENTS }} | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
-        echo ${{ secrets.PLAYSTORE_JSON_CONTENTS }} | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
-        cd android
-        ./gradlew signingReport
-        sed -i 's|json_key_file(".*")|json_key_file("'"$AR4MANAGER_PLAYSTORE_JSON_FILE"'")|' fastlane/Appfile
-        fastlane deploy
-      env:
-        AR4MANAGER_PLAYSTORE_JSON_FILE: ${{ runner.temp }}/app.json
-        AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
+      - name: Run Fastlane Android Build
+        run: |
+          echo ${{ secrets.GRADLE_PROPERTIES_CONTENTS }} | base64 -d > ~/.gradle/gradle.properties
+          echo ${{ secrets.UPLOAD_KEY_CONTENTS }} | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
+          echo ${{ secrets.PLAYSTORE_JSON_CONTENTS }} | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
+          cd android
+          ./gradlew signingReport
+          sed -i 's|json_key_file(".*")|json_key_file("'"$AR4MANAGER_PLAYSTORE_JSON_FILE"'")|' fastlane/Appfile
+          fastlane deploy
+        env:
+          AR4MANAGER_PLAYSTORE_JSON_FILE: ${{ runner.temp }}/app.json
+          AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
