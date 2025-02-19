@@ -8,8 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import { loadTimeframes, saveTimeframes } from "../../utils/storage";
-import { updateTimeframes, deleteTimeframe } from "../../utils/timeframeUpdater";
-import {timeframeStore, defaultNewItem} from "../../utils/TimeframeStore.js";
+import { updateTimeframes, deleteTimeframe } from "../../utils/TimeframeUpdater";
+import { defaultTimeframes, defaultNewItem } from "../../utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
@@ -25,7 +25,7 @@ export default function Tab() {
       if (storedTimeframes) {
         setTimeframes(storedTimeframes);
       } else {
-        setTimeframes(timeframeStore.defaultTimeframes);
+        setTimeframes(defaultTimeframes());
       }
     };
 
@@ -34,7 +34,7 @@ export default function Tab() {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  
+
   const [newItem, setNewItem] = useState(defaultNewItem());
 
   const handleAdd = () => {
@@ -43,7 +43,13 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
-    setTimeframes((prevTimeframes) => updateTimeframes(prevTimeframes, updatedItem));
+    setTimeframes((prevTimeframes) => {
+      const { success, timeframes } = updateTimeframes(prevTimeframes, updatedItem);
+      if (!success) {
+        alert("Cannot enable more than 6 timeframes.");
+      }
+      return timeframes;
+    });
     setModalVisible(false);
   };
 
@@ -59,7 +65,7 @@ export default function Tab() {
     setTimeframes((prev) => deleteTimeframe(prev, id));
   };
 
-  const handleReorder = ({from, to}: ReorderableListReorderEvent) => {
+  const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
     setTimeframes(value => reorderItems(value, from, to));
   };
 
@@ -85,14 +91,14 @@ export default function Tab() {
     });
   }, [navigation, timeframes, editMode]);
   const renderItem = ({ item, drag, isActive }) => (
-      <TimetableItem
-        item={item}
-        onPress={() => editMode && handleDelete(item.id)}
-        editMode={editMode}
-        onSave={handleSave}
-        onDelete={handleDelete}
-        isActive={isActive}
-      />
+    <TimetableItem
+      item={item}
+      onPress={() => editMode && handleDelete(item.id)}
+      editMode={editMode}
+      onSave={handleSave}
+      onDelete={handleDelete}
+      isActive={isActive}
+    />
   );
   return (
     <View style={styles.listContainer}>
