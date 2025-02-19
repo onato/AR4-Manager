@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
 import { loadTimeframes, saveTimeframes } from "../../utils/storage";
+import { updateTimeframes, deleteTimeframe } from "../../utils/timeframeUpdater";
 import {timeframeStore, defaultNewItem} from "../../utils/TimeframeStore.js";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
@@ -42,20 +43,7 @@ export default function Tab() {
   };
 
   const handleSave = (updatedItem) => {
-    setTimeframes((prevTimeframes) => {
-      const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
-      const wasAdded = index == -1
-      if (wasAdded && updatedItem && updatedItem.enabled && timeframes.filter(t => t.enabled).length >= 6) {
-        alert("Cannot enable more than 6 timeframes.");
-        return;
-      }
-      if (index !== -1) {
-        const newTimeframes = [...prevTimeframes];
-        newTimeframes[index] = updatedItem;
-        return newTimeframes;
-      }
-      return [...prevTimeframes, updatedItem];
-    });
+    setTimeframes((prevTimeframes) => updateTimeframes(prevTimeframes, updatedItem));
     setModalVisible(false);
   };
 
@@ -68,10 +56,7 @@ export default function Tab() {
   };
 
   const handleDelete = (id) => {
-    setTimeframes((prev) => {
-      const updatedTimeframes = prev.filter((item) => item.id !== id);
-      return updatedTimeframes.map((item, index) => ({ ...item, id: index.toString() }));
-    });
+    setTimeframes((prev) => deleteTimeframe(prev, id));
   };
 
   const handleReorder = ({from, to}: ReorderableListReorderEvent) => {
