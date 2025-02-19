@@ -56,20 +56,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginHorizontal: 10,
   },
-  borderedButton: {
-    minHeight: 44,
-    backgroundColor: colors.docBlue,
-    color: 'white',
-    borderRadius: 5,
-  },
   buttonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  disabledButton: {
-    backgroundColor: colors.docGrayLight,
-    opacity: 0.5,
   },
   listContainer: {
     flex: 1,

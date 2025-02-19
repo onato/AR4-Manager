@@ -1,15 +1,44 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import { Button } from 'react-native-paper';
 import colors from '../colors.js';
-import styles from '../styles.js';
+import { StyleSheet } from "react-native";
 
-const BorderedButton = ({title, onPress, color, disabled}) => {
+type BorderedButtonProps = {
+  title: string,
+  onPress: () => void,
+  color: string,
+  disabled?: boolean,
+
+}
+const BorderedButton: React.FC<BorderedButtonProps> = ({
+  title,
+  onPress,
+  color,
+  disabled = false,
+}) => {
   return (
-    <Button style={[styles.borderedButton, disabled && styles.disabledButton, color && {backgroundColor: color}]} mode="contained" onPress={onPress} disabled={disabled}>
+    <Button
+      style={[textStyles.borderedButton, disabled && textStyles.disabledButton, color && { backgroundColor: color }]}
+      mode="contained"
+      onPress={onPress}
+      disabled={disabled}
+    >
       {title}
     </Button>
   );
 };
 
-export default BorderedButton;
+const textStyles = StyleSheet.create({
+  borderedButton: {
+    minHeight: 44,
+    backgroundColor: colors.docBlue,
+    color: 'white',
+    borderRadius: 5,
+  },
+  disabledButton: {
+    backgroundColor: colors.docGrayLight,
+    opacity: 0.5,
+  },
+});
+
+export default React.memo(BorderedButton);

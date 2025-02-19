@@ -8,7 +8,7 @@ import { loadTimeframes, loadSettings } from "../../utils/storage";
 import AR4Sender from "../../utils/AR4Sender";
 import { useState } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import BorderedButton from "../../components/BorderedButton.tsx";
+import BorderedButton from "../../components/BorderedButton";
 
 enum IconState {
   Default,
@@ -49,9 +49,9 @@ export default function Tab() {
 
   const handleNfcScan = async () => {
     setIconState(IconState.Sending);
-    
+
     const result = await AR4Sender.send(timeframes, settings);
-    
+
     if (result.success) {
       showSuccess();
       setIconState(IconState.Success);
