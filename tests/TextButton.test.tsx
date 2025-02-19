@@ -1,16 +1,16 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import TextButton from '../TextButton';
+import TextButton from '../components/TextButton';
 
 describe('TextButton Component', () => {
   it('renders correctly with given title', () => {
-    const { getByText } = render(<TextButton title="Click Me" onPress={() => {}} />);
+    const { getByText } = render(<TextButton title="Click Me" onPress={() => { }} disabled={false} />);
     expect(getByText('Click Me')).toBeTruthy();
   });
 
   it('calls onPress when pressed', () => {
     const onPressMock = jest.fn();
-    const { getByText } = render(<TextButton title="Press Me" onPress={onPressMock} />);
+    const { getByText } = render(<TextButton title="Press Me" onPress={onPressMock} disabled={false} />);
     fireEvent.press(getByText('Press Me'));
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });

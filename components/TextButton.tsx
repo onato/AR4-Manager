@@ -1,15 +1,37 @@
-import {StyleSheet } from 'react-native';
 import React from 'react';
 import { Button } from 'react-native-paper';
-import colors from '../colors.js';
-import styles from '../styles.js';
+import { StyleProp, ViewStyle } from "react-native";
+import { StyleSheet } from "react-native";
 
-const TextButton = ({title, onPress, color, disabled}) => {
+type TextButtonProps = {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+};
+
+const TextButton: React.FC<TextButtonProps> = ({
+  title,
+  onPress,
+  disabled = false
+}) => {
   return (
-    <Button style={styles.button} labelStyle={styles.textButtonText} mode="text" onPress={onPress} disabled={disabled}>
+    <Button
+      labelStyle={styles.textButtonText}
+      mode="text"
+      onPress={onPress}
+      disabled={disabled}
+    >
       {title}
     </Button>
   );
 };
 
-export default TextButton;
+const styles = StyleSheet.create({
+  textButtonText: {
+    color: "black",
+    fontSize: 18,
+  },
+});
+
+export default React.memo(TextButton);

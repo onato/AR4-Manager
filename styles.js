@@ -62,11 +62,6 @@ const styles = StyleSheet.create({
     color: 'white',
     borderRadius: 5,
   },
-  textButtonText: {
-    color: "black",
-    fontSize: 18,
-    padding: 5,
-  },
   buttonText: {
     color: "white",
     fontSize: 16,
