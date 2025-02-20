@@ -85,6 +85,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
             />
             <DatePicker
               title="Start Time"
+              locale="de_DE"
+              is24hourSource="locale"
               modal
               open={showStartPicker}
               date={time(item.start_hour, item.start_minute)}
@@ -106,6 +108,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
             />
             <DatePicker
               title="Stop Time"
+              locale="de_DE"
+              is24hourSource="locale"
               modal
               open={showEndPicker}
               date={time(item.end_hour, item.end_minute)}
