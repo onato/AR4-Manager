@@ -32,7 +32,7 @@ const textStyles = StyleSheet.create({
   borderedButton: {
     minHeight: 44,
     backgroundColor: colors.docBlue,
-    color: 'white',
+    color: colors.white,
     borderRadius: 5,
   },
   disabledButton: {

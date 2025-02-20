@@ -10,8 +10,10 @@ export default function TabLayout() {
       <StatusBar backgroundColor={colors.docYellow} barStyle="dark-content" />
       <Tabs screenOptions={{
         tabBarActiveTintColor: colors.docBlue,
+        tabBarActiveBackgroundColor: colors.androidNavWhite,
+        tabBarInactiveBackgroundColor: colors.androidNavWhite,
         headerStyle: { backgroundColor: colors.docGreen },
-        headerTintColor: '#FFFFFF'
+        headerTintColor: colors.white
       }}>
         <Tabs.Screen
           name="index"

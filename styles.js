@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    backgroundColor: "#fff",
+    backgroundColor: colors.white,
     alignItems: "left",
     justifyContent: "center",
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: colors.androidNavWhite,
     position: 'absolute',
     bottom: 0,
     paddingTop: 15,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   buttonText: {
-    color: "white",
+    color: colors.white,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   list: {
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -112,13 +112,13 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     backgroundColor: colors.docGreen,
-    color: "white",
+    color: colors.white,
     marginBottom: 20,
     padding: 19,
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     fontSize: 18,
     textAlign: "center",
-    color: "white",
+    color: colors.white,
     width: 50,
   },
   listRowAccessory: {

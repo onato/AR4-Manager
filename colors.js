@@ -5,6 +5,8 @@ const colors = {
   docYellow: "#F4C835",
   docGray: "#F5F4F2",
   docGrayLight: "silver",
+  androidNavWhite: "#F6F6F8",
+  white: "white",
 };
 
 export default colors;
