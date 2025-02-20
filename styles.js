@@ -117,7 +117,10 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+    backgroundColor: colors.docGreen,
+    color: "white",
     marginBottom: 20,
+    padding: 19,
   },
   form: {
     padding: 20,

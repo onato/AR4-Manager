@@ -59,8 +59,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
     <View>
       <Modal visible={visible} animationType="slide" transparent={true}>
         <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
+          <Text style={styles.modalTitle}>Edit Timetable Item</Text>
           <View style={styles.form}>
-            <Text style={styles.modalTitle}>Edit Timetable Item</Text>
             <Text style={styles.label}>Protocol</Text>
             <Picker
               selectedValue={protocol}
