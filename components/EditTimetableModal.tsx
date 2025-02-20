@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, Button, Platform } from 'react-native';
+import { Modal, View, Text, Image, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
@@ -59,7 +59,13 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
     <View>
       <Modal visible={visible} animationType="slide" transparent={true}>
         <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
-          <Text style={styles.modalTitle}>Edit Timetable Item</Text>
+          <View style={[styles.modalTitleContainer, styles.titleContainer]}>
+            <Image
+              style={styles.icon}
+              source={require('../assets/images/doc-logo.png')}
+            />
+            <Text style={styles.modalTitle}>Edit Timetable Item</Text>
+          </View>
           <View style={styles.form}>
             <Text style={styles.label}>Protocol</Text>
             <Picker
