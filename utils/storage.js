@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GpsMode, Station } from "@onato/doc-nfc-module";
-import {defaultTimeframes} from "../utils/TimeframeStore.js";
+import { defaultTimeframes } from "../utils/TimeframeStore.js";
 
 const TIMEFRAMES_KEY = 'timeframes';
 const SETTINGS_KEY = 'settings';
@@ -20,12 +20,13 @@ export const loadTimeframes = async () => {
 };
 
 export const loadSettings = async () => {
+  const defaultSettings = { gpsMode: 0, survey: "", station: 0 };
   try {
     const jsonValue = await AsyncStorage.getItem(SETTINGS_KEY);
-    return jsonValue != null ? JSON.parse(jsonValue) : { gpsMode: GpsMode.LogAndSync, survey: "", station: Station.BIRM };
+    return jsonValue != null ? JSON.parse(jsonValue) : defaultSettings;
   } catch (e) {
     console.error("Failed to load settings", e);
-    return { gpsMode: "Off", survey: "", station: "" };
+    return defaultSettings;
   }
 };
 

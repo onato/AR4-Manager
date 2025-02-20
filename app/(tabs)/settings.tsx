@@ -1,7 +1,7 @@
 import { View, Text, TextInput } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import styles from "../../styles";
-import { Station } from "@onato/doc-nfc-module";
+import { Station, GpsMode } from "@onato/doc-nfc-module";
 import React, { useEffect } from "react";
 import { loadSettings, saveSettings } from "../../utils/storage";
 
@@ -38,9 +38,9 @@ export default function Tab() {
         onValueChange={(itemValue) => updateSettings({ gpsMode: itemValue })}
         style={styles.picker}
       >
-        <Picker.Item label="Off" value="Off" />
-        <Picker.Item label="Log Only" value="Log Only" />
-        <Picker.Item label="Log & Sync" value="Log & Sync" />
+        {Object.entries(GpsMode).map(([gpsModeName, gpsModeValue]) => (
+          <Picker.Item key={gpsModeValue} label={gpsModeName} value={gpsModeValue} />
+        ))}
       </Picker>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
