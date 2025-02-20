@@ -22,7 +22,6 @@ platform :android do
       gradle(task: "app:bundleRelease")
       upload_to_play_store(
         track: "internal",
-        release_status: "draft",
       )
     else
       UI.important("Version code #{current_version_code} has already been deployed.")
