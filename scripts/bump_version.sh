@@ -1,61 +1,75 @@
+#!/bin/bash
+set -e # Exit on error
+
 . ./scripts/semantic_version.sh
 
-CURRENT_RELEASE=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+# Get the latest release tag from GitHub
+current_release=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
 
+# Check if a new release is needed
 needs_release() {
-  latest_commits $CURRENT_RELEASE | grep -Eq '^(feat:|fix:)|^.*!:'
+  latest_commits "$current_release" | grep -qE '^(feat:|fix:)|^.*!:'
 }
 
+# Calculate the next semantic version based on commit messages
 calculate_next_version() {
-  local current_version=$1
-  local major=$(echo $current_version | cut -d. -f1)
-  local minor=$(echo $current_version | cut -d. -f2)
-  local patch=$(echo $current_version | cut -d. -f3)
+  local current_version="$1"
+  IFS='.' read -r major minor patch <<<"$current_version"
 
-  if latest_commits $current_version | grep -q '^.*!:'; then
+  commit_messages=$(latest_commits "$current_version")
+
+  if echo "$commit_messages" | grep -q '^.*!:'; then
     major=$((major + 1))
     minor=0
     patch=0
-  elif latest_commits $current_version | grep -q '^feat:'; then
+  elif echo "$commit_messages" | grep -q '^feat:'; then
     minor=$((minor + 1))
     patch=0
-  elif latest_commits $current_version | grep -q '^fix:'; then
+  elif echo "$commit_messages" | grep -q '^fix:'; then
     patch=$((patch + 1))
   fi
 
   echo "$major.$minor.$patch"
 }
 
+# Generate changelog for the new release
 generate_changelog() {
-  REPO=$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')
-  latest_full_commits $CURRENT_RELEASE | scripts/generate_changelog.sh $REPO $CURRENT_RELEASE $NEXT_RELEASE >$CHANGELOG
+  local changelog="docs/changelogs/$next_release.md"
+  latest_full_commits "$current_release" | scripts/generate_changelog.sh "$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')" "$current_release" "$next_release" >"$changelog"
+  git add "$changelog"
 }
 
+# Update Android versioning in properties file
 update_android_version() {
-  echo "Updating Android version name and code"
-  VERSION_CODE=$(get_property "android/version.properties" "versionCode")
-  VERSION_CODE=$((VERSION_CODE + 1))
-  update_property android/version.properties versionName $NEXT_RELEASE
-  update_property android/version.properties versionCode $VERSION_CODE
+  echo "Updating Android version name and code..."
 
-  git add android/version.properties
-  # git add $SHIELD
-  git add $CHANGELOG
+  local version_file="android/version.properties"
+  local version_code
+
+  version_code=$(get_property "$version_file" "versioncode") || {
+    echo "Failed to get version code"
+    exit 1
+  }
+  version_code=$((version_code + 1))
+
+  update_property "$version_file" versionname "$next_release"
+  update_property "$version_file" versioncode "$version_code"
+
+  git add "$version_file"
 }
 
+# Main script logic
 if needs_release; then
-  NEXT_RELEASE=$(calculate_next_version $CURRENT_RELEASE)
+  next_release=$(calculate_next_version "$current_release")
 
-  echo "New Release Required! $CURRENT_RELEASE -> $NEXT_RELEASE"
-  CHANGELOG=docs/changelogs/"$NEXT_RELEASE".md
-
+  echo "New release required! $current_release -> $next_release"
   generate_changelog
   update_android_version
 
-  git commit -m "chore: Bump version up to $NEXT_RELEASE"
+  git commit -m "chore: bump version to $next_release"
   git push
 
-  gh release create "$NEXT_RELEASE" --title "$NEXT_RELEASE" --notes-file docs/changelogs/"$NEXT_RELEASE".md --prerelease
+  gh release create "$next_release" --title "$next_release" --notes-file "docs/changelogs/$next_release.md" --prerelease
 else
   echo "No release necessary"
 fi
