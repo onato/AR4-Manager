@@ -1,13 +1,14 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Image, Text, AppState, ActivityIndicator } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import colors from "../../colors";
 import * as Haptics from 'expo-haptics';
 import { loadTimeframes, loadSettings } from "../../utils/storage";
 import AR4Sender from "../../utils/AR4Sender";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
+import NfcManager from "react-native-nfc-manager";
 import BorderedButton from "../../components/BorderedButton";
 
 enum IconState {
@@ -22,26 +23,54 @@ export default function Tab() {
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
   const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
+  const [appState, setAppState] = useState(AppState.currentState);
 
-  useFocusEffect(() => {
-    const fetchTimeframes = async () => {
-      const storedTimeframes = await loadTimeframes();
-      if (storedTimeframes) {
-        setTimeframes(storedTimeframes);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchTimeframes = async () => {
+        const storedTimeframes = await loadTimeframes();
+        if (storedTimeframes) {
+          setTimeframes(storedTimeframes);
+        }
+      };
+      const fetchSettings = async () => {
+        const storedSettings = await loadSettings();
+        setSettings(storedSettings);
+      };
+
+      fetchTimeframes();
+      fetchSettings();
+    }, [])
+  );
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      if (appState.match(/inactive|background/) && nextAppState === "active") {
+        console.log("App has come to the foreground!");
+        checkNfcEnabled(); // Check NFC when app comes back
       }
+      setAppState(nextAppState);
+    });
+
+    return () => {
+      subscription.remove();
     };
+  }, [appState]);
 
-    fetchTimeframes();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      checkNfcEnabled();
+    }, [])
+  );
 
-  useFocusEffect(() => {
-    const fetchSettings = async () => {
-      const storedSettings = await loadSettings();
-      setSettings(storedSettings);
-    };
-
-    fetchSettings();
-  });
+  const checkNfcEnabled = async () => {
+    const isEnabled = await NfcManager.isEnabled();
+    if (isEnabled) {
+      setIconState(IconState.Default);
+    } else {
+      showError("NFC is not enabled. Please enable NFC to proceed.", false);
+    }
+  };
 
   const handleNfcScan = async () => {
     setIconState(IconState.Sending);
@@ -66,10 +95,12 @@ export default function Tab() {
     setIconState(IconState.Success);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   };
-  const showError = (message) => {
+  const showError = (message, useHaptics = true) => {
     setNfcResult(message);
     setIconState(IconState.Error);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+    if (useHaptics) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+    }
   }
   return (
     <View style={[styles.container, styles.centered]}>
