@@ -46,8 +46,10 @@ export default function Tab() {
 
   const handleNfcCheck = (isEnabled) => {
     setNfcEnabled(isEnabled);
-    if (!isEnabled) {
-      showError("NFC is not enabled. Please enable NFC to proceed.", false);
+    if (isEnabled) {
+      setIconState(IconState.Default);
+    } else {
+      showError("NFC is not enabled. Please go to Settings > Connections > NFC and enable it.", false);
     }
   };
 
@@ -84,7 +86,9 @@ export default function Tab() {
   return (
     <View style={[styles.container, styles.centered]}>
       <NfcHandler onNfcCheck={handleNfcCheck} />
-      <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
+      {iconState !== IconState.Error && (
+        <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
+      )}
       <View style={styles.nfcIcon}>
         {iconState === IconState.Success ? (
           <Ionicons name="checkmark-circle" size={64} color="green" />
