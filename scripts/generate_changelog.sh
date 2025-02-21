@@ -22,6 +22,7 @@ generate_changelog() {
 
   while IFS='|' read -r full_hash short_hash date author message; do
     prefix=$(echo "$message" | awk '{print $1}' | sed -e 's/://')
+    message=$(echo "$message" | sed -e 's/^[^ ]* //')
     case "$prefix" in
       "feat" | "feature")
         features+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
