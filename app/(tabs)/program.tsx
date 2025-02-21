@@ -10,6 +10,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import NfcManager from "react-native-nfc-manager";
 import BorderedButton from "../../components/BorderedButton";
+import NfcHandler from "../../components/NfcHandler";
 
 enum IconState {
   Default,
@@ -23,7 +24,7 @@ export default function Tab() {
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
   const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
-  const [appState, setAppState] = useState(AppState.currentState);
+  const [nfcEnabled, setNfcEnabled] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,31 +44,9 @@ export default function Tab() {
     }, [])
   );
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener("change", (nextAppState) => {
-      if (appState.match(/inactive|background/) && nextAppState === "active") {
-        console.log("App has come to the foreground!");
-        checkNfcEnabled(); // Check NFC when app comes back
-      }
-      setAppState(nextAppState);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [appState]);
-
-  useFocusEffect(
-    useCallback(() => {
-      checkNfcEnabled();
-    }, [])
-  );
-
-  const checkNfcEnabled = async () => {
-    const isEnabled = await NfcManager.isEnabled();
-    if (isEnabled) {
-      setIconState(IconState.Default);
-    } else {
+  const handleNfcCheck = (isEnabled) => {
+    setNfcEnabled(isEnabled);
+    if (!isEnabled) {
       showError("NFC is not enabled. Please enable NFC to proceed.", false);
     }
   };
@@ -104,6 +83,7 @@ export default function Tab() {
   }
   return (
     <View style={[styles.container, styles.centered]}>
+      <NfcHandler onNfcCheck={handleNfcCheck} />
       <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
       <View style={styles.nfcIcon}>
         {iconState === IconState.Success ? (
@@ -119,20 +99,21 @@ export default function Tab() {
           />
         )}
       </View>
-      <View style={styles.buttonContainer}>
-        {iconState !== IconState.Sending && (
-          <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => handleNfcScan()}>
-            <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
-          </BorderedButton>
-        )}
-        {iconState === IconState.Sending && (
-          <BorderedButton title="CANCEL" style={styles.submitButton} color={colors.docGrayLight} onPress={cancelNfcScan}>
-            <Text style={styles.buttonText}>CANCEL</Text>
-          </BorderedButton>
-        )}
-      </View>
-      {iconState === IconState.Error && (
+      {iconState === IconState.Error ? (
         <Text style={styles.nfcResult}>{nfcResult}</Text>
+      ) : (
+        <View style={styles.buttonContainer}>
+          {iconState !== IconState.Sending && (
+            <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => handleNfcScan()}>
+              <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
+            </BorderedButton>
+          )}
+          {iconState === IconState.Sending && (
+            <BorderedButton title="CANCEL" style={styles.submitButton} color={colors.docGrayLight} onPress={cancelNfcScan}>
+              <Text style={styles.buttonText}>CANCEL</Text>
+            </BorderedButton>
+          )}
+        </View>
       )}
     </View>
   );
