@@ -27,7 +27,7 @@ generate_changelog() {
   # Function to format commit messages with links
   format_commit() {
     declare message="$1" short_hash="$2" full_hash="$3" author="$4"
-    echo "- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author"
+    echo "- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash}))"
   }
 
   # Read commit history and categorize messages
