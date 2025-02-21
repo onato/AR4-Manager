@@ -1,4 +1,5 @@
-#!/bin/zsh
+#!/usr/bin/env bash
+set -eu
 
 generate_changelog() {
   local repo=$1
