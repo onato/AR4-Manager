@@ -30,7 +30,7 @@ export default function Tab() {
   };
 
   return (
-    <View style={styles.container}>
+    <PageContainer style={{ alignItems: "center" }}>
       <Text style={styles.sectionTitle}>GPS Settings</Text>
       <Text style={styles.label}>GPS mode</Text>
       <Picker
@@ -69,6 +69,6 @@ export default function Tab() {
           <Picker.Item key={stationValue} label={stationName} value={stationValue} />
         ))}
       </Picker>
-    </View>
+    </PageContainer>
   );
 }

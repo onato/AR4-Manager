@@ -6,18 +6,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    flex: 1,
-    padding: 15,
-    backgroundColor: colors.white,
-    alignItems: "left",
-    justifyContent: "center",
   },
   statusText: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 20,
-  },
-  nfcResult: {
     marginBottom: 20,
   },
   buttonRow: {
@@ -29,11 +21,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingTop: 15,
     paddingBottom: 15,
-  },
-  submitButton: {
-    backgroundColor: colors.docBlue,
-    padding: 20,
-    borderRadius: 5,
   },
   button: {
     flex: 1,

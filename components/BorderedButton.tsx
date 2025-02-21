@@ -6,9 +6,8 @@ import { StyleSheet } from "react-native";
 type BorderedButtonProps = {
   title: string,
   onPress: () => void,
-  color: string,
+  color?: string,
   disabled?: boolean,
-
 }
 const BorderedButton: React.FC<BorderedButtonProps> = ({
   title,

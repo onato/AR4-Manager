@@ -1,17 +1,17 @@
 import React from "react";
-import { View, StyleSheet, Text, AppState, ActivityIndicator } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { View, StyleSheet, Text } from "react-native";
 import styles from "../../styles";
 import colors from "../../colors";
 import * as Haptics from 'expo-haptics';
 import { loadTimeframes, loadSettings } from "../../utils/storage";
 import AR4Sender from "../../utils/AR4Sender";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import BorderedButton from "../../components/BorderedButton";
 import NfcIcon, { IconState } from "../../components/NfcIcon";
 import NfcHandler from "../../components/NfcHandler";
 import NfcSettingsButton from "../../components/NfcSettingsButton";
+import PageContainer from "../../components/PageContainer";
 
 
 export default function Tab() {
@@ -86,33 +86,32 @@ export default function Tab() {
   });
 
   return (
-    <View style={[styles.container, { alignItems: "center" }]}>
+    <PageContainer style={{ alignItems: "center" }}>
       <NfcHandler onNfcCheck={handleNfcCheck} />
       {iconState !== IconState.Error && (
         <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
       )}
       <NfcIcon iconState={iconState} />
-      {iconState === IconState.Error ? (
+      {iconState === IconState.Error && (
         <View>
-          <Text style={styles.nfcResult}>{nfcResult}</Text>
+          <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
           {(!nfcEnabled) && (
             <NfcSettingsButton />
           )}
         </View>
-      ) : (
-        <View style={localStyles.buttonContainer}>
-          {iconState !== IconState.Sending && (
-            <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => sendOverNFC()}>
-              <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
-            </BorderedButton>
-          )}
-          {iconState === IconState.Sending && (
-            <BorderedButton title="CANCEL" style={styles.submitButton} color={colors.docGrayLight} onPress={cancelNfcScan}>
-              <Text style={styles.buttonText}>CANCEL</Text>
-            </BorderedButton>
-          )}
-        </View>
-      )}
-    </View>
+      )
+      }
+      {
+        nfcEnabled && (
+          <View style={localStyles.buttonContainer}>
+            {iconState === IconState.Sending ? (
+              <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelNfcScan} />
+            ) : (
+              <BorderedButton title="CONNECT & UPDATE" onPress={() => sendOverNFC()} />
+            )}
+          </View>
+        )
+      }
+    </PageContainer >
   );
 }
