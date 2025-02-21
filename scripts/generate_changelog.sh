@@ -1,107 +1,80 @@
 #!/usr/bin/env bash
-set -eu
+set -eu # Exit on error and treat unset variables as errors
 
 generate_changelog() {
-  local repo=$1
-  local version_from=$2
-  local version_to=$3
-  if [ -z "$repo" ]; then
-    echo "Error: No repo provided."
-    exit 1
-  fi
-  if [ -z "$version_from" ]; then
-    echo "Error: No FROM version number provided."
-    exit 1
-  fi
-  if [ -z "$version_to" ]; then
-    echo "Error: No TO version number provided."
-    exit 1
-  fi
+  declare repo="$1" version_from="$2" version_to="$3"
+  declare -A categories=()
+  declare -a breaking_changes=() # Fixed: Should be an indexed array
 
-  local breaking=() features=() patches=() ci=() docs=() tests=() chores=() others=()
-
-  while IFS='|' read -r full_hash short_hash date author message; do
-    prefix=$(echo "$message" | awk '{print $1}' | sed -e 's/://')
-    message=$(echo "$message" | sed -e 's/^[^ ]* //')
-    case "$prefix" in
-      "feat" | "feature")
-        features+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      "fix")
-        patches+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      "ci")
-        ci+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      "doc" | "docs")
-        docs+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      "test" | "tests")
-        tests+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      "chore")
-        chores+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-      *)
-        others+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
-        ;;
-    esac
-
-    if [[ "$prefix" == *"!"* ]]; then
-      breaking+=("- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author")
+  # Validate input arguments
+  for arg in "$repo" "$version_from" "$version_to"; do
+    if [[ -z "$arg" ]]; then
+      echo "Error: Missing required arguments." >&2
+      exit 1
     fi
   done
 
-  if [ ${#breaking[@]} -gt 0 ]; then
+  # Function to format commit messages with links
+  format_commit() {
+    declare message="$1" short_hash="$2" full_hash="$3" author="$4"
+    echo "- $message ([${short_hash}](https://github.com/${repo}/commit/${full_hash})) - $author"
+  }
+
+  # Read commit history and categorize messages
+  while IFS='|' read -r full_hash short_hash date author message; do
+    # Skip empty or malformed lines
+    [[ -z "$full_hash" || -z "$message" ]] && continue
+
+    # Extract prefix and message
+    IFS=':' read -r prefix remaining_message <<<"$message" || prefix=""
+    remaining_message="${remaining_message#"${remaining_message%%[![:space:]]*}"}" # Trim leading spaces
+
+    # Determine category
+    case "$prefix" in
+    "feat" | "feature") category="Features" ;;
+    "fix") category="Bug fixes" ;;
+    "ci") category="Continuous integration" ;;
+    "doc" | "docs") category="Documentation" ;;
+    "test" | "tests") category="Tests" ;;
+    "chore") category="Building system" ;;
+    *) category="Others" ;;
+    esac
+
+    # Append formatted commit message
+    categories["$category"]+=$(format_commit "$remaining_message" "$short_hash" "$full_hash" "$author")$'\n'
+
+    # Detect breaking changes (commits with `!` in the prefix)
+    if [[ "$prefix" == *"!"* ]]; then
+      breaking_changes+=("$(format_commit "$remaining_message" "$short_hash" "$full_hash" "$author")")
+    fi
+  done
+
+  # Print changelog
+  if [[ ${#breaking_changes[@]} -gt 0 ]]; then
     echo "### BREAKING CHANGES:"
-    printf "%s\n" "${breaking[@]}"
+    printf "%s\n" "${breaking_changes[@]}"
     echo ""
   fi
 
-  if [ ${#features[@]} -gt 0 ]; then
-    echo "### Features:"
-    printf "%s\n" "${features[@]}"
-    echo ""
-  fi
-
-  if [ ${#patches[@]} -gt 0 ]; then
-    echo "### Bug fixes:"
-    printf "%s\n" "${patches[@]}"
-    echo ""
-  fi
-
-  if [ ${#tests[@]} -gt 0 ]; then
-    echo "### Tests:"
-    printf "%s\n" "${tests[@]}"
-    echo ""
-  fi
-
-  if [ ${#docs[@]} -gt 0 ]; then
-    echo "### Documentation:"
-    printf "%s\n" "${docs[@]}"
-    echo ""
-  fi
-
-  if [ ${#ci[@]} -gt 0 ]; then
-    echo "### Continuous integration:"
-    printf "%s\n" "${ci[@]}"
-    echo ""
-  fi
-
-  if [ ${#chores[@]} -gt 0 ]; then
-    echo "### Building system:"
-    printf "%s\n" "${chores[@]}"
-    echo ""
-  fi
-
-  if [ ${#others[@]} -gt 0 ]; then
-    echo "### Others:"
-    printf "%s\n" "${others[@]}"
-    echo ""
-  fi
+  for category in "Features" "Bug fixes" "Tests" "Documentation" "Continuous integration" "Building system" "Others"; do
+    if [[ -n "${categories[$category]}" ]]; then
+      echo "### $category:"
+      printf "%s\n" "${categories[$category]}"
+      echo ""
+    fi
+  done
 
   echo "---"
-  printf "Compare with previous version: https://github.com/$repo/compare/%s...%s" "$version_from" "$version_to"
+  printf "Compare with previous version: [View Changes](https://github.com/%s/compare/%s...%s)\n" "$repo" "$version_from" "$version_to"
 }
 
-generate_changelog $1 $2 $3
+# Ensure script is executed with exactly three arguments
+if [[ $# -ne 3 ]]; then
+  echo "Usage: $0 <repo> <version_from> <version_to>" >&2
+  exit 1
+fi
+
+generate_changelog "$1" "$2" "$3"
+
+# Example usage:
+# git rev-list --pretty='%H|%h|%cs|%cN|%s' 1.20.1..HEAD --reverse --no-commit-header | generate_changelog onato/AR4-Manager 1.2.3 1.3.0
