@@ -8,7 +8,6 @@ import { loadTimeframes, loadSettings } from "../../utils/storage";
 import AR4Sender from "../../utils/AR4Sender";
 import { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import NfcManager from "react-native-nfc-manager";
 import BorderedButton from "../../components/BorderedButton";
 import NfcHandler from "../../components/NfcHandler";
 import NfcSettingsButton from "../../components/NfcSettingsButton";
@@ -22,30 +21,27 @@ enum IconState {
 
 export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
+  const [nfcEnabled, setNfcEnabled] = useState(true);
   const [iconState, setIconState] = React.useState(IconState.Default);
   const [timeframes, setTimeframes] = useState([]);
   const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
-  const [nfcEnabled, setNfcEnabled] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
-      const fetchTimeframes = async () => {
-        const storedTimeframes = await loadTimeframes();
-        if (storedTimeframes) {
-          setTimeframes(storedTimeframes);
-        }
-      };
-      const fetchSettings = async () => {
-        const storedSettings = await loadSettings();
-        setSettings(storedSettings);
+      const fetchData = async () => {
+        Promise.all([loadTimeframes(), loadSettings()])
+          .then(([storedTimeframes, storedSettings]) => {
+            setTimeframes(storedTimeframes);
+            setSettings(storedSettings);
+          })
+          .catch(error => console.error("Error loading data:", error));
       };
 
-      fetchTimeframes();
-      fetchSettings();
+      fetchData();
     }, [])
   );
 
-  const handleNfcCheck = (isEnabled) => {
+  const handleNfcCheck = (isEnabled: boolean): void => {
     setNfcEnabled(isEnabled);
     if (isEnabled) {
       setIconState(IconState.Default);
@@ -54,7 +50,7 @@ export default function Tab() {
     }
   };
 
-  const handleNfcScan = async () => {
+  const sendOverNFC = async () => {
     setIconState(IconState.Sending);
 
     const result = await AR4Sender.send(timeframes, settings);
@@ -114,7 +110,7 @@ export default function Tab() {
       ) : (
         <View style={styles.buttonContainer}>
           {iconState !== IconState.Sending && (
-            <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => handleNfcScan()}>
+            <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => sendOverNFC()}>
               <Text style={styles.buttonText}>CONNECT & UPDATE</Text>
             </BorderedButton>
           )}
