@@ -2,13 +2,14 @@ import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import { AR4, LogEntry } from "@onato/doc-nfc-module";
 
 const start = () => {
-  NfcManager.start();
 }
 const cancel = () => {
   NfcManager.cancelTechnologyRequest();
 }
 const send = async (timeframes, settings) => {
   try {
+    NfcManager.start();
+
     // Request NfcV technology
     await NfcManager.requestTechnology(NfcTech.NfcV);
     const tag = await NfcManager.getTag();

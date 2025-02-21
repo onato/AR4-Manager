@@ -23,10 +23,6 @@ export default function Tab() {
   const [timeframes, setTimeframes] = useState([]);
   const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
 
-  React.useEffect(() => {
-    AR4Sender.start();
-  }, []);
-
   useFocusEffect(() => {
     const fetchTimeframes = async () => {
       const storedTimeframes = await loadTimeframes();
