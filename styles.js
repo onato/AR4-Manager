@@ -12,31 +12,13 @@ const styles = StyleSheet.create({
     alignItems: "left",
     justifyContent: "center",
   },
-  grabber: {
-    padding: 10,
-  },
   statusText: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  nfcIcon: {
-    marginBottom: 20,
-    alignItems: "center",
-  },
-  nfcImage: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
-  },
   nfcResult: {
     marginBottom: 20,
-  },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 30,
-    width: "90%",
-    alignItems: "center",
   },
   buttonRow: {
     flexDirection: 'row',
@@ -68,27 +50,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   list: {
-  },
-  item: {
-    backgroundColor: colors.white,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    minHeight: 44,
-    minWidth: 44,
-    flexDirection: 'row',
-    paddingRight: 20,
-  },
-  text: {
-    fontSize: 22,
-  },
-  largeText: {
-    fontSize: 38,
-  },
-  timespan: {
-    padding: 10,
   },
   sectionTitle: {
     fontSize: 25,
@@ -155,11 +116,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     width: 50,
   },
-  listRowAccessory: {
-    padding: 20,
-    paddingRight: 0,
-    width: 50,
-  }
 });
 
 export default styles;

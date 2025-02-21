@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, AppState, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Text, AppState, ActivityIndicator } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styles from "../../styles";
 import colors from "../../colors";
@@ -9,15 +9,10 @@ import AR4Sender from "../../utils/AR4Sender";
 import { useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import BorderedButton from "../../components/BorderedButton";
+import NfcIcon, { IconState } from "../../components/NfcIcon";
 import NfcHandler from "../../components/NfcHandler";
 import NfcSettingsButton from "../../components/NfcSettingsButton";
 
-enum IconState {
-  Default,
-  Success,
-  Sending,
-  Error,
-}
 
 export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
@@ -80,26 +75,23 @@ export default function Tab() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
     }
   }
+
+  const localStyles = StyleSheet.create({
+    buttonContainer: {
+      position: "absolute",
+      bottom: 30,
+      width: "90%",
+      alignItems: "center",
+    },
+  });
+
   return (
-    <View style={[styles.container, styles.centered]}>
+    <View style={[styles.container, { alignItems: "center" }]}>
       <NfcHandler onNfcCheck={handleNfcCheck} />
       {iconState !== IconState.Error && (
         <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
       )}
-      <View style={styles.nfcIcon}>
-        {iconState === IconState.Success ? (
-          <Ionicons name="checkmark-circle" size={64} color="green" />
-        ) : iconState === IconState.Error ? (
-          <Ionicons name="alert-circle" size={64} color="red" />
-        ) : iconState === IconState.Sending ? (
-          <ActivityIndicator size="large" color={colors.docYellow} />
-        ) : (
-          <Image
-            source={require("../../assets/images/nfc_logo.png")}
-            style={styles.nfcImage}
-          />
-        )}
-      </View>
+      <NfcIcon iconState={iconState} />
       {iconState === IconState.Error ? (
         <View>
           <Text style={styles.nfcResult}>{nfcResult}</Text>
@@ -108,7 +100,7 @@ export default function Tab() {
           )}
         </View>
       ) : (
-        <View style={styles.buttonContainer}>
+        <View style={localStyles.buttonContainer}>
           {iconState !== IconState.Sending && (
             <BorderedButton title="CONNECT & UPDATE" style={styles.submitButton} onPress={() => sendOverNFC()}>
               <Text style={styles.buttonText}>CONNECT & UPDATE</Text>

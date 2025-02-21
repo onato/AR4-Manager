@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { View, Text, Switch, Pressable, TouchableOpacity } from "react-native";
+import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./EditTimetableModal";
 import * as Haptics from 'expo-haptics';
-import styles from "../styles";
 import colors from "../colors";
 import { useReorderableDrag } from 'react-native-reorderable-list';
 
@@ -22,10 +21,9 @@ interface TimetableItemProps {
   editMode: boolean;
   onSave: (updatedItem: any) => void;
   onDelete: (id: string) => void;
-  isActive?: boolean;
 }
 
-const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete, isActive }) => {
+const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const drag = useReorderableDrag();
 
@@ -55,20 +53,20 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
 
   return (
     <>
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.item}>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={localStyles.item}>
         <Animated.View style={createAnimatedStyle(positions.delete)}>
-          <TouchableOpacity onPress={() => onDelete(item.id)} style={styles.listRowAccessory}>
+          <TouchableOpacity onPress={() => onDelete(item.id)} style={localStyles.listRowAccessory}>
             <Ionicons name="remove-circle" size={24} color="red" />
           </TouchableOpacity>
         </Animated.View>
 
         <Animated.View style={createAnimatedStyle(positions.text)}>
-          <View style={styles.timespan}>
-            <Text style={styles.largeText}>
-              {item.start_hour.toString().padStart(2, '0')}:{item.start_minute.toString().padStart(2, '0')} - 
+          <View style={localStyles.timespan}>
+            <Text style={localStyles.largeText}>
+              {item.start_hour.toString().padStart(2, '0')}:{item.start_minute.toString().padStart(2, '0')} -
               {item.end_hour.toString().padStart(2, '0')}:{item.end_minute.toString().padStart(2, '0')}
             </Text>
-            <Text style={styles.text}>{item.protocol}</Text>
+            <Text style={localStyles.text}>{item.protocol}</Text>
           </View>
         </Animated.View>
 
@@ -81,12 +79,12 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
             }}
             thumbColor={item.enabled ? colors.docBlue : "#f4f3f4"}
             trackColor={{ false: "#767577", true: colors.docGrayLight }}
-            style={styles.listRowAccessory}
+            style={localStyles.listRowAccessory}
           />
         </Animated.View>
 
         <Animated.View style={createAnimatedStyle(positions.dragHandle)}>
-          <TouchableOpacity onPressIn={drag} style={styles.grabber}>
+          <TouchableOpacity onPressIn={drag} style={localStyles.grabber}>
             <MaterialIcons name="drag-handle" size={24} color="gray" />
           </TouchableOpacity>
         </Animated.View>
@@ -104,5 +102,36 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
     </>
   );
 };
+
+const localStyles = StyleSheet.create({
+  item: {
+    backgroundColor: colors.white,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    minHeight: 44,
+    minWidth: 44,
+    paddingRight: 20,
+  },
+  grabber: {
+    padding: 10,
+  },
+  listRowAccessory: {
+    padding: 20,
+    paddingRight: 0,
+    width: 50,
+  },
+  timespan: {
+    padding: 10,
+  },
+  text: {
+    fontSize: 22,
+  },
+  largeText: {
+    fontSize: 38,
+  },
+});
 
 export default TimetableItem;

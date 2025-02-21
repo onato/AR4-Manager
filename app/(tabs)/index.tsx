@@ -3,7 +3,6 @@ import ReorderableList, {
   ReorderableListReorderEvent,
   reorderItems,
 } from 'react-native-reorderable-list';
-import Animated, { Layout, FadeIn, FadeOut } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
@@ -90,14 +89,13 @@ export default function Tab() {
       ),
     });
   }, [navigation, timeframes, editMode]);
-  const renderItem = ({ item, drag, isActive }) => (
+  const renderItem = ({ item }) => (
     <TimetableItem
       item={item}
       onPress={() => editMode && handleDelete(item.id)}
       editMode={editMode}
       onSave={handleSave}
       onDelete={handleDelete}
-      isActive={isActive}
     />
   );
   return (
