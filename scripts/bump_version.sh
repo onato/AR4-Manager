@@ -4,7 +4,7 @@ set -e # Exit on error
 . ./scripts/semantic_version.sh
 
 # Get the latest release tag from GitHub
-current_release=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+current_release="1.25.0" #$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
 
 # Check if a new release is needed
 needs_release() {
@@ -35,7 +35,7 @@ calculate_next_version() {
 # Generate changelog for the new release
 generate_changelog() {
   local changelog="docs/changelogs/$next_release.md"
-  latest_full_commits "$current_release" | scripts/generate_changelog.sh "$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')" "$current_release" "$next_release" >"$changelog"
+  scripts/generate_changelog.sh "$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')" "$current_release" "$next_release" >"$changelog"
   git add "$changelog"
 }
 
@@ -46,14 +46,14 @@ update_android_version() {
   local version_file="android/version.properties"
   local version_code
 
-  version_code=$(get_property "$version_file" "versioncode") || {
+  version_code=$(get_property "$version_file" "versionCode") || {
     echo "Failed to get version code"
     exit 1
   }
   version_code=$((version_code + 1))
 
-  update_property "$version_file" versionname "$next_release"
-  update_property "$version_file" versioncode "$version_code"
+  update_property "$version_file" versionName "$next_release"
+  update_property "$version_file" versionCode "$version_code"
 
   git add "$version_file"
 }

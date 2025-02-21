@@ -43,13 +43,4 @@ latest_commits() {
   git rev-list --pretty='%s' "$1"..HEAD --reverse --no-commit-header
 }
 
-latest_full_commits() {
-  if [ -z "$1" ]; then
-    echo "Error: Missing base commit or tag." >&2
-    return 1
-  fi
-  git rev-list --pretty='%H|%h|%cs|%cN|%s' "$1"..HEAD --reverse --no-commit-header
-}
-
 export latest_commits
-export latest_full_commits

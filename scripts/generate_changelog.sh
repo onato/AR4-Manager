@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 set -eu # Exit on error and treat unset variables as errors
 
+latest_full_commits() {
+  git rev-list --pretty='%H|%h|%cs|%cN|%s' "$1"..HEAD --reverse --no-commit-header
+}
+
 generate_changelog() {
+  categories_list=("Features" "Bug fixes" "Tests" "Documentation" "Continuous integration" "Building system" "Others")
+
   declare repo="$1" version_from="$2" version_to="$3"
+  declare -a breaking_changes=()
   declare -A categories=()
-  declare -a breaking_changes=() # Fixed: Should be an indexed array
+
+  for category in "${categories_list[@]}"; do
+    categories["$category"]=""
+  done
 
   # Validate input arguments
   for arg in "$repo" "$version_from" "$version_to"; do
@@ -47,7 +57,13 @@ generate_changelog() {
     if [[ "$prefix" == *"!"* ]]; then
       breaking_changes+=("$(format_commit "$remaining_message" "$short_hash" "$full_hash" "$author")")
     fi
-  done
+  done < <(latest_full_commits "$version_from")
+
+  # Handle empty commit list
+  if [[ ${#categories[@]} -eq 0 && ${#breaking_changes[@]} -eq 0 ]]; then
+    echo "No commits found between $version_from and HEAD."
+    exit 0
+  fi
 
   # Print changelog
   if [[ ${#breaking_changes[@]} -gt 0 ]]; then
@@ -56,7 +72,7 @@ generate_changelog() {
     echo ""
   fi
 
-  for category in "Features" "Bug fixes" "Tests" "Documentation" "Continuous integration" "Building system" "Others"; do
+  for category in "${categories_list[@]}"; do
     if [[ -n "${categories[$category]}" ]]; then
       echo "### $category:"
       printf "%s\n" "${categories[$category]}"
@@ -65,7 +81,7 @@ generate_changelog() {
   done
 
   echo "---"
-  printf "Compare with previous version: [View Changes](https://github.com/%s/compare/%s...%s)\n" "$repo" "$version_from" "$version_to"
+  printf "Compare with previous release: [View Changes](https://github.com/%s/compare/%s...%s)\n" "$repo" "$version_from" "$version_to"
 }
 
 # Ensure script is executed with exactly three arguments
