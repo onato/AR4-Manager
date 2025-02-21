@@ -29,9 +29,6 @@ export default function TabLayout() {
         headerStyle: { backgroundColor: colors.docGreen },
         headerTintColor: colors.white,
         headerTitle: ({ children }) => <LogoTitle title={children} />,
-        headerRight: () => (
-          <Ionicons name="ios-information-circle-outline" size={24} color={colors.white} style={{ marginRight: 15 }} />
-        )
       }}>
         <Tabs.Screen
           name="index"
