@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     height: 150,
     marginBottom: 20,
   },
+  nfcResult: {
+    marginBottom: 20,
+  },
   buttonContainer: {
     position: "absolute",
     bottom: 30,

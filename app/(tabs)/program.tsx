@@ -11,6 +11,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import NfcManager from "react-native-nfc-manager";
 import BorderedButton from "../../components/BorderedButton";
 import NfcHandler from "../../components/NfcHandler";
+import NfcSettingsButton from "../../components/NfcSettingsButton";
 
 enum IconState {
   Default,
@@ -104,7 +105,12 @@ export default function Tab() {
         )}
       </View>
       {iconState === IconState.Error ? (
-        <Text style={styles.nfcResult}>{nfcResult}</Text>
+        <View>
+          <Text style={styles.nfcResult}>{nfcResult}</Text>
+          {(!nfcEnabled) && (
+            <NfcSettingsButton />
+          )}
+        </View>
       ) : (
         <View style={styles.buttonContainer}>
           {iconState !== IconState.Sending && (
