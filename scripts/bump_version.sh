@@ -1,59 +1,61 @@
-#!/usr/bin/env bash
-set -eu
-
 . ./scripts/semantic_version.sh
 
-check_working_directory
+CURRENT_RELEASE=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
 
-if [ $(is_releasable) == "true" ]; then
+needs_release() {
+  latest_commits $CURRENT_RELEASE | grep -Eq '^(feat:|fix:)|^.*!:'
+}
 
-  log_success "A new version is available to be released."
+calculate_next_version() {
+  local current_version=$1
+  local major=$(echo $current_version | cut -d. -f1)
+  local minor=$(echo $current_version | cut -d. -f2)
+  local patch=$(echo $current_version | cut -d. -f3)
 
-  log_info "Getting latest version"
-  TAG=$(latest_version)
-  log_success "Latest version: $TAG."
+  if latest_commits $current_version | grep -q '^.*!:'; then
+    major=$((major + 1))
+    minor=0
+    patch=0
+  elif latest_commits $current_version | grep -q '^feat:'; then
+    minor=$((minor + 1))
+    patch=0
+  elif latest_commits $current_version | grep -q '^fix:'; then
+    patch=$((patch + 1))
+  fi
 
-  VERSION=$(new_version)
-  log_success "New version: $VERSION."
-  log_info "Generating changelog for version $VERSION"
-  CHANGELOG=$(build_changelog "$TAG")
-  log_success "New changelog: $CHANGELOG."
+  echo "$major.$minor.$patch"
+}
 
-  log_info "Updating latest version shield"
-  SHIELD=$(generate_version_shield "$VERSION")
-  log_success "Latest version shield updated: $SHIELD."
+generate_changelog() {
+  REPO=$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')
+  latest_full_commits $CURRENT_RELEASE | scripts/generate_changelog.sh $REPO $CURRENT_RELEASE $NEXT_RELEASE >$CHANGELOG
+}
 
-  CURRENT_BRANCH_NAME=${CURRENT_BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}
-
-  log_info "Checking out branch $(echo $CURRENT_BRANCH_NAME)"
-  git checkout "$CURRENT_BRANCH_NAME"
-  git pull
-  log_success "You're now on branch $CURRENT_BRANCH_NAME"
-
-  log_info "Updating Android version name and code"
+update_android_version() {
+  echo "Updating Android version name and code"
   VERSION_CODE=$(get_property "android/version.properties" "versionCode")
   VERSION_CODE=$((VERSION_CODE + 1))
-  update_property android/version.properties versionName $VERSION
+  update_property android/version.properties versionName $NEXT_RELEASE
   update_property android/version.properties versionCode $VERSION_CODE
 
-  log_success "Version name updated to $VERSION and code bumped to $VERSION_CODE"
-  log_info "Committing changelog files"
   git add android/version.properties
-  git add $SHIELD
+  # git add $SHIELD
   git add $CHANGELOG
-  git commit -m "chore: Bump version up to $VERSION"
+}
 
-  git push -u origin "$CURRENT_BRANCH_NAME"
+if needs_release; then
+  NEXT_RELEASE=$(calculate_next_version $CURRENT_RELEASE)
 
-  log_info "Create new release for tag $VERSION"
-  gh release create "$VERSION" --title "$VERSION" --notes-file docs/changelogs/"$VERSION".md --prerelease || (
-    log_error "\n%s Can't create release"
-    exit 1
-  )
-  log_success "Release created successfully."
+  echo "New Release Required! $CURRENT_RELEASE -> $NEXT_RELEASE"
+  CHANGELOG=docs/changelogs/"$NEXT_RELEASE".md
 
-  log_success "Done"
+  generate_changelog
+  update_android_version
+
+  git commit -m "chore: Bump version up to $NEXT_RELEASE"
+  git push
+
+  gh release create "$NEXT_RELEASE" --title "$NEXT_RELEASE" --notes-file docs/changelogs/"$NEXT_RELEASE".md --prerelease
 else
-  log_warning "Nothing to release yet. Commit you changes using fix or feat prefix or add the breaking change message."
-  log_warning "See: https://www.conventionalcommits.org/en/v1.0.0/"
+  echo "No release necessary"
 fi
