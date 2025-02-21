@@ -73,7 +73,7 @@ export default function Tab() {
     setIconState(IconState.Success);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   };
-  const showError = (message, useHaptics = true) => {
+  const showError = (message: string, useHaptics = true): void => {
     setNfcResult(message);
     setIconState(IconState.Error);
     if (useHaptics) {

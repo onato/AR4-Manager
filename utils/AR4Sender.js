@@ -27,9 +27,7 @@ const send = async (timeframes, settings) => {
 
     return handleResponseCode(responseCode);
   } catch (error) {
-    if (error.message) {
-      return { success: false, error: error.message };
-    }
+    return { success: false, error: error.message || "No response from NFC sender." };
   } finally {
     NfcManager.cancelTechnologyRequest();
   }
