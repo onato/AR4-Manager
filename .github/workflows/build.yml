@@ -66,7 +66,7 @@ jobs:
 
       - name: Run Fastlane Android Build
         run: |
-          echo ${{ secrets.GRADLE_PROPERTIES_CONTENTS }} | base64 -d > ~/.gradle/gradle.properties
+          mkdir -p ~/.gradle && echo ${{ secrets.GRADLE_PROPERTIES_CONTENTS }} | base64 -d > ~/.gradle/gradle.properties
           echo ${{ secrets.UPLOAD_KEY_CONTENTS }} | base64 -d > $AR4MANAGER_UPLOAD_STORE_FILE
           echo ${{ secrets.PLAYSTORE_JSON_CONTENTS }} | base64 -d > $AR4MANAGER_PLAYSTORE_JSON_FILE
           cd android
