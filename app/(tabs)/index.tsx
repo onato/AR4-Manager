@@ -6,66 +6,48 @@ import ReorderableList, {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
 import { useState, useCallback, useEffect, useLayoutEffect } from "react";
-import { loadTimeframes, saveTimeframes } from "../../utils/storage";
 import { updateTimeframes, deleteTimeframe } from "../../utils/TimeframeUpdater";
 import { defaultTimeframes, defaultNewItem } from "../../utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
 import styles from "../../styles";
+import { useSettingsContext } from "@/data/SettingsContext";
 
 export default function Tab() {
   const navigation = useNavigation();
-  const [timeframes, setTimeframes] = useState([]);
-
-  useEffect(() => {
-    const fetchTimeframes = async () => {
-      const storedTimeframes = await loadTimeframes();
-      if (storedTimeframes) {
-        setTimeframes(storedTimeframes);
-      } else {
-        setTimeframes(defaultTimeframes());
-      }
-    };
-
-    fetchTimeframes();
-  }, []);
-
   const [modalVisible, setModalVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const { settings, updateSettings } = useSettingsContext();
 
   const [newItem, setNewItem] = useState(defaultNewItem());
 
   const handleAdd = () => {
-    setNewItem({ ...defaultNewItem(), id: (timeframes.length + 1).toString() });
+    setNewItem({ ...defaultNewItem(), id: (settings.timeframes.length + 1).toString() });
     setModalVisible(true);
   };
 
   const handleSave = (updatedItem) => {
-    setTimeframes((prevTimeframes) => {
-      const { success, timeframes } = updateTimeframes(prevTimeframes, updatedItem);
-      if (!success) {
-        alert("Cannot enable more than 6 timeframes.");
-      }
-      return timeframes;
-    });
+    const prevTimeframes = settings.timeframes;
+    const { success, timeframes } = updateTimeframes(prevTimeframes, updatedItem);
+    if (!success) {
+      alert("Cannot enable more than 6 timeframes.");
+    }
+    updateSettings({ timeframes: timeframes });
     setModalVisible(false);
+    return timeframes;
   };
-
-  useEffect(() => {
-    saveTimeframes(timeframes);
-  }, [timeframes]); // Runs every time `timeframes` changes
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
 
   const handleDelete = (id) => {
-    setTimeframes((prev) => deleteTimeframe(prev, id));
+    updateSettings({ timeframes: deleteTimeframe(settings.timeframes, id) });
   };
 
   const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
-    setTimeframes(value => reorderItems(value, from, to));
+    updateSettings({ timeframes: reorderItems(settings.timeframes, from, to) });
   };
 
   useFocusEffect(
@@ -75,7 +57,7 @@ export default function Tab() {
   );
 
   useLayoutEffect(() => {
-    const enabledTimeframesCount = timeframes.filter(item => item.enabled).length;
+    const enabledTimeframesCount = settings.timeframes.filter(item => item.enabled).length;
     navigation.setOptions({
       headerRight: () => (
         <View style={styles.headerButtonsContainer}>
@@ -88,7 +70,7 @@ export default function Tab() {
         </View>
       ),
     });
-  }, [navigation, timeframes, editMode]);
+  }, [navigation, settings.timeframes, editMode]);
   const renderItem = ({ item }) => (
     <TimetableItem
       item={item}
@@ -108,7 +90,7 @@ export default function Tab() {
       />
       <ReorderableList
         style={styles.list}
-        data={timeframes}
+        data={settings.timeframes}
         onReorder={handleReorder}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}

@@ -3,7 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import styles from "../../styles";
 import colors from "../../colors";
 import * as Haptics from 'expo-haptics';
-import { loadTimeframes, loadSettings } from "../../utils/storage";
 import AR4Sender from "../../utils/AR4Sender";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
@@ -12,29 +11,13 @@ import NfcIcon, { IconState } from "../../components/NfcIcon";
 import NfcHandler from "../../components/NfcHandler";
 import NfcSettingsButton from "../../components/NfcSettingsButton";
 import PageContainer from "../../components/PageContainer";
-
+import { useSettingsContext } from "../../data/SettingsContext";
 
 export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
   const [nfcEnabled, setNfcEnabled] = useState(true);
   const [iconState, setIconState] = React.useState(IconState.Default);
-  const [timeframes, setTimeframes] = useState([]);
-  const [settings, setSettings] = useState({ gpsMode: 0, survey: "", station: 0 });
-
-  useFocusEffect(
-    useCallback(() => {
-      const fetchData = async () => {
-        Promise.all([loadTimeframes(), loadSettings()])
-          .then(([storedTimeframes, storedSettings]) => {
-            setTimeframes(storedTimeframes);
-            setSettings(storedSettings);
-          })
-          .catch(error => console.error("Error loading data:", error));
-      };
-
-      fetchData();
-    }, [])
-  );
+  const { settings } = useSettingsContext();
 
   const handleNfcCheck = (isEnabled: boolean): void => {
     setNfcEnabled(isEnabled);
@@ -48,7 +31,7 @@ export default function Tab() {
   const sendOverNFC = async () => {
     setIconState(IconState.Sending);
 
-    const result = await AR4Sender.send(timeframes, settings);
+    const result = await AR4Sender.send(settings);
 
     if (result.success) {
       showSuccess();
@@ -89,7 +72,7 @@ export default function Tab() {
     <PageContainer style={{ alignItems: "center" }}>
       <NfcHandler onNfcCheck={handleNfcCheck} />
       {iconState !== IconState.Error && (
-        <Text style={styles.statusText}>{timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
+        <Text style={styles.statusText}>{settings.timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
       )}
       <NfcIcon iconState={iconState} />
       {iconState === IconState.Error && (

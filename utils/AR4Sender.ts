@@ -1,12 +1,13 @@
 import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
 import { AR4, LogEntry } from "@onato/doc-nfc-module";
+import { Settings } from "../data/Settings.js";
 
 const start = () => {
 }
 const cancel = () => {
   NfcManager.cancelTechnologyRequest();
 }
-const send = async (timeframes, settings) => {
+const send = async (settings: Settings) => {
   try {
     NfcManager.start();
 
@@ -18,7 +19,7 @@ const send = async (timeframes, settings) => {
       throw new Error("No NFC tag detected");
     }
 
-    const logEntries = timeframes
+    const logEntries = settings.timeframes
       .filter(timeframe => timeframe.enabled)
       .map(timeframe => new LogEntry(timeframe.start_hour, timeframe.start_minute, timeframe.end_hour, timeframe.end_minute, timeframe.protocol));
     const ar4Settings = new AR4(logEntries, settings.station, settings.gpsMode, settings.survey);

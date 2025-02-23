@@ -6,7 +6,11 @@ import styles from '../../styles.js';
 import { StatusBar } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-function LogoTitle({ title }) {
+interface LogoTitleProps {
+  title: string;
+}
+
+function LogoTitle({ title }: LogoTitleProps) {
   return (
     <View style={styles.titleContainer}>
       <Image
