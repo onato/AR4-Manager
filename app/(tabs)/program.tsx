@@ -70,7 +70,6 @@ export default function Tab() {
 
   return (
     <PageContainer style={{ alignItems: "center" }}>
-      <NfcHandler onNfcCheck={handleNfcCheck} />
       {iconState !== IconState.Error && (
         <Text style={styles.statusText}>{settings.timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
       )}
@@ -78,22 +77,23 @@ export default function Tab() {
       {iconState === IconState.Error && (
         <>
           <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
-          {(!nfcEnabled) && (
-            <NfcSettingsButton />
-          )}
         </>
       )}
-      {
-        nfcEnabled && (
-          <View style={localStyles.buttonContainer}>
-            {iconState === IconState.Sending ? (
-              <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelSend} />
-            ) : (
-              <BorderedButton title="CONNECT & UPDATE" onPress={() => send()} />
-            )}
-          </View>
-        )
-      }
+      <View style={localStyles.buttonContainer}>
+        {iconState === IconState.Sending ? (
+          <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelSend} />
+        ) : (
+          <BorderedButton title="CONNECT & UPDATE" onPress={() => send()} />
+        )}
+      </View>
+      <NfcHandler onNfcCheck={handleNfcCheck} />
+      {(!nfcEnabled) && (
+        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+          {/* <Ionicons name="alert-circle" size={64} color="red" /> */}
+          <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
+          <NfcSettingsButton />
+        </View>
+      )}
     </PageContainer >
   );
 }
