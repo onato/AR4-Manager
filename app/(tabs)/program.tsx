@@ -28,7 +28,7 @@ export default function Tab() {
     }
   };
 
-  const sendOverNFC = async () => {
+  const send = async () => {
     setIconState(IconState.Sending);
 
     const result = await AR4Sender.send(settings);
@@ -42,7 +42,7 @@ export default function Tab() {
       setIconState(IconState.Error);
     }
   };
-  const cancelNfcScan = () => {
+  const cancelSend = () => {
     AR4Sender.cancel();
     setIconState(IconState.Default);
   };
@@ -76,21 +76,20 @@ export default function Tab() {
       )}
       <NfcIcon iconState={iconState} />
       {iconState === IconState.Error && (
-        <View>
+        <>
           <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
           {(!nfcEnabled) && (
             <NfcSettingsButton />
           )}
-        </View>
-      )
-      }
+        </>
+      )}
       {
         nfcEnabled && (
           <View style={localStyles.buttonContainer}>
             {iconState === IconState.Sending ? (
-              <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelNfcScan} />
+              <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelSend} />
             ) : (
-              <BorderedButton title="CONNECT & UPDATE" onPress={() => sendOverNFC()} />
+              <BorderedButton title="CONNECT & UPDATE" onPress={() => send()} />
             )}
           </View>
         )
