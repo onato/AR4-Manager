@@ -1,32 +1,22 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import styles from "../../styles";
 import colors from "../../colors";
 import * as Haptics from 'expo-haptics';
 import AR4Sender from "../../utils/AR4Sender";
-import { useState, useCallback } from "react";
-import { useFocusEffect } from '@react-navigation/native';
 import BorderedButton from "../../components/BorderedButton";
 import NfcIcon, { IconState } from "../../components/NfcIcon";
-import NfcHandler from "../../components/NfcHandler";
-import NfcSettingsButton from "../../components/NfcSettingsButton";
+import NfcEnabledChecker from "../../components/NfcEnabledChecker";
 import PageContainer from "../../components/PageContainer";
 import { useSettingsContext } from "../../data/SettingsContext";
 
 export default function Tab() {
   const [nfcResult, setNfcResult] = React.useState('');
-  const [nfcEnabled, setNfcEnabled] = useState(true);
   const [iconState, setIconState] = React.useState(IconState.Default);
   const { settings } = useSettingsContext();
 
-  const handleNfcCheck = (isEnabled: boolean): void => {
-    setNfcEnabled(isEnabled);
-    if (isEnabled) {
-      setIconState(IconState.Default);
-    } else {
-      showError("NFC is not enabled. Please go to Settings > Connections > NFC and enable it.", false);
-    }
-  };
+  const enabledTimeframesCount = settings.timeframes.filter(tf => tf.enabled).length;
+  const isError = iconState === IconState.Error;
+  const isSending = iconState === IconState.Sending;
 
   const send = async () => {
     setIconState(IconState.Sending);
@@ -51,15 +41,21 @@ export default function Tab() {
     setIconState(IconState.Success);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   };
-  const showError = (message: string, useHaptics = true): void => {
+
+  const showError = (message: string): void => {
     setNfcResult(message);
     setIconState(IconState.Error);
-    if (useHaptics) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-    }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
   }
 
   const localStyles = StyleSheet.create({
+    pageContainer: { alignItems: "center" },
+    errorText: { marginBottom: 20 },
+    statusText: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginBottom: 20,
+    },
     buttonContainer: {
       position: "absolute",
       bottom: 30,
@@ -69,31 +65,25 @@ export default function Tab() {
   });
 
   return (
-    <PageContainer style={{ alignItems: "center" }}>
-      {iconState !== IconState.Error && (
-        <Text style={styles.statusText}>{settings.timeframes.filter(tf => tf.enabled).length} enabled recording timeframes</Text>
+    <PageContainer style={localStyles.pageContainer}>
+      {!isError && (
+        <Text style={localStyles.statusText}>
+          {enabledTimeframesCount} enabled recording timeframes
+        </Text>
       )}
       <NfcIcon iconState={iconState} />
-      {iconState === IconState.Error && (
-        <>
-          <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
-        </>
-      )}
+
+      {isError && <Text style={localStyles.errorText}>{nfcResult}</Text>}
+
       <View style={localStyles.buttonContainer}>
-        {iconState === IconState.Sending ? (
-          <BorderedButton title="CANCEL" color={colors.docGrayLight} onPress={cancelSend} />
-        ) : (
-          <BorderedButton title="CONNECT & UPDATE" onPress={() => send()} />
-        )}
+        <BorderedButton
+          title={isSending ? "CANCEL" : "CONNECT & UPDATE"}
+          color={isSending ? colors.docGrayLight : undefined}
+          onPress={isSending ? cancelSend : send}
+        />
       </View>
-      <NfcHandler onNfcCheck={handleNfcCheck} />
-      {(!nfcEnabled) && (
-        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
-          {/* <Ionicons name="alert-circle" size={64} color="red" /> */}
-          <Text style={{ marginBottom: 20 }}>{nfcResult}</Text>
-          <NfcSettingsButton />
-        </View>
-      )}
-    </PageContainer >
+
+      <NfcEnabledChecker />
+    </PageContainer>
   );
 }

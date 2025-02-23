@@ -7,11 +7,6 @@ const styles = StyleSheet.create({
   },
   container: {
   },
-  statusText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
