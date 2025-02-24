@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GpsMode, Station } from "@onato/doc-nfc-module";
 import { defaultTimeframes } from "../utils/TimeframeStore.js";
 
 const TIMEFRAMES_KEY = 'timeframes';

@@ -1,5 +1,5 @@
 {
-  "name": "AR4 Manager",
+  "name": "AR4-Manager",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
-    "@onato/doc-nfc-module": "^1.0.1",
+    "@onato/doc-nfc-module": "^1.1.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-picker/picker": "2.9.0",
     "@react-navigation/bottom-tabs": "^7.2.0",

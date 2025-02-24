@@ -17,9 +17,11 @@ export default function Tab() {
         onValueChange={(itemValue) => updateSettings({ gpsMode: itemValue - 1 })}
         style={styles.picker}
       >
-        {Object.entries(GpsMode).map(([gpsModeName, gpsModeValue]) => (
-          <Picker.Item key={gpsModeValue} label={gpsModeName} value={gpsModeValue + 1} />
-        ))}
+        {Object.entries(GpsMode)
+          .filter(([key, value]) => isNaN(Number(key))) // Keep only string keys
+          .map(([gpsModeName, gpsModeValue]) => (
+            <Picker.Item key={gpsModeValue} label={gpsModeName} value={Number(gpsModeValue) + 1} />
+          ))}
       </Picker>
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
@@ -43,9 +45,12 @@ export default function Tab() {
         onValueChange={(itemValue) => updateSettings({ station: itemValue - 1 })}
         style={styles.picker}
       >
-        {Object.entries(Station).map(([stationName, stationValue]) => (
-          <Picker.Item key={stationValue} label={stationName} value={stationValue + 1} />
-        ))}
+        {Object.entries(Station)
+          .filter(([key, value]) => isNaN(Number(key))) // Keep only string keys
+
+          .map(([stationName, stationValue]) => (
+            <Picker.Item key={stationValue} label={stationName} value={stationValue + 1} />
+          ))}
       </Picker>
     </PageContainer>
   );

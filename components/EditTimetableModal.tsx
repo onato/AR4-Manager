@@ -5,8 +5,8 @@ import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
 import colors from '../colors';
 import { Protocol } from '@onato/doc-nfc-module';
-import BorderedButton from '../components/BorderedButton.tsx';
-import TextButton from '../components/TextButton.tsx';
+import BorderedButton from '../components/BorderedButton';
+import TextButton from '../components/TextButton';
 
 interface EditTimetableModalProps {
   visible: boolean;
