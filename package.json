@@ -1,5 +1,5 @@
 {
-  "name": "AR4Manager",
+  "name": "ar4-manager",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
