@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { SharedValue, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,7 +20,6 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   const [modalVisible, setModalVisible] = useState(false);
   const drag = useReorderableDrag();
 
-  // Grouped shared values
   const positions = {
     switch: useSharedValue(editMode ? 100 : 25),
     delete: useSharedValue(editMode ? 0 : -50),
@@ -28,7 +27,6 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
     text: useSharedValue(editMode ? 0 : -50),
   };
 
-  // Single useEffect for animations
   useEffect(() => {
     const toValue = (value: number) => withTiming(value, { duration: 300 });
 
@@ -38,8 +36,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
     positions.text.value = toValue(editMode ? 0 : -50);
   }, [editMode]);
 
-  // Function to generate animated styles
-  const createAnimatedStyle = (position: Animated.SharedValue<number>) =>
+  const createAnimatedStyle = (position: SharedValue<number>) =>
     useAnimatedStyle(() => ({
       transform: [{ translateX: position.value }],
     }));

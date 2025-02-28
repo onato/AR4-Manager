@@ -1,18 +1,19 @@
-import { View, Text, TouchableOpacity, BackHandler } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import ReorderableList, {
   ReorderableListReorderEvent,
   reorderItems,
 } from 'react-native-reorderable-list';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "../../components/EditTimetableModal";
-import { useState, useCallback, useEffect, useLayoutEffect } from "react";
+import { useState, useCallback, useLayoutEffect } from "react";
 import { updateTimeframes, deleteTimeframe } from "../../utils/TimeframeUpdater";
-import { defaultTimeframes, defaultNewItem } from "../../utils/TimeframeStore";
+import { defaultNewItem } from "../../utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
 import styles from "../../styles";
 import { useSettingsContext } from "@/data/SettingsContext";
+import Timeframe from "@/data/Timeframe";
 
 export default function Tab() {
   const navigation = useNavigation();
@@ -27,7 +28,7 @@ export default function Tab() {
     setModalVisible(true);
   };
 
-  const handleSave = (updatedItem) => {
+  const handleSave = (updatedItem: Timeframe) => {
     const prevTimeframes = settings.timeframes;
     const { success, timeframes } = updateTimeframes(prevTimeframes, updatedItem);
     if (!success) {
@@ -42,7 +43,7 @@ export default function Tab() {
     setEditMode(!editMode);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     updateSettings({ timeframes: deleteTimeframe(settings.timeframes, id) });
   };
 
@@ -71,10 +72,9 @@ export default function Tab() {
       ),
     });
   }, [navigation, settings.timeframes, editMode]);
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: Timeframe }) => (
     <TimetableItem
       item={item}
-      onPress={() => editMode && handleDelete(item.id)}
       editMode={editMode}
       onSave={handleSave}
       onDelete={handleDelete}

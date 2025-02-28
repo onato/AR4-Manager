@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Settings } from './Settings';
-import Timesframe from './Timeframe';
+import Timeframe from './Timeframe';
 import { loadTimeframes, saveTimeframes } from "../utils/storage";
 import { loadSettings, saveSettings } from "../utils/storage";
 
 // Default timeframes
-const defaultTimeframes: Timesframe[] = [
+const defaultTimeframes: Timeframe[] = [
   { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
   { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: true },
   { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },

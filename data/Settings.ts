@@ -1,7 +1,7 @@
-import Timesframe from "./Timeframe";
+import Timeframe from "./Timeframe";
 
 export interface Settings {
-  timeframes: Timesframe[];
+  timeframes: Timeframe[];
   gpsMode: number;
   survey: string;
   station: number;

@@ -1,4 +1,4 @@
-export default interface Timesframe {
+export default interface Timeframe {
   id: string;
   protocol: string,
   start_hour: number;
