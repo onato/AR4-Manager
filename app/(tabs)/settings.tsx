@@ -22,7 +22,6 @@ export default function Tab() {
             label: GpsMode[value],
             value: value + 1,
           }))}
-        style={styles.picker}
       />
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
@@ -50,7 +49,6 @@ export default function Tab() {
             label: Station[value],
             value: value + 1,
           }))}
-        style={styles.picker}
       />
     </PageContainer>
   );

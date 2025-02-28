@@ -42,7 +42,6 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
                 label: protocolValue,
                 value: protocolValue,
               }))}
-              style={styles.picker}
             />
             <TimePicker
               label="Start"
