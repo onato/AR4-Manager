@@ -7,22 +7,6 @@ const styles = StyleSheet.create({
   },
   container: {
   },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    backgroundColor: colors.androidNavWhite,
-    position: 'absolute',
-    bottom: 0,
-    paddingTop: 15,
-    paddingBottom: 15,
-  },
-  button: {
-    flex: 1,
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginHorizontal: 10,
-  },
   buttonText: {
     color: colors.white,
     fontSize: 16,
@@ -37,11 +21,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginVertical: 10,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
   },
   picker: {
     width: "100%",

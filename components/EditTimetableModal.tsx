@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import DOCPicker from '../components/DOCPicker';
 import styles from '../styles';
 import colors from '../colors';
 import { Protocol } from '@onato/doc-nfc-module';
 import { Timeframe } from '../models/Timeframe';
+import DOCLable from '../components/DOCLable';
 import TimePicker from '../components/TimePicker';
 import TextButton from '../components/TextButton';
 import LogoTitle from '../components/LogoTitle';
@@ -33,16 +34,16 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
         <View style={localStyles.modalContainer}>
           <LogoTitle title="Edit Timetable Item" style={localStyles.modalTitleContainer} />
           <View style={localStyles.form}>
-            <Text style={styles.label}>Protocol</Text>
-            <Picker
+            <DOCLable>Protocol</DOCLable>
+            <DOCPicker
               selectedValue={protocol}
-              onValueChange={(itemValue) => setProtocol(itemValue)}
+              onValueChange={(itemValue) => setProtocol(String(itemValue))}
+              items={Object.values(Protocol).map((protocolValue) => ({
+                label: protocolValue,
+                value: protocolValue,
+              }))}
               style={styles.picker}
-            >
-              {Object.values(Protocol).map((protocolValue) => (
-                <Picker.Item key={protocolValue} label={protocolValue} value={protocolValue} />
-              ))}
-            </Picker>
+            />
             <TimePicker
               label="Start"
               time={start}

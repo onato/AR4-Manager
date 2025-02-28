@@ -1,6 +1,7 @@
 import { Text, TextInput } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import DOCPicker from "@/components/DOCPicker";
 import styles from "../../styles";
+import DOCLable from "@/components/DOCLable";
 import { Station, GpsMode } from "@onato/doc-nfc-module";
 import { useSettingsContext } from "@/data/SettingsContext";
 import PageContainer from "@/components/PageContainer";
@@ -11,21 +12,21 @@ export default function Tab() {
   return (
     <PageContainer style={{ alignItems: "center" }}>
       <Text style={styles.sectionTitle}>GPS Settings</Text>
-      <Text style={styles.label}>GPS mode</Text>
-      <Picker
+      <DOCLable>GPS mode</DOCLable>
+      <DOCPicker
         selectedValue={settings.gpsMode + 1}
         onValueChange={(itemValue) => updateSettings({ gpsMode: itemValue - 1 })}
+        items={Object.values(GpsMode)
+          .filter((value) => typeof value === "number")
+          .map((value) => ({
+            label: GpsMode[value],
+            value: value + 1,
+          }))}
         style={styles.picker}
-      >
-        {Object.values(GpsMode)
-          .filter((value) => typeof value === "number") // Keep only numeric values
-          .map((value) => (
-            <Picker.Item key={value} label={GpsMode[value]} value={value + 1} />
-          ))}
-      </Picker>
+      />
 
       <Text style={styles.sectionTitle}>TIER1 Settings</Text>
-      <Text style={styles.label}>Survey</Text>
+      <DOCLable>Survey</DOCLable>
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -39,18 +40,18 @@ export default function Tab() {
           updateSettings({ survey: filteredText });
         }}
       />
-      <Text style={styles.label}>Station</Text>
-      <Picker
+      <DOCLable>Station</DOCLable>
+      <DOCPicker
         selectedValue={settings.station + 1}
         onValueChange={(itemValue) => updateSettings({ station: itemValue - 1 })}
+        items={Object.values(Station)
+          .filter((value) => typeof value === "number")
+          .map((value) => ({
+            label: Station[value],
+            value: value + 1,
+          }))}
         style={styles.picker}
-      >
-        {Object.values(Station)
-          .filter((value) => typeof value === "number") // Keep only numeric values
-          .map((value) => (
-            <Picker.Item key={value} label={Station[value]} value={value + 1} />
-          ))}
-      </Picker>
+      />
     </PageContainer>
   );
 }
