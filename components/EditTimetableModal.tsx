@@ -6,16 +6,13 @@ import styles from '../styles';
 import colors from '../colors';
 import { Protocol } from '@onato/doc-nfc-module';
 import BorderedButton from '../components/BorderedButton';
+import { Timeframe } from '../models/Timeframe';
 import TextButton from '../components/TextButton';
 
 interface EditTimetableModalProps {
   visible: boolean;
-  item: {
-    protocol: string;
-    start: string;
-    end: string;
-  };
-  onSave: (updatedItem: any) => void;
+  item: Timeframe;
+  onSave: (updatedItem: Timeframe) => void;
   onCancel: () => void;
 }
 

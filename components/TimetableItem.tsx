@@ -5,21 +5,14 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./EditTimetableModal";
 import * as Haptics from 'expo-haptics';
+import { Timeframe } from '../models/Timeframe';
 import colors from "../colors";
 import { useReorderableDrag } from 'react-native-reorderable-list';
 
 interface TimetableItemProps {
-  item: {
-    id: string;
-    protocol: string;
-    start_hour: number;
-    start_minute: number;
-    end_hour: number;
-    end_minute: number;
-    enabled: boolean;
-  };
+  item: Timeframe;
   editMode: boolean;
-  onSave: (updatedItem: any) => void;
+  onSave: (updatedItem: Timeframe) => void;
   onDelete: (id: string) => void;
 }
 
