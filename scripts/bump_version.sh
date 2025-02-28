@@ -4,7 +4,7 @@ set -e # Exit on error
 . ./scripts/semantic_version.sh
 
 # Get the latest release tag from GitHub
-current_release="1.25.0" #$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
+current_release=$(gh release list --limit 1 --json tagName --jq '.[0].tagName')
 
 # Check if a new release is needed
 needs_release() {
