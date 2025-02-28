@@ -55,33 +55,6 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.docGray,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-  },
-  modalTitle: {
-    fontSize: 18,
-    color: colors.white,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.docGreen,
-  },
-  modalTitleContainer: {
-    padding: 18,
-    paddingLeft: 16,
-    marginBottom: 20,
-  },
-  form: {
-    padding: 20,
-  },
-  icon: {
-    width: 22,
-    height: 27,
-    marginRight: 8,
-  },
   headerButtonsContainer: {
     flexDirection: "row",
     paddingRight: 10,

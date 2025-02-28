@@ -1,26 +1,9 @@
 import { Tabs } from 'expo-router';
-import { Image, View, Text } from 'react-native';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from '../../colors.js';
-import styles from '../../styles.js';
 import { StatusBar } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
-interface LogoTitleProps {
-  title: string;
-}
-
-function LogoTitle({ title }: LogoTitleProps) {
-  return (
-    <View style={styles.titleContainer}>
-      <Image
-        style={styles.icon}
-        source={require('../../assets/images/doc-logo.png')}
-      />
-      <Text style={styles.modalTitle}>{title}</Text>
-    </View>
-  );
-}
+import LogoTitle from '../../components/LogoTitle';
 
 export default function TabLayout() {
   return (

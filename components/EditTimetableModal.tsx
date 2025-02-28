@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, Image, Platform } from 'react-native';
+import { Modal, View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker'
 import styles from '../styles';
@@ -8,6 +8,7 @@ import { Protocol } from '@onato/doc-nfc-module';
 import BorderedButton from '../components/BorderedButton';
 import { Timeframe } from '../models/Timeframe';
 import TextButton from '../components/TextButton';
+import LogoTitle from '../components/LogoTitle';
 
 interface EditTimetableModalProps {
   visible: boolean;
@@ -25,7 +26,6 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   const [showEndPicker, setShowEndPicker] = useState(false);
 
   const handleStartChange = (selectedDate: Date | undefined) => {
-    setShowStartPicker(Platform.OS === 'ios');
     if (selectedDate) {
       setStart(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
@@ -33,7 +33,6 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   };
 
   const handleEndChange = (selectedDate: Date | undefined) => {
-    setShowEndPicker(Platform.OS === 'ios');
     if (selectedDate) {
       setEnd(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     }
@@ -46,7 +45,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
     onSave({ ...item, protocol, start_hour: startHour, start_minute: startMinute, end_hour: endHour, end_minute: endMinute });
   };
 
-  function time(hour, minute) {
+  function time(hour: number, minute: number) {
     const date = new Date();
     date.setHours(hour, minute, 0, 0);
     return date;
@@ -55,15 +54,9 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
   return (
     <View>
       <Modal visible={visible} animationType="slide" transparent={true}>
-        <View style={[styles.modalContainer, { justifyContent: 'flex-start' }]}>
-          <View style={[styles.modalTitleContainer, styles.titleContainer]}>
-            <Image
-              style={styles.icon}
-              source={require('../assets/images/doc-logo.png')}
-            />
-            <Text style={styles.modalTitle}>Edit Timetable Item</Text>
-          </View>
-          <View style={styles.form}>
+        <View style={localStyles.modalContainer}>
+          <LogoTitle title="Edit Timetable Item" style={localStyles.modalTitleContainer} />
+          <View style={localStyles.form}>
             <Text style={styles.label}>Protocol</Text>
             <Picker
               selectedValue={protocol}
@@ -123,11 +116,11 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
               </Text>
             )}
           </View>
-          <View style={styles.buttonRow}>
-            <View style={styles.button}>
+          <View style={localStyles.buttonRow}>
+            <View style={localStyles.button}>
               <TextButton title="Cancel" onPress={onCancel} />
             </View>
-            <View style={styles.button}>
+            <View style={localStyles.button}>
               <TextButton title="Save" onPress={handleSave} />
             </View>
           </View>
@@ -136,5 +129,37 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
     </View>
   );
 };
+
+const localStyles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    backgroundColor: colors.white,
+  },
+  modalTitleContainer: {
+    padding: 18,
+    paddingLeft: 16,
+    marginBottom: 20,
+  },
+  form: {
+    padding: 20,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    backgroundColor: colors.androidNavWhite,
+    position: 'absolute',
+    bottom: 0,
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  button: {
+    flex: 1,
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+  },
+});
 
 export default EditTimetableModal;
