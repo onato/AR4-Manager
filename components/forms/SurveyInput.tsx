@@ -18,7 +18,7 @@ const SurveyInput: React.FC<SurveyInputProps> = ({ value, onChangeText }) => {
       value={value}
       maxLength={7}
       onChangeText={(text) => {
-        const filteredText = text.replace(/[^A-Z0-9_]/g, '_');
+        const filteredText = text.replace(/[^A-Z0-9_]/g, '_').slice(0, 7);
         onChangeText(filteredText);
       }}
     />
