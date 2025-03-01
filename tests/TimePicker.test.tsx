@@ -30,7 +30,30 @@ describe('TimePicker', () => {
     expect(mockOnTimeChange).toHaveBeenCalledWith('13:00');
   });
 
-  it('calls onCancel when the date picker is cancelled', () => {
+  it('calls onTimeChange with the correct time when a time is selected', () => {
+    const mockOnTimeChange = jest.fn();
+    const { getByTestId } = render(
+      <TimePicker
+        label="Start"
+        time="12:00"
+        onTimeChange={mockOnTimeChange}
+        disabled={false}
+      />
+    );
+
+    // Simulate opening the date picker
+    fireEvent.press(getByTestId('button'));
+
+    // Simulate confirming a time selection
+    const selectedDate = new Date();
+    selectedDate.setHours(14, 30);
+    fireEvent(getByTestId('date-picker'), 'onConfirm', selectedDate);
+
+    // Ensure onTimeChange is called with the correct time
+    expect(mockOnTimeChange).toHaveBeenCalledWith('14:30');
+  });
+
+  it('does not call onTimeChange when the date picker is cancelled', () => {
     const mockOnTimeChange = jest.fn();
     const { getByTestId } = render(
       <TimePicker
