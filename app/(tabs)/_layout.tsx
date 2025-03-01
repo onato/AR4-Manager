@@ -3,7 +3,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from '../../colors.js';
 import { StatusBar } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import LogoTitle from '../../components/LogoTitle';
+import LogoTitle from '../../components/icons/LogoTitle';
 
 export default function TabLayout() {
   return (

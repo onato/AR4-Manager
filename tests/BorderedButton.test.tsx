@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import BorderedButton from '../components/BorderedButton';
+import BorderedButton from '../components/buttons/BorderedButton';
 
 describe('BorderedButton Component', () => {
   it('renders correctly with given title', () => {

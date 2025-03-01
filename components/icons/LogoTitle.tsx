@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import colors from '../colors.js';
+import colors from '../../colors.js';
 
 interface LogoTitleProps {
   title: string;
@@ -12,7 +12,7 @@ const LogoTitle: React.FC<LogoTitleProps> = ({ title, style }) => {
     <View style={[localStyles.titleContainer, style]}>
       <Image
         style={localStyles.icon}
-        source={require('../assets/images/doc-logo.png')}
+        source={require('../../assets/images/doc-logo.png')}
       />
       <Text style={localStyles.modalTitle}>{title}</Text>
     </View>

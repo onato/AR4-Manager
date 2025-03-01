@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
-import { StyleProp, ViewStyle } from "react-native";
-import { StyleSheet } from "react-native";
+import { StyleProp, ViewStyle, StyleSheet } from "react-native";
 
 type TextButtonProps = {
   title: string;

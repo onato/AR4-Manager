@@ -4,7 +4,7 @@ import ReorderableList, {
   reorderItems,
 } from 'react-native-reorderable-list';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import EditTimetableModal from "../../components/EditTimetableModal";
+import EditTimetableModal from "../../components/modals/EditTimetableModal";
 import { useState, useCallback, useLayoutEffect } from "react";
 import { updateTimeframes, deleteTimeframe } from "../../utils/TimeframeUpdater";
 import { defaultNewItem } from "../../utils/TimeframeStore";

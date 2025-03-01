@@ -3,9 +3,9 @@ import Animated, { SharedValue, useSharedValue, useAnimatedStyle, withTiming } f
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import EditTimetableModal from "./EditTimetableModal";
+import EditTimetableModal from "./modals/EditTimetableModal";
 import * as Haptics from 'expo-haptics';
-import { Timeframe } from '../models/Timeframe';
+import Timeframe from '../data/Timeframe';
 import colors from "../colors";
 import { useReorderableDrag } from 'react-native-reorderable-list';
 

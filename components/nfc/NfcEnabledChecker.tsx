@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import NfcSettingsButton from './NfcSettingsButton';
-import NfcHandler from './NfcHandler';
+import NfcSettingsButton from '../nfc/NfcSettingsButton';
+import NfcHandler from '../nfc/NfcHandler';
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface NfcCheckerProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import TextButton from '../components/TextButton';
+import TextButton from '../components/buttons/TextButton';
 
 describe('TextButton Component', () => {
   it('renders correctly with given title', () => {

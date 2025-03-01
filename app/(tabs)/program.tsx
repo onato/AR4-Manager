@@ -3,10 +3,10 @@ import { View, StyleSheet, Text } from "react-native";
 import colors from "../../colors";
 import * as Haptics from 'expo-haptics';
 import AR4Sender from "../../utils/AR4Sender";
-import BorderedButton from "../../components/BorderedButton";
-import NfcIcon, { IconState } from "../../components/NfcIcon";
-import NfcEnabledChecker from "../../components/NfcEnabledChecker";
-import PageContainer from "../../components/PageContainer";
+import BorderedButton from "../../components/buttons/BorderedButton";
+import NfcIcon, { IconState } from "../../components/icons/NfcIcon";
+import NfcEnabledChecker from "../../components/nfc/NfcEnabledChecker";
+import PageContainer from "../../components/layout/PageContainer";
 import { useSettingsContext } from "../../data/SettingsContext";
 
 export default function Tab() {

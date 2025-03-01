@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet } from 'react-native';
-import DOCPicker from '../components/DOCPicker';
-import colors from '../colors';
+import DOCPicker from '../forms/DOCPicker';
+import colors from '../../colors';
 import { Protocol } from '@onato/doc-nfc-module';
-import { Timeframe } from '../models/Timeframe';
-import DOCLable from '../components/DOCLable';
-import TimePicker from '../components/TimePicker';
-import TextButton from '../components/TextButton';
-import LogoTitle from '../components/LogoTitle';
+import Timeframe from '../../data/Timeframe';
+import DOCLable from '../forms/DOCLable';
+import TimePicker from '../forms/TimePicker';
+import TextButton from '../buttons/TextButton';
+import LogoTitle from '../icons/LogoTitle';
 
 interface EditTimetableModalProps {
   visible: boolean;

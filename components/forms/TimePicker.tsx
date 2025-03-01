@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import DatePicker from 'react-native-date-picker';
-import BorderedButton from './BorderedButton';
-import colors from '../colors';
+import BorderedButton from '../buttons/BorderedButton';
+import colors from '../../colors';
 
 interface TimePickerProps {
   label: string;

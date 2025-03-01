@@ -1,10 +1,10 @@
 import { Text, TextInput, StyleSheet } from "react-native";
-import DOCPicker from "@/components/DOCPicker";
 import colors from "../../colors";
-import DOCLable from "@/components/DOCLable";
+import DOCPicker from "@/components/forms/DOCPicker";
+import DOCLable from "@/components/forms/DOCLable";
 import { Station, GpsMode } from "@onato/doc-nfc-module";
 import { useSettingsContext } from "@/data/SettingsContext";
-import PageContainer from "@/components/PageContainer";
+import PageContainer from "@/components/layout/PageContainer";
 
 export default function Tab() {
   const { settings, updateSettings } = useSettingsContext();

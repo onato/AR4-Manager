@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ViewStyle, StyleSheet } from "react-native";
-import colors from "../colors";
+import colors from "../../colors";
 
 interface PageContainerProps {
   children: React.ReactNode;
