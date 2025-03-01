@@ -93,6 +93,7 @@ export default function Tab() {
         onReorder={handleReorder}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        testID="reorderable-list"
       />
     </View>
   );
