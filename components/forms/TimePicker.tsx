@@ -36,12 +36,13 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, time, onTimeChange, disa
         disabled={disabled}
       />
       <DatePicker
+        testID="date-picker"
         title={label}
         locale="de_DE"
         is24hourSource="locale"
         modal
         open={showPicker}
-        date={time ? timeToDate(...time.split(':').map(Number).slice(0, 2) as [number, number]) : new Date()}
+        date={timeToDate(...time.split(':').map(Number).slice(0, 2) as [number, number])}
         mode="time"
         buttonColor={colors.docBlue}
         dividerColor={colors.docYellow}
