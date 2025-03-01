@@ -11,7 +11,12 @@ interface DOCPickerProps<T> {
 
 const DOCPicker = <T,>({ selectedValue, onValueChange, items }: DOCPickerProps<T>) => {
   return (
-    <Picker selectedValue={selectedValue} onValueChange={onValueChange} style={localStyles.picker}>
+    <Picker
+      testID="doc-picker"
+      selectedValue={selectedValue}
+      onValueChange={onValueChange}
+      style={localStyles.picker}
+    >
       {items.map((item) => (
         <Picker.Item key={String(item.value)} label={item.label} value={item.value} />
       ))}
