@@ -14,10 +14,8 @@ interface TimePickerProps {
 const TimePicker: React.FC<TimePickerProps> = ({ label, time, onTimeChange, disabled }) => {
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleTimeChange = (selectedDate: Date | undefined) => {
-    if (selectedDate) {
-      onTimeChange(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
-    }
+  const handleTimeChange = (selectedDate: Date) => {
+    onTimeChange(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     setShowPicker(false);
   };
 
