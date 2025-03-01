@@ -18,7 +18,8 @@
     "collectCoverageFrom": [
       "**/*.{js,jsx,ts,tsx}",
       "!**/index.{js,ts}",
-      "!**/*.d.ts"
+      "!**/*.d.ts",
+      "!coverage/**/*"
     ]
   },
   "dependencies": {

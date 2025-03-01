@@ -19,15 +19,16 @@ const NfcIcon: React.FC<NfcIconProps> = ({ iconState }) => {
   return (
     <View style={styles.nfcIcon}>
       {iconState === IconState.Success ? (
-        <Ionicons name="checkmark-circle" size={64} color="green" />
+        <Ionicons name="checkmark-circle" size={64} color="green" testID="success-icon" />
       ) : iconState === IconState.Error ? (
-        <Ionicons name="alert-circle" size={64} color="red" />
+        <Ionicons name="alert-circle" size={64} color="red" testID="error-icon" />
       ) : iconState === IconState.Sending ? (
-        <ActivityIndicator size="large" color={colors.docYellow} />
+        <ActivityIndicator size="large" color={colors.docYellow} testID="activity-indicator" />
       ) : (
         <Image
           source={require("../../assets/images/nfc_logo.png")}
           style={styles.nfcImage}
+          testID="nfc-image"
         />
       )}
     </View>
