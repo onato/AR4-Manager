@@ -10,7 +10,7 @@ describe('TextButton Component', () => {
 
   it('calls onPress when pressed', () => {
     const onPressMock = jest.fn();
-    const { getByText } = render(<TextButton title="Press Me" onPress={onPressMock} disabled={false} />);
+    const { getByText } = render(<TextButton title="Press Me" onPress={onPressMock} />);
     fireEvent.press(getByText('Press Me'));
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });

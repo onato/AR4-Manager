@@ -10,7 +10,7 @@ describe('BorderedButton Component', () => {
 
   it('calls onPress when pressed', () => {
     const onPressMock = jest.fn();
-    const { getByText } = render(<BorderedButton title="Press Me" onPress={onPressMock} color="blue" disabled={false} />);
+    const { getByText } = render(<BorderedButton title="Press Me" onPress={onPressMock} color="blue" />);
     fireEvent.press(getByText('Press Me'));
     expect(onPressMock).toHaveBeenCalledTimes(1);
   });
