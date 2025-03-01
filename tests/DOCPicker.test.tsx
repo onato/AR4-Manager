@@ -9,10 +9,12 @@ describe('DOCPicker', () => {
       <DOCPicker
         selectedValue="option1"
         onValueChange={mockOnValueChange}
-        items={[
-          { label: 'Option 1', value: 'option1' },
-          { label: 'Option 2', value: 'option2' },
-        ]}
+        items={
+          [
+            { label: 'Option 1', value: 'option1' },
+            { label: 'Option 2', value: 'option2' },
+          ]}
+        testID="doc-picker"
       />
     );
 

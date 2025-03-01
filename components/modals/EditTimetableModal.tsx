@@ -35,6 +35,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           <View style={localStyles.form}>
             <DOCLable>Protocol</DOCLable>
             <DOCPicker
+              testID="doc-picker"
               selectedValue={protocol}
               onValueChange={(itemValue) => setProtocol(String(itemValue))}
               items={Object.values(Protocol).map((protocolValue) => ({

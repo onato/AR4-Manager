@@ -15,6 +15,7 @@ export default function Tab() {
       <Text style={localStyles.sectionTitle}>GPS Settings</Text>
       <DOCLable>GPS mode</DOCLable>
       <DOCPicker
+        testID="doc-picker-gps-mode"
         selectedValue={settings.gpsMode + 1}
         onValueChange={(itemValue) => updateSettings({ gpsMode: itemValue - 1 })}
         items={Object.values(GpsMode)
@@ -33,6 +34,7 @@ export default function Tab() {
       />
       <DOCLable>Station</DOCLable>
       <DOCPicker
+        testID="doc-picker-station"
         selectedValue={settings.station + 1}
         onValueChange={(itemValue) => updateSettings({ station: itemValue - 1 })}
         items={Object.values(Station)

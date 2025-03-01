@@ -4,15 +4,16 @@ import { StyleSheet } from 'react-native';
 import colors from '../../colors';
 
 interface DOCPickerProps<T> {
+  testID?: string;
   selectedValue: T;
   onValueChange: (itemValue: T) => void;
   items: { label: string; value: T }[];
 }
 
-const DOCPicker = <T,>({ selectedValue, onValueChange, items }: DOCPickerProps<T>) => {
+const DOCPicker = <T,>({ selectedValue, onValueChange, items, testID }: DOCPickerProps<T>) => {
   return (
     <Picker
-      testID="doc-picker"
+      testID={testID}
       selectedValue={selectedValue}
       onValueChange={onValueChange}
       style={localStyles.picker}
