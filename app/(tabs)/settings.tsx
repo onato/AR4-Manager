@@ -1,4 +1,5 @@
-import { Text, TextInput, StyleSheet } from "react-native";
+import { Text, StyleSheet } from "react-native";
+import SurveyInput from "@/components/forms/SurveyInput";
 import colors from "../../colors";
 import DOCPicker from "@/components/forms/DOCPicker";
 import DOCLable from "@/components/forms/DOCLable";
@@ -26,18 +27,9 @@ export default function Tab() {
 
       <Text style={localStyles.sectionTitle}>TIER1 Settings</Text>
       <DOCLable>Survey</DOCLable>
-      <TextInput
-        style={localStyles.input}
-        placeholder="Name"
-        autoCorrect={false}
-        keyboardType="default"
-        autoCapitalize="characters"
+      <SurveyInput
         value={settings.survey}
-        maxLength={7}
-        onChangeText={(text) => {
-          const filteredText = text.replace(/[^A-Z0-9_]/g, '_');
-          updateSettings({ survey: filteredText });
-        }}
+        onChangeText={(filteredText) => updateSettings({ survey: filteredText })}
       />
       <DOCLable>Station</DOCLable>
       <DOCPicker
