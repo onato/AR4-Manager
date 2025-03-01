@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import ReorderableList, {
   ReorderableListReorderEvent,
   reorderItems,
@@ -11,7 +11,7 @@ import { defaultNewItem } from "../../utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
-import styles from "../../styles";
+import colors from "../../colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 import Timeframe from "@/data/Timeframe";
 
@@ -61,12 +61,12 @@ export default function Tab() {
     const enabledTimeframesCount = settings.timeframes.filter(item => item.enabled).length;
     navigation.setOptions({
       headerRight: () => (
-        <View style={styles.headerButtonsContainer}>
-          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[styles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]}>
-            <Ionicons name="add" size={24} style={styles.headerButtonText} />
+        <View style={localStyles.headerButtonsContainer}>
+          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[localStyles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]}>
+            <Ionicons name="add" size={24} style={localStyles.headerButtonText} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleEditMode} style={styles.headerButton}>
-            <Text style={[styles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
+          <TouchableOpacity onPress={toggleEditMode} style={localStyles.headerButton}>
+            <Text style={[localStyles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>
       ),
@@ -81,7 +81,7 @@ export default function Tab() {
     />
   );
   return (
-    <View style={styles.listContainer}>
+    <View style={localStyles.listContainer}>
       <EditTimetableModal
         visible={modalVisible}
         item={newItem}
@@ -89,7 +89,6 @@ export default function Tab() {
         onCancel={() => setModalVisible(false)}
       />
       <ReorderableList
-        style={styles.list}
         data={settings.timeframes}
         onReorder={handleReorder}
         keyExtractor={(item) => item.id}
@@ -98,3 +97,24 @@ export default function Tab() {
     </View>
   );
 }
+const localStyles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+  },
+  headerButtonsContainer: {
+    flexDirection: "row",
+    paddingRight: 10,
+  },
+  headerButton: {
+    minHeight: 44,
+    minWidth: 44,
+    justifyContent: "center",
+  },
+  headerButtonText: {
+    marginHorizontal: 5,
+    fontSize: 18,
+    textAlign: "center",
+    color: colors.white,
+    width: 50,
+  },
+});

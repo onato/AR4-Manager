@@ -1,6 +1,6 @@
-import { Text, TextInput } from "react-native";
+import { Text, TextInput, StyleSheet } from "react-native";
 import DOCPicker from "@/components/DOCPicker";
-import styles from "../../styles";
+import colors from "../../colors";
 import DOCLable from "@/components/DOCLable";
 import { Station, GpsMode } from "@onato/doc-nfc-module";
 import { useSettingsContext } from "@/data/SettingsContext";
@@ -11,7 +11,7 @@ export default function Tab() {
 
   return (
     <PageContainer style={{ alignItems: "center" }}>
-      <Text style={styles.sectionTitle}>GPS Settings</Text>
+      <Text style={localStyles.sectionTitle}>GPS Settings</Text>
       <DOCLable>GPS mode</DOCLable>
       <DOCPicker
         selectedValue={settings.gpsMode + 1}
@@ -24,10 +24,10 @@ export default function Tab() {
           }))}
       />
 
-      <Text style={styles.sectionTitle}>TIER1 Settings</Text>
+      <Text style={localStyles.sectionTitle}>TIER1 Settings</Text>
       <DOCLable>Survey</DOCLable>
       <TextInput
-        style={styles.input}
+        style={localStyles.input}
         placeholder="Name"
         autoCorrect={false}
         keyboardType="default"
@@ -53,3 +53,17 @@ export default function Tab() {
     </PageContainer>
   );
 }
+const localStyles = StyleSheet.create({
+  input: {
+    marginBottom: 10,
+    padding: 15,
+    paddingLeft: 10,
+    width: "100%",
+    backgroundColor: colors.docGray,
+  },
+  sectionTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginVertical: 10,
+  },
+});

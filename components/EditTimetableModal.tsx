@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, StyleSheet } from 'react-native';
 import DOCPicker from '../components/DOCPicker';
-import styles from '../styles';
 import colors from '../colors';
 import { Protocol } from '@onato/doc-nfc-module';
 import { Timeframe } from '../models/Timeframe';
