@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AppState } from "react-native";
+import { AppState, View } from "react-native";
 import NfcManager from "react-native-nfc-manager";
 
 interface NfcHandlerProps {
@@ -31,7 +31,7 @@ const NfcHandler: React.FC<NfcHandlerProps> = ({ onNfcCheck }) => {
     checkNfcEnabled();
   }, []);
 
-  return null;
+  return <View testID="nfc-handler" />;
 };
 
 export default NfcHandler;
