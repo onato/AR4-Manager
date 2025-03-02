@@ -8,6 +8,12 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "build"
+  cancel-in-progress: false
 
 env:
   GH_USERNAME: ${{ github.actor }}
@@ -34,7 +40,9 @@ jobs:
           npm ci
 
       - name: Run tests
-        run: npx jest
+        run: |
+          TEST_COVERAGE=$(npx jest --coverage --coverageReporters="text" --coverageReporters="text-summary" | tee /dev/tty | grep "Lines" | awk '{print $3}' | tr -d '%' | xargs)
+          node node_modules/badge-maker/lib/badge-cli.js coverage "$TEST_COVERAGE%" :orange > coverage/badge.svg
 
       - name: Configure git
         run: |
@@ -45,6 +53,17 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           scripts/bump_version.sh
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: "coverage"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Set up JDK 17 (Required for latest Gradle)
         uses: actions/setup-java@v3
