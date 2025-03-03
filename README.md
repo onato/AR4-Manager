@@ -1,3 +1,5 @@
+![Coverage](https://www.onato.com/AR4-Manager/badge.svg)
+
 # AR4 NFC Instructions V1.0
 
 **Version: 1.50**  
@@ -20,11 +22,13 @@ The AR4 acoustic recorder, developed by the Department of Conservation's electro
 ## Installing AR4 Manager (Android Only)
 
 ### 1. Download and Install
+
 - Open the **Google Play Store** on your Android device.
 - Search for **"AR4 Manager"**.
 - Select and install the application.
 
 ### 2. Launch the App
+
 - Open the app upon installation completion.
 - If NFC is disabled, a prompt will appear. Enable NFC in your phone's **quick settings**.
 
@@ -48,6 +52,7 @@ The AR4 acoustic recorder, developed by the Department of Conservation's electro
 ## Using the AR4 Manager App
 
 ### **Timetable Tab**
+
 Configure up to **six recording start times**. Each entry includes:
 
 - **Protocol**: Options include High, Low, Bat, Tier1, etc.
@@ -56,23 +61,29 @@ Configure up to **six recording start times**. Each entry includes:
 - **Enable/Disable Toggle**: Activate or deactivate specific recording periods.
 
 #### **Instructions**
+
 **1. Add a Start Time**
+
 - Tap **"ADD"** in the top-right corner to create a new entry.
 
 **2. Remove a Start Time**
+
 - Highlight the desired entry by tapping on it.
 - Tap **"REMOVE"** to delete it.
 
 **3. Edit a Start Time**
+
 - Double-tap the entry to modify settings.
 - Adjust the protocol, start time, and span time as needed.
 - Tap the **back arrow** in the top-left to save changes.
 
 > **Note**: If more than two start times are programmed, these additional slots will be editable in the AR4 menu. To revert to the default two start times:
+>
 > - Reprogram via the app with **0-2 start times** enabled.
 > - Set the protocols for each start time to **"OFF"** in the AR4 menu, then cycle through the full menu once.
 
 ### **Options Tab**
+
 Additional configurable settings:
 
 - **GPS Settings**:
@@ -84,13 +95,16 @@ Additional configurable settings:
   - Applicable for **DOC internal Tier1 surveys**. These settings are relevant only if **"Tier1"** is selected as the recording protocol in the Timetable tab.
 
 ### **Program Tab**
+
 To program the settings into the AR4:
 
 #### **1. Preparation**
+
 - Ensure all settings are correct.
 - Verify that the desired recording periods are enabled in the **Timetable** tab.
 
 #### **2. Programming**
+
 - **Power on** the AR4 and navigate to its menu (**display should be active**).
 - **Note**: The menu will timeout; press the **page button periodically** to keep it active.
 - Tap the **"Connect and Update"** button in the app.
@@ -98,18 +112,22 @@ To program the settings into the AR4:
 - A **green checkmark** will confirm successful programming, and a message will appear on the AR4 display.
 
 #### **3. Verification**
+
 - Cycle through the timetable on the AR4 to ensure settings are correctly applied.
 
 ## **Deployment**
+
 After programming:
 
 - **Power off the AR4**.
 - **Deploy the unit** as required for your monitoring activities.
 
 ## **Feedback and Support**
+
 For feedback or assistance, contact the **DOC electronics team** at [electronics@doc.govt.nz](mailto:electronics@doc.govt.nz).
 
 ## **Basic Specifications**
+
 - **Weight**: 370 grams (with batteries)
 - **Acoustic Sampling Rates**:
   - **High**: 32 kHz at 16-bit resolution (WAV files)
