@@ -27,4 +27,12 @@ platform :android do
       UI.important("Version code #{current_version_code} has already been deployed.")
     end
   end
+
+  def read_version_property(property)
+    File.foreach("../version.properties") do |line|
+      return line.split("=")[1].strip if line.start_with?(property)
+    end
+    nil
+  end
+
 end
