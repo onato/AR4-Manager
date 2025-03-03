@@ -5,9 +5,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import EditTimetableModal from "./modals/EditTimetableModal";
 import * as Haptics from 'expo-haptics';
-import Timeframe from '../data/Timeframe';
+import Timeframe, { formatTimeframe } from '../data/Timeframe';
+
 import colors from "../colors";
-import { useReorderable } from 'react-native-reorderable-list';
+import { useReorderableDrag } from 'react-native-reorderable-list';
 
 interface TimetableItemProps {
   item: Timeframe;
@@ -18,7 +19,7 @@ interface TimetableItemProps {
 
 const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const drag = useReorderable();
+  const drag = useReorderableDrag();
 
   const positions = {
     switch: useSharedValue(editMode ? 100 : 25),
@@ -52,9 +53,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
 
         <Animated.View style={createAnimatedStyle(positions.text)}>
           <View style={localStyles.timespan}>
-            <Text style={localStyles.largeText}>
-              {`${item.start_hour.toString().padStart(2, '0')}:${item.start_minute.toString().padStart(2, '0')} - ${item.end_hour.toString().padStart(2, '0')}:${item.end_minute.toString().padStart(2, '0')}`}
-            </Text>
+            <Text style={localStyles.largeText}>{formatTimeframe(item)}</Text>
             <Text style={localStyles.text}>{item.protocol}</Text>
           </View>
         </Animated.View>
