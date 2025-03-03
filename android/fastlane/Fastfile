@@ -27,31 +27,4 @@ platform :android do
       UI.important("Version code #{current_version_code} has already been deployed.")
     end
   end
-
-  def read_version_property(property)
-    File.foreach("../version.properties") do |line|
-      return line.split("=")[1].strip if line.start_with?(property)
-    end
-    nil
-  end
-
-  def update_version_code(version_file)
-    version_properties = File.read(version_file)
-    new_version_code = nil
-    new_version_properties = version_properties.gsub(/versionCode=(\d+)/) do |match|
-      new_version_code = Regexp.last_match(1).to_i + 1
-      "versionCode=#{new_version_code}"
-    end
-    File.write(version_file, new_version_properties)
-    new_version_code
-  end
-
-  desc "Increment the version code in version.properties"
-  lane :increment_version_code do
-    version_file = "../version.properties"
-    new_version_code = update_version_code(version_file)
-    UI.message("Version code incremented in version.properties")
-    sh("git add #{version_file}")
-    sh("git commit -m 'chore: Bump the versionCode to #{new_version_code}'")
-  end
 end

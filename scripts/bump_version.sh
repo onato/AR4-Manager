@@ -35,7 +35,9 @@ calculate_next_version() {
 # Generate changelog for the new release
 generate_changelog() {
   local changelog="docs/changelogs/$next_release.md"
-  scripts/generate_changelog.sh "$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')" "$current_release" "$next_release" >"$changelog"
+  repo_name="$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')"
+  scripts/generate_changelog.sh "$repo_name" "$current_release" "$next_release" >"$changelog"
+  scripts/generate_playstore_changelog.sh "$repo_name" "$current_release" "$next_release"
   git add "$changelog"
 }
 
