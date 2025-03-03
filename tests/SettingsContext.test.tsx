@@ -1,11 +1,10 @@
 import React from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { Text, Button } from 'react-native';
 import { SettingsProvider, useSettingsContext } from '../data/SettingsContext';
 import * as storageModule from '../utils/storage';
 
 const loadSettings = jest.mocked(storageModule.loadSettings);
-const loadTimeframes = jest.mocked(storageModule.loadTimeframes);
 const saveSettings = jest.mocked(storageModule.saveSettings);
 
 jest.mock('../utils/storage', () => ({
@@ -29,7 +28,6 @@ describe('SettingsContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     loadSettings.mockResolvedValue(null);
-    loadTimeframes.mockResolvedValue(null);
   });
 
   it('provides default settings', async () => {
@@ -49,7 +47,7 @@ describe('SettingsContext', () => {
   it('loads settings from storage', async () => {
     loadSettings.mockResolvedValueOnce({ gpsMode: 2 });
 
-    const { getByText, findByText } = render(
+    const { getByText } = render(
       <SettingsProvider>
         <TestComponent />
       </SettingsProvider>
@@ -70,15 +68,15 @@ describe('SettingsContext', () => {
     );
 
     const button = getByText('Update');
-    await waitFor(() => {
-      fireEvent.press(button);
-    });
+    fireEvent.press(button);
 
-    expect(saveSettings).toHaveBeenCalledWith(expect.objectContaining({ gpsMode: 1 }));
-    expect(getByText('1')).toBeTruthy(); // Updated gpsMode
+    await waitFor(() => {
+      expect(saveSettings).toHaveBeenCalledWith(expect.objectContaining({ gpsMode: 1 }));
+      expect(getByText('1')).toBeTruthy(); // Updated gpsMode
+    }, { timeout: 2000 }); // Increase timeout if necessary
   });
   it('throws an error if used outside of SettingsProvider', () => {
-    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => { });
 
     expect(() => {
       render(<TestComponent />);

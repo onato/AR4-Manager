@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent, act } from '@testing-library/react-native';
+import { render, waitFor } from '@testing-library/react-native';
 
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -27,7 +27,6 @@ jest.mock('react-native-reorderable-list', () => 'ReorderableList');
 import { NavigationContainer } from '@react-navigation/native';
 
 describe('Tab Screen', () => {
-  // ✅ Ensure `renderWithProvider` handles `expo-router` correctly
   const renderWithProvider = async (component: React.ReactElement) => {
     let screen;
     screen = render(

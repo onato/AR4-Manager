@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Settings } from './Settings';
 import Timeframe from './Timeframe';
-import { loadTimeframes, saveTimeframes } from "../utils/storage";
 import { loadSettings, saveSettings } from "../utils/storage";
 
 // Default timeframes
@@ -37,13 +36,11 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function loadInitialSettings() {
       const storedSettings = await loadSettings();
-      const storedTimeframes = await loadTimeframes();
 
       // Update state with loaded values, falling back to defaults
       setSettings((prev) => ({
         ...prev,
-        ...storedSettings,
-        timeframes: storedTimeframes ?? defaultTimeframes,
+        ...storedSettings ?? defaultSettings,
       }));
     }
 
@@ -57,19 +54,9 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         ...prevSettings,
         ...newSettings
       };
+      saveSettings(updatedSettings);
 
-      // Save updated timeframes
-      saveTimeframes(updatedSettings.timeframes);
-
-      // Save reduced settings
-      const reducedSettings = {
-        gpsMode: updatedSettings.gpsMode,
-        station: updatedSettings.station,
-        survey: updatedSettings.survey
-      };
-      saveSettings(reducedSettings);
-
-      return updatedSettings; // Ensure state is properly updated
+      return updatedSettings;
     });
   };
 
