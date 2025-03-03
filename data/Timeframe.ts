@@ -9,7 +9,6 @@ export default interface Timeframe {
 }
 
 export function formatTimeframe(timeframe: Timeframe): string {
-  console.log(timeframe.protocol);
   switch (timeframe.protocol) {
     case "Tier1 Day":
       return "19:00 - 06:00";

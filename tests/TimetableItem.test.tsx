@@ -14,7 +14,7 @@ beforeEach(() => {
 
 jest.mock('react-native-reorderable-list', () => ({
   ReorderableList: ({ children }) => children,
-  useReorderable: jest.fn(() => jest.fn()), // Mock useReorderable
+  useReorderableDrag: jest.fn(() => jest.fn()), // Mock useReorderable
 }));
 
 jest.mock('react-native-vector-icons/Ionicons', () => 'Ionicons');
