@@ -1,4 +1,8 @@
-![Coverage](https://www.onato.com/AR4-Manager/badge.svg)
+[![Coverage](https://www.onato.com/AR4-Manager/badge.svg)](https://www.onato.com/AR4-Manager/lcov-report/)
+
+# Install the App
+
+<img src="assets/images/qrcode_with_logo.png" alt="QR Code with Logo" width="50%" />
 
 # AR4 NFC Instructions V1.0
 
