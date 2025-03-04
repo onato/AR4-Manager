@@ -2,7 +2,7 @@
 
 # Install the App
 
-<img src="assets/images/qrcode_with_logo.png" alt="QR Code with Logo" width="50%" />
+[![QR Code with Logo](assets/images/qrcode_with_logo.png)](https://play.app.goo.gl/?link=https://play.google.com/store/apps/details?id=com.onato.AR4Manager)
 
 # AR4 NFC Instructions V1.0
 
