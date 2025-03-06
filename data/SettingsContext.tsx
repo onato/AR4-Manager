@@ -4,6 +4,7 @@ import {
   useEffect,
   useState,
   ReactNode,
+  useCallback,
 } from "react";
 import { Settings } from "./Settings";
 import Timeframe from "./Timeframe";
@@ -68,8 +69,12 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
   undefined,
 );
 
+interface Props {
+  readonly children: ReactNode;
+}
+
 // Provider component
-export function SettingsProvider({ children }: { children: ReactNode }) {
+export function SettingsProvider({ children }: Props) {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
   // Load settings from storage on mount
@@ -88,7 +93,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Function to update settings
-  const updateSettings = (newSettings: Partial<Settings>) => {
+  const updateSettings = useCallback((newSettings: Partial<Settings>) => {
     setSettings((prevSettings) => {
       const updatedSettings = {
         ...prevSettings,
@@ -98,7 +103,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
       return updatedSettings;
     });
-  };
+  }, []);
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>

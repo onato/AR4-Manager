@@ -42,7 +42,7 @@ const NfcIcon: React.FC<NfcIconProps> = ({ iconState }) => {
       style={styles.nfcImage}
       testID="nfc-image"
     />)
-  };
+  }
   return (<View style={styles.nfcIcon}>{content}</View>);
 };
 
