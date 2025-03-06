@@ -1,0 +1,13 @@
+appId: com.onato.AR4Manager
+---
+- tapOn:
+    id: add
+- runFlow:
+    file: setProtocol.yaml
+    when:
+      true: ${PROTOCOL != null}
+    env:
+      PROTOCOL: ${PROTOCOL}
+- tapOn:
+    id: "save"
+    retryTapIfNoChange: false

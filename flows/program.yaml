@@ -1,0 +1,24 @@
+appId: com.onato.AR4Manager
+---
+- clearState
+- launchApp
+
+- tapOn: "Program"
+- assertVisible: "4 enabled recording timeframes"
+
+- tapOn: "Timetable"
+- tapOn:
+    label: "Switch first timeframe off"
+    id: "enable-switch"
+    index: 0
+
+- tapOn: "Program"
+- assertVisible: "3 enabled recording timeframes"
+
+- tapOn: "Timetable"
+- runFlow:
+    label: "Add Timeframe"
+    file: actions/addTimeframe.yaml
+
+- tapOn: "Program"
+- assertVisible: "4 enabled recording timeframes"

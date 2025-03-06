@@ -62,10 +62,10 @@ export default function Tab() {
     navigation.setOptions({
       headerRight: () => (
         <View style={localStyles.headerButtonsContainer}>
-          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[localStyles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]}>
+          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[localStyles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]} testID="add">
             <Ionicons name="add" size={24} style={localStyles.headerButtonText} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleEditMode} style={localStyles.headerButton}>
+          <TouchableOpacity onPress={toggleEditMode} style={localStyles.headerButton} testID={editMode ? "done" : "edit"}>
             <Text style={[localStyles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
           </TouchableOpacity>
         </View>

@@ -1,0 +1,10 @@
+appId: com.onato.AR4Manager
+---
+- tapOn:
+    id: edit
+- tapOn:
+    id: "delete"
+    index: ${INDEX}
+- tapOn:
+    id: "done"
+    retryTapIfNoChange: false

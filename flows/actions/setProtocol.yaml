@@ -1,0 +1,5 @@
+appId: com.onato.AR4Manager
+---
+- tapOn:
+    id: "doc-picker"
+- tapOn: ${PROTOCOL}

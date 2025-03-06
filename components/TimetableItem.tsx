@@ -45,7 +45,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
   return (
     <>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={localStyles.item}>
-        <Animated.View style={createAnimatedStyle(positions.delete)}>
+        <Animated.View style={createAnimatedStyle(positions.delete)} testID="delete">
           <TouchableOpacity onPress={() => onDelete(item.id)} style={localStyles.listRowAccessory} testID="delete-button">
             <Ionicons name="remove-circle" size={24} color="red" />
           </TouchableOpacity>
@@ -54,7 +54,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
         <Animated.View style={createAnimatedStyle(positions.text)}>
           <View style={localStyles.timespan}>
             <Text style={localStyles.largeText}>{formatTimeframe(item)}</Text>
-            <Text style={localStyles.text}>{item.protocol}</Text>
+            <Text style={localStyles.text} testID="protocol">{item.protocol}</Text>
           </View>
         </Animated.View>
 
@@ -73,7 +73,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
         </Animated.View>
 
         <Animated.View style={createAnimatedStyle(positions.dragHandle)}>
-          <TouchableOpacity onPressIn={drag} style={localStyles.grabber}>
+          <TouchableOpacity onPressIn={drag} style={localStyles.grabber} testID="drag-handle">
             <MaterialIcons name="drag-handle" size={24} color="gray" />
           </TouchableOpacity>
         </Animated.View>

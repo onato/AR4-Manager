@@ -7,12 +7,14 @@ type TextButtonProps = {
   onPress: () => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
+  testID?: string,
 };
 
 const TextButton: React.FC<TextButtonProps> = ({
   title,
   onPress,
-  disabled = false
+  disabled = false,
+  testID
 }) => {
   return (
     <Button
@@ -20,6 +22,7 @@ const TextButton: React.FC<TextButtonProps> = ({
       mode="text"
       onPress={onPress}
       disabled={disabled}
+      {...(testID ? { testID: testID } : {})}
     >
       {title}
     </Button>

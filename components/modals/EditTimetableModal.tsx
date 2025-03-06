@@ -63,10 +63,10 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
           </View>
           <View style={localStyles.buttonRow}>
             <View style={localStyles.button}>
-              <TextButton title="Cancel" onPress={onCancel} />
+              <TextButton title="Cancel" onPress={onCancel} testID="cancel" />
             </View>
             <View style={localStyles.button}>
-              <TextButton title="Save" onPress={handleSave} />
+              <TextButton title="Save" onPress={handleSave} testID="save" />
             </View>
           </View>
         </View>

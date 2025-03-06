@@ -1,0 +1,14 @@
+appId: com.onato.AR4Manager
+---
+- tapOn:
+    id: edit
+- swipe:
+    from:
+      id: "drag-handle"
+      index: ${INDEX}
+    direction: UP
+
+- copyTextFrom:
+    id: "protocol"
+    index: 0
+- assertTrue: ${LABEL == maestro.copiedText}

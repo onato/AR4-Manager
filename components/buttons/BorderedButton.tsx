@@ -8,12 +8,14 @@ type BorderedButtonProps = {
   onPress: () => void,
   color?: string,
   disabled?: boolean,
+  testID?: string,
 }
 const BorderedButton: React.FC<BorderedButtonProps> = ({
   title,
   onPress,
   color,
   disabled = false,
+  testID,
 }) => {
   return (
     <Button
@@ -21,6 +23,7 @@ const BorderedButton: React.FC<BorderedButtonProps> = ({
       mode="contained"
       onPress={onPress}
       disabled={disabled}
+      {...(testID ? { testID: testID } : {})}
     >
       {title}
     </Button>

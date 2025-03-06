@@ -29,6 +29,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, time, onTimeChange, disa
     <View>
       <Text style={{ padding: 10 }}>{label}</Text>
       <BorderedButton
+        testID={label + "Button"}
         title={time}
         onPress={() => setShowPicker(true)}
         disabled={disabled}

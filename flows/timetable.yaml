@@ -1,0 +1,56 @@
+appId: com.onato.AR4Manager
+---
+- clearState
+- launchApp
+
+- runFlow:
+    label: "Add Forest"
+    file: actions/addTimeframe.yaml
+    env:
+      PROTOCOL: "Forest"
+
+- runFlow:
+    label: "Add Tier1 Night"
+    file: actions/addTimeframe.yaml
+    env:
+      PROTOCOL: "Tier1 Night"
+
+- tapOn:
+    label: "Switch first timeframe off"
+    id: "enable-switch"
+    index: 0
+
+- assertVisible:
+    label: "Assert that Add is enabled"
+    id: add
+    enabled: true
+
+- tapOn:
+    label: "Switch first timeframe back on"
+    id: "enable-switch"
+    index: 0
+
+- assertVisible:
+    label: "Assert that Add is disabled"
+    id: add
+    enabled: false
+
+- runFlow:
+    label: "Delete Timeframe"
+    file: actions/deleteTimeframe.yaml
+    env:
+      INDEX: 3
+
+- assertNotVisible: "Tier1 Day"
+
+- assertVisible:
+    label: "Assert that Add is enabled"
+    id: add
+    enabled: true
+
+- runFlow:
+    label: "Test Reordering"
+    file: subflows/testReordering.yaml
+    env:
+      LABEL: "Tier1 Night"
+      INDEX: 4
