@@ -59,7 +59,7 @@ export default function Tab() {
     updateSettings({ timeframes: reorderItems(settings.timeframes, from, to) });
   };
 
-  const RightHeaderComponent = () => {
+  const RightHeaderComponent = useCallback(() => {
     const enabledTimeframesCount = settings.timeframes.filter(
       (item) => item.enabled,
     ).length;
@@ -97,7 +97,7 @@ export default function Tab() {
         </TouchableOpacity>
       </View>
     )
-  };
+  }, [editMode, settings.timeframes, handleAdd]);
 
 
   useFocusEffect(
