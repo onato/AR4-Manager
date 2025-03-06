@@ -72,22 +72,6 @@ describe("TimetableItem", () => {
     });
   });
 
-  // it('opens edit modal when item is pressed', async () => {
-  //   const { getByText, queryByText } = render(
-  //     <ReorderableList>
-  //       <TimetableItem item={mockTimeframe} editMode={false} onSave={onSaveMock} onDelete={onDeleteMock} />
-  //     </ReorderableList>
-  //   );
-  //
-  //   const itemElement = getByText('12:00 - 13:00');
-  //
-  //   await act(async () => {
-  //     fireEvent.press(itemElement);
-  //   });
-  //
-  //   await waitFor(() => expect(queryByText('Edit Timetable')).toBeTruthy());
-  // });
-
   it("calls onDelete when delete button is pressed", async () => {
     const { getByTestId } = render(
       <ReorderableList>
