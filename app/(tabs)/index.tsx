@@ -26,13 +26,13 @@ export default function Tab() {
 
   const [newItem, setNewItem] = useState(defaultNewItem());
 
-  const handleAdd = () => {
+  const handleAdd = useCallback(() => {
     setNewItem({
       ...defaultNewItem(),
       id: (settings.timeframes.length + 1).toString(),
     });
     setModalVisible(true);
-  };
+  }, [settings.timeframes]);
 
   const handleSave = (updatedItem: Timeframe) => {
     const prevTimeframes = settings.timeframes;
@@ -48,9 +48,9 @@ export default function Tab() {
     return timeframes;
   };
 
-  const toggleEditMode = () => {
+  const toggleEditMode = useCallback(() => {
     setEditMode(!editMode);
-  };
+  }, [editMode]);
 
   const handleDelete = (id: string) => {
     updateSettings({ timeframes: deleteTimeframe(settings.timeframes, id) });
@@ -105,7 +105,7 @@ export default function Tab() {
         </View>
       ),
     });
-  }, [navigation, settings.timeframes, editMode]);
+  }, [navigation, settings.timeframes, editMode, handleAdd, toggleEditMode]);
   const renderItem = ({ item }: { item: Timeframe }) => (
     <TimetableItem
       item={item}

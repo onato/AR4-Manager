@@ -29,7 +29,7 @@ const NfcHandler: React.FC<NfcHandlerProps> = ({ onNfcCheck }) => {
     return () => {
       subscription.remove();
     };
-  }, [appState]);
+  }, [appState, checkNfcEnabled]);
 
   return <View testID="nfc-handler" />;
 };

@@ -7,6 +7,7 @@
     "android": "expo run:android",
     "test": "jest --watchAll",
     "test:coverage": "jest --coverage",
+    "ui-test": "maestro test flows/timetable.yaml; maestro test flows/program.yaml",
     "lint": "expo lint",
     "lintFix": "eslint --fix --ext .js,.jsx ."
   },

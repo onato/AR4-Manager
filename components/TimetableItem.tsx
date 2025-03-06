@@ -45,7 +45,13 @@ const TimetableItem: React.FC<TimetableItemProps> = ({
     positions.delete.value = toValue(editMode ? 0 : -50);
     positions.dragHandle.value = toValue(editMode ? 0 : 50);
     positions.text.value = toValue(editMode ? 0 : -50);
-  }, [editMode]);
+  }, [
+    editMode,
+    positions.switch,
+    positions.delete,
+    positions.dragHandle,
+    positions.text,
+  ]);
 
   const CreateAnimatedStyle = (position: SharedValue<number>) =>
     useAnimatedStyle(() => ({
