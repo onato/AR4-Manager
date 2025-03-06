@@ -72,9 +72,10 @@ describe("EditTimetableModal", () => {
       />,
     );
 
-    fireEvent(getByTestId("doc-picker"), "onValueChange", "new-value");
-    // Assuming there's a state update or function call to verify
-    // Add your verification logic here, e.g., checking state or a mock function call
+    fireEvent(getByTestId("doc-picker"), "onValueChange", "Bat");
+    expect(getByTestId("doc-picker").props.selectedIndex).toBe(0);
+    fireEvent(getByTestId("doc-picker"), "onValueChange", "Forest");
+    expect(getByTestId("doc-picker").props.selectedIndex).toBe(1);
   });
 
   it("shows the Tier1 protocol text when the protocol is Tier1", () => {
