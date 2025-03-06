@@ -59,6 +59,47 @@ export default function Tab() {
     updateSettings({ timeframes: reorderItems(settings.timeframes, from, to) });
   };
 
+  const RightHeaderComponent = () => {
+    const enabledTimeframesCount = settings.timeframes.filter(
+      (item) => item.enabled,
+    ).length;
+
+    return (
+      <View style={localStyles.headerButtonsContainer}>
+        <TouchableOpacity
+          onPress={handleAdd}
+          disabled={enabledTimeframesCount >= 6}
+          style={[
+            localStyles.headerButton,
+            { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 },
+          ]}
+          testID="add"
+        >
+          <Ionicons
+            name="add"
+            size={24}
+            style={localStyles.headerButtonText}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={toggleEditMode}
+          style={localStyles.headerButton}
+          testID={editMode ? "done" : "edit"}
+        >
+          <Text
+            style={[
+              localStyles.headerButtonText,
+              { fontWeight: editMode ? "bold" : "normal" },
+            ]}
+          >
+            {editMode ? "Done" : "Edit"}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  };
+
+
   useFocusEffect(
     useCallback(() => {
       return () => setEditMode(false);
@@ -66,45 +107,11 @@ export default function Tab() {
   );
 
   useLayoutEffect(() => {
-    const enabledTimeframesCount = settings.timeframes.filter(
-      (item) => item.enabled,
-    ).length;
     navigation.setOptions({
-      headerRight: () => (
-        <View style={localStyles.headerButtonsContainer}>
-          <TouchableOpacity
-            onPress={handleAdd}
-            disabled={enabledTimeframesCount >= 6}
-            style={[
-              localStyles.headerButton,
-              { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 },
-            ]}
-            testID="add"
-          >
-            <Ionicons
-              name="add"
-              size={24}
-              style={localStyles.headerButtonText}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={toggleEditMode}
-            style={localStyles.headerButton}
-            testID={editMode ? "done" : "edit"}
-          >
-            <Text
-              style={[
-                localStyles.headerButtonText,
-                { fontWeight: editMode ? "bold" : "normal" },
-              ]}
-            >
-              {editMode ? "Done" : "Edit"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ),
+      headerRight: RightHeaderComponent,
     });
   }, [navigation, settings.timeframes, editMode, handleAdd, toggleEditMode]);
+
   const renderItem = ({ item }: { item: Timeframe }) => (
     <TimetableItem
       item={item}
