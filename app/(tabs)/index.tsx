@@ -13,7 +13,6 @@ import {
 import { defaultNewItem } from "../../utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import TimetableItem from "../../components/TimetableItem";
-import React from "react";
 import colors from "../../colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 import Timeframe from "@/data/Timeframe";
