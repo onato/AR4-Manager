@@ -5,6 +5,7 @@ import {
   useState,
   ReactNode,
   useCallback,
+  useMemo,
 } from "react";
 import { Settings } from "./Settings";
 import Timeframe from "./Timeframe";
@@ -105,8 +106,10 @@ export function SettingsProvider({ children }: Props) {
     });
   }, []);
 
+  const contextValue = useMemo(() => ({ settings, updateSettings }), [settings, updateSettings]);
+
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings }}>
+    <SettingsContext.Provider value={contextValue}>
       {children}
     </SettingsContext.Provider>
   );
