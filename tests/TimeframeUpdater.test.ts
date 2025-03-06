@@ -1,7 +1,7 @@
 import { updateTimeframes, deleteTimeframe } from "../utils/TimeframeUpdater";
 
 describe("TimeframeUpdater", () => {
-  const createTimeframe = (id, enabled = true) => ({
+  const createTimeframe = (id: number, enabled = true) => ({
     id: id.toString(),
     protocol: "High",
     start_hour: 12,
@@ -15,7 +15,10 @@ describe("TimeframeUpdater", () => {
     const prevTimeframes = [createTimeframe(1)];
     const newTimeframe = createTimeframe(2);
 
-    const { success, timeframes } = updateTimeframes(prevTimeframes, newTimeframe);
+    const { success, timeframes } = updateTimeframes(
+      prevTimeframes,
+      newTimeframe,
+    );
 
     expect(success).toBe(true);
     expect(timeframes).toHaveLength(2);
@@ -23,10 +26,15 @@ describe("TimeframeUpdater", () => {
   });
 
   test("should update an existing timeframe", () => {
-    const prevTimeframes = Array.from({ length: 6 }, (_, i) => createTimeframe(i + 1));
+    const prevTimeframes = Array.from({ length: 6 }, (_, i) =>
+      createTimeframe(i + 1),
+    );
     const updatedTimeframe = { ...createTimeframe(1), protocol: "Low" };
 
-    const { success, timeframes } = updateTimeframes(prevTimeframes, updatedTimeframe);
+    const { success, timeframes } = updateTimeframes(
+      prevTimeframes,
+      updatedTimeframe,
+    );
 
     expect(success).toBe(true);
     expect(timeframes).toHaveLength(6);
@@ -34,20 +42,30 @@ describe("TimeframeUpdater", () => {
   });
 
   test("should not add more than 6 enabled timeframes", () => {
-    const prevTimeframes = Array.from({ length: 6 }, (_, i) => createTimeframe(i + 1));
+    const prevTimeframes = Array.from({ length: 6 }, (_, i) =>
+      createTimeframe(i + 1),
+    );
     const newTimeframe = createTimeframe(7);
 
-    const { success, timeframes } = updateTimeframes(prevTimeframes, newTimeframe);
+    const { success, timeframes } = updateTimeframes(
+      prevTimeframes,
+      newTimeframe,
+    );
 
     expect(success).toBe(false);
     expect(timeframes).toHaveLength(6);
   });
 
   test("should allow adding timeframe if 6 but less are enabled", () => {
-    const prevTimeframes = Array.from({ length: 6 }, (_, i) => createTimeframe(i + 1, i % 2 == 0));
+    const prevTimeframes = Array.from({ length: 6 }, (_, i) =>
+      createTimeframe(i + 1, i % 2 === 0),
+    );
     const newTimeframe = createTimeframe(7, false);
 
-    const { success, timeframes } = updateTimeframes(prevTimeframes, newTimeframe);
+    const { success, timeframes } = updateTimeframes(
+      prevTimeframes,
+      newTimeframe,
+    );
 
     expect(success).toBe(true);
     expect(timeframes).toHaveLength(7);

@@ -1,13 +1,13 @@
-import NfcManager, { NfcTech, Ndef } from "react-native-nfc-manager";
+import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import { AR4, LogEntry } from "@onato/doc-nfc-module";
 import { Settings } from "../data/Settings.js";
 
 const start = () => {
   NfcManager.start();
-}
+};
 const cancel = () => {
   NfcManager.cancelTechnologyRequest();
-}
+};
 const send = async (settings: Settings) => {
   try {
     NfcManager.start();
@@ -21,9 +21,23 @@ const send = async (settings: Settings) => {
     }
 
     const logEntries = settings.timeframes
-      .filter(timeframe => timeframe.enabled)
-      .map(timeframe => new LogEntry(timeframe.start_hour, timeframe.start_minute, timeframe.end_hour, timeframe.end_minute, timeframe.protocol));
-    const ar4Settings = new AR4(logEntries, settings.station, settings.gpsMode, settings.survey);
+      .filter((timeframe) => timeframe.enabled)
+      .map(
+        (timeframe) =>
+          new LogEntry(
+            timeframe.start_hour,
+            timeframe.start_minute,
+            timeframe.end_hour,
+            timeframe.end_minute,
+            timeframe.protocol,
+          ),
+      );
+    const ar4Settings = new AR4(
+      logEntries,
+      settings.station,
+      settings.gpsMode,
+      settings.survey,
+    );
     const payload = ar4Settings.convertToByteArray(tag.id);
     const responseCode = await NfcManager.transceive(payload);
 
@@ -36,10 +50,14 @@ const send = async (settings: Settings) => {
 };
 
 const handleResponseCode = (responseCode) => {
-  if (responseCode == 0) {
+  if (responseCode === 0) {
     return { success: true };
   } else if (responseCode.toString() === "1,15") {
-    return { success: false, error: "The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating." };
+    return {
+      success: false,
+      error:
+        "The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.",
+    };
   } else {
     return { success: false, error: `Error: ${responseCode}` };
   }

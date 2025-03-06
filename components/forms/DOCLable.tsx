@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import React from "react";
+import { Text, StyleSheet } from "react-native";
 
 interface DOCLableProps {
   children: React.ReactNode;

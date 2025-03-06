@@ -1,14 +1,52 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { Settings } from './Settings';
-import Timeframe from './Timeframe';
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { Settings } from "./Settings";
+import Timeframe from "./Timeframe";
 import { loadSettings, saveSettings } from "../utils/storage";
 
 // Default timeframes
 const defaultTimeframes: Timeframe[] = [
-  { id: "1", protocol: "High", start_hour: 8, start_minute: 0, end_hour: 10, end_minute: 0, enabled: true },
-  { id: "2", protocol: "Low", start_hour: 10, start_minute: 0, end_hour: 12, end_minute: 0, enabled: true },
-  { id: "3", protocol: "Bat", start_hour: 12, start_minute: 0, end_hour: 14, end_minute: 0, enabled: true },
-  { id: "4", protocol: "Tier1 Day", start_hour: 14, start_minute: 0, end_hour: 16, end_minute: 0, enabled: true },
+  {
+    id: "1",
+    protocol: "High",
+    start_hour: 8,
+    start_minute: 0,
+    end_hour: 10,
+    end_minute: 0,
+    enabled: true,
+  },
+  {
+    id: "2",
+    protocol: "Low",
+    start_hour: 10,
+    start_minute: 0,
+    end_hour: 12,
+    end_minute: 0,
+    enabled: true,
+  },
+  {
+    id: "3",
+    protocol: "Bat",
+    start_hour: 12,
+    start_minute: 0,
+    end_hour: 14,
+    end_minute: 0,
+    enabled: true,
+  },
+  {
+    id: "4",
+    protocol: "Tier1 Day",
+    start_hour: 14,
+    start_minute: 0,
+    end_hour: 16,
+    end_minute: 0,
+    enabled: true,
+  },
 ];
 
 // Default settings
@@ -16,7 +54,7 @@ const defaultSettings: Settings = {
   timeframes: defaultTimeframes,
   gpsMode: 0,
   survey: "",
-  station: 0
+  station: 0,
 };
 
 // Define context type
@@ -26,7 +64,9 @@ interface SettingsContextType {
 }
 
 // Create context with undefined initial value
-const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
+const SettingsContext = createContext<SettingsContextType | undefined>(
+  undefined,
+);
 
 // Provider component
 export function SettingsProvider({ children }: { children: ReactNode }) {
@@ -40,7 +80,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       // Update state with loaded values, falling back to defaults
       setSettings((prev) => ({
         ...prev,
-        ...storedSettings ?? defaultSettings,
+        ...(storedSettings ?? defaultSettings),
       }));
     }
 
@@ -49,10 +89,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   // Function to update settings
   const updateSettings = (newSettings: Partial<Settings>) => {
-    setSettings(prevSettings => {
+    setSettings((prevSettings) => {
       const updatedSettings = {
         ...prevSettings,
-        ...newSettings
+        ...newSettings,
       };
       saveSettings(updatedSettings);
 
@@ -72,7 +112,9 @@ export function useSettingsContext() {
   const context = useContext(SettingsContext);
 
   if (!context) {
-    throw new Error("useSettingsContext must be used within a SettingsProvider");
+    throw new Error(
+      "useSettingsContext must be used within a SettingsProvider",
+    );
   }
 
   return context;

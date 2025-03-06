@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Animated, { SharedValue, useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, {
+  SharedValue,
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import EditTimetableModal from "./modals/EditTimetableModal";
-import * as Haptics from 'expo-haptics';
-import Timeframe, { formatTimeframe } from '../data/Timeframe';
+import * as Haptics from "expo-haptics";
+import Timeframe, { formatTimeframe } from "../data/Timeframe";
 
 import colors from "../colors";
-import { useReorderableDrag } from 'react-native-reorderable-list';
+import { useReorderableDrag } from "react-native-reorderable-list";
 
 interface TimetableItemProps {
   item: Timeframe;
@@ -17,7 +22,12 @@ interface TimetableItemProps {
   onDelete: (id: string) => void;
 }
 
-const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, onDelete }) => {
+const TimetableItem: React.FC<TimetableItemProps> = ({
+  item,
+  editMode,
+  onSave,
+  onDelete,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const drag = useReorderableDrag();
 
@@ -37,28 +47,40 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
     positions.text.value = toValue(editMode ? 0 : -50);
   }, [editMode]);
 
-  const createAnimatedStyle = (position: SharedValue<number>) =>
+  const CreateAnimatedStyle = (position: SharedValue<number>) =>
     useAnimatedStyle(() => ({
       transform: [{ translateX: position.value }],
     }));
 
   return (
     <>
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={localStyles.item}>
-        <Animated.View style={createAnimatedStyle(positions.delete)} testID="delete">
-          <TouchableOpacity onPress={() => onDelete(item.id)} style={localStyles.listRowAccessory} testID="delete-button">
+      <TouchableOpacity
+        onPress={() => setModalVisible(true)}
+        style={localStyles.item}
+      >
+        <Animated.View
+          style={CreateAnimatedStyle(positions.delete)}
+          testID="delete"
+        >
+          <TouchableOpacity
+            onPress={() => onDelete(item.id)}
+            style={localStyles.listRowAccessory}
+            testID="delete-button"
+          >
             <Ionicons name="remove-circle" size={24} color="red" />
           </TouchableOpacity>
         </Animated.View>
 
-        <Animated.View style={createAnimatedStyle(positions.text)}>
+        <Animated.View style={CreateAnimatedStyle(positions.text)}>
           <View style={localStyles.timespan}>
             <Text style={localStyles.largeText}>{formatTimeframe(item)}</Text>
-            <Text style={localStyles.text} testID="protocol">{item.protocol}</Text>
+            <Text style={localStyles.text} testID="protocol">
+              {item.protocol}
+            </Text>
           </View>
         </Animated.View>
 
-        <Animated.View style={createAnimatedStyle(positions.switch)}>
+        <Animated.View style={CreateAnimatedStyle(positions.switch)}>
           <Switch
             testID="enable-switch"
             value={item.enabled}
@@ -72,8 +94,12 @@ const TimetableItem: React.FC<TimetableItemProps> = ({ item, editMode, onSave, o
           />
         </Animated.View>
 
-        <Animated.View style={createAnimatedStyle(positions.dragHandle)}>
-          <TouchableOpacity onPressIn={drag} style={localStyles.grabber} testID="drag-handle">
+        <Animated.View style={CreateAnimatedStyle(positions.dragHandle)}>
+          <TouchableOpacity
+            onPressIn={drag}
+            style={localStyles.grabber}
+            testID="drag-handle"
+          >
             <MaterialIcons name="drag-handle" size={24} color="gray" />
           </TouchableOpacity>
         </Animated.View>

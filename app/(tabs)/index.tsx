@@ -2,13 +2,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import ReorderableList, {
   ReorderableListReorderEvent,
   reorderItems,
-} from 'react-native-reorderable-list';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+} from "react-native-reorderable-list";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import EditTimetableModal from "../../components/modals/EditTimetableModal";
 import { useState, useCallback, useLayoutEffect } from "react";
-import { updateTimeframes, deleteTimeframe } from "../../utils/TimeframeUpdater";
+import {
+  updateTimeframes,
+  deleteTimeframe,
+} from "../../utils/TimeframeUpdater";
 import { defaultNewItem } from "../../utils/TimeframeStore";
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import TimetableItem from "../../components/TimetableItem";
 import React from "react";
 import colors from "../../colors";
@@ -24,13 +27,19 @@ export default function Tab() {
   const [newItem, setNewItem] = useState(defaultNewItem());
 
   const handleAdd = () => {
-    setNewItem({ ...defaultNewItem(), id: (settings.timeframes.length + 1).toString() });
+    setNewItem({
+      ...defaultNewItem(),
+      id: (settings.timeframes.length + 1).toString(),
+    });
     setModalVisible(true);
   };
 
   const handleSave = (updatedItem: Timeframe) => {
     const prevTimeframes = settings.timeframes;
-    const { success, timeframes } = updateTimeframes(prevTimeframes, updatedItem);
+    const { success, timeframes } = updateTimeframes(
+      prevTimeframes,
+      updatedItem,
+    );
     if (!success) {
       alert("Cannot enable more than 6 timeframes.");
     }
@@ -54,19 +63,44 @@ export default function Tab() {
   useFocusEffect(
     useCallback(() => {
       return () => setEditMode(false);
-    }, [])
+    }, []),
   );
 
   useLayoutEffect(() => {
-    const enabledTimeframesCount = settings.timeframes.filter(item => item.enabled).length;
+    const enabledTimeframesCount = settings.timeframes.filter(
+      (item) => item.enabled,
+    ).length;
     navigation.setOptions({
       headerRight: () => (
         <View style={localStyles.headerButtonsContainer}>
-          <TouchableOpacity onPress={handleAdd} disabled={enabledTimeframesCount >= 6} style={[localStyles.headerButton, { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 }]} testID="add">
-            <Ionicons name="add" size={24} style={localStyles.headerButtonText} />
+          <TouchableOpacity
+            onPress={handleAdd}
+            disabled={enabledTimeframesCount >= 6}
+            style={[
+              localStyles.headerButton,
+              { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 },
+            ]}
+            testID="add"
+          >
+            <Ionicons
+              name="add"
+              size={24}
+              style={localStyles.headerButtonText}
+            />
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleEditMode} style={localStyles.headerButton} testID={editMode ? "done" : "edit"}>
-            <Text style={[localStyles.headerButtonText, { fontWeight: editMode ? "bold" : "normal" }]}>{editMode ? "Done" : "Edit"}</Text>
+          <TouchableOpacity
+            onPress={toggleEditMode}
+            style={localStyles.headerButton}
+            testID={editMode ? "done" : "edit"}
+          >
+            <Text
+              style={[
+                localStyles.headerButtonText,
+                { fontWeight: editMode ? "bold" : "normal" },
+              ]}
+            >
+              {editMode ? "Done" : "Edit"}
+            </Text>
           </TouchableOpacity>
         </View>
       ),

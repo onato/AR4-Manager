@@ -1,7 +1,7 @@
-import React from 'react';
-import { Picker } from '@react-native-picker/picker';
-import { StyleSheet } from 'react-native';
-import colors from '../../colors';
+import React from "react";
+import { Picker } from "@react-native-picker/picker";
+import { StyleSheet } from "react-native";
+import colors from "../../colors";
 
 interface DOCPickerProps<T> {
   testID?: string;
@@ -10,7 +10,12 @@ interface DOCPickerProps<T> {
   items: { label: string; value: T }[];
 }
 
-const DOCPicker = <T,>({ selectedValue, onValueChange, items, testID }: DOCPickerProps<T>) => {
+const DOCPicker = <T,>({
+  selectedValue,
+  onValueChange,
+  items,
+  testID,
+}: DOCPickerProps<T>) => {
   return (
     <Picker
       testID={testID}
@@ -19,7 +24,11 @@ const DOCPicker = <T,>({ selectedValue, onValueChange, items, testID }: DOCPicke
       style={localStyles.picker}
     >
       {items.map((item) => (
-        <Picker.Item key={String(item.value)} label={item.label} value={item.value} />
+        <Picker.Item
+          key={String(item.value)}
+          label={item.label}
+          value={item.value}
+        />
       ))}
     </Picker>
   );

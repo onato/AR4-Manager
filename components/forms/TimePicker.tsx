@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import DatePicker from 'react-native-date-picker';
-import BorderedButton from '../buttons/BorderedButton';
-import colors from '../../colors';
+import React, { useState } from "react";
+import { View, Text } from "react-native";
+import DatePicker from "react-native-date-picker";
+import BorderedButton from "../buttons/BorderedButton";
+import colors from "../../colors";
 
 interface TimePickerProps {
   label: string;
@@ -11,11 +11,22 @@ interface TimePickerProps {
   disabled: boolean;
 }
 
-const TimePicker: React.FC<TimePickerProps> = ({ label, time, onTimeChange, disabled }) => {
+const TimePicker: React.FC<TimePickerProps> = ({
+  label,
+  time,
+  onTimeChange,
+  disabled,
+}) => {
   const [showPicker, setShowPicker] = useState(false);
 
   const handleTimeChange = (selectedDate: Date) => {
-    onTimeChange(selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+    onTimeChange(
+      selectedDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }),
+    );
     setShowPicker(false);
   };
 
@@ -41,7 +52,9 @@ const TimePicker: React.FC<TimePickerProps> = ({ label, time, onTimeChange, disa
         is24hourSource="locale"
         modal
         open={showPicker}
-        date={timeToDate(...time.split(':').map(Number).slice(0, 2) as [number, number])}
+        date={timeToDate(
+          ...(time.split(":").map(Number).slice(0, 2) as [number, number]),
+        )}
         mode="time"
         buttonColor={colors.docBlue}
         dividerColor={colors.docYellow}

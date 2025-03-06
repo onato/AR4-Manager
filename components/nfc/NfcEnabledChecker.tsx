@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text } from 'react-native';
-import NfcSettingsButton from '../nfc/NfcSettingsButton';
-import NfcHandler from '../nfc/NfcHandler';
+import React, { useState } from "react";
+import { View, Text } from "react-native";
+import NfcSettingsButton from "../nfc/NfcSettingsButton";
+import NfcHandler from "../nfc/NfcHandler";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-interface NfcCheckerProps {
-}
-
-const NfcEnableChecker: React.FC<NfcCheckerProps> = ({ }) => {
+const NfcEnableChecker: React.FC = () => {
   const [nfcEnabled, setNfcEnabled] = useState(true);
 
   return (
     <>
-      <NfcHandler onNfcCheck={(isEnabled) => {
-        setNfcEnabled(isEnabled);
-      }} />
-      {(!nfcEnabled) && (
-        <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+      <NfcHandler
+        onNfcCheck={(isEnabled) => {
+          setNfcEnabled(isEnabled);
+        }}
+      />
+      {!nfcEnabled && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "white",
+          }}
+        >
           <Ionicons name="alert-circle" size={64} color="red" />
-          <Text style={{ marginBottom: 20, fontSize: 16, }}>{"NFC is not enabled."}</Text>
+          <Text style={{ marginBottom: 20, fontSize: 16 }}>
+            {"NFC is not enabled."}
+          </Text>
           <NfcSettingsButton />
-        </View >
+        </View>
       )}
     </>
   );

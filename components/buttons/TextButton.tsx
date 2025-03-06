@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from 'react-native-paper';
+import React from "react";
+import { Button } from "react-native-paper";
 import { StyleProp, ViewStyle, StyleSheet } from "react-native";
 
 type TextButtonProps = {
@@ -7,14 +7,14 @@ type TextButtonProps = {
   onPress: () => void;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
-  testID?: string,
+  testID?: string;
 };
 
 const TextButton: React.FC<TextButtonProps> = ({
   title,
   onPress,
   disabled = false,
-  testID
+  testID,
 }) => {
   return (
     <Button

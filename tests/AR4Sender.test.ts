@@ -1,5 +1,4 @@
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
-import { AR4, LogEntry } from "@onato/doc-nfc-module";
 import AR4Sender from "../utils/AR4Sender";
 import { Settings } from "../data/Settings";
 
@@ -22,7 +21,14 @@ jest.mock("@onato/doc-nfc-module", () => ({
 describe("AR4Sender", () => {
   const mockSettings: Settings = {
     timeframes: [
-      { start_hour: 12, start_minute: 0, end_hour: 13, end_minute: 0, protocol: "High", enabled: true },
+      {
+        start_hour: 12,
+        start_minute: 0,
+        end_hour: 13,
+        end_minute: 0,
+        protocol: "High",
+        enabled: true,
+      },
     ],
     station: 1,
     gpsMode: 1,
@@ -81,7 +87,8 @@ describe("AR4Sender", () => {
 
     expect(result).toEqual({
       success: false,
-      error: "The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.",
+      error:
+        "The device appears not to be ready.\n\nAfter powering on, wait for the time to be displayed before updating.",
     });
   });
 });

@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Modal, View, Text, StyleSheet } from 'react-native';
-import DOCPicker from '../forms/DOCPicker';
-import colors from '../../colors';
-import { Protocol } from '@onato/doc-nfc-module';
-import Timeframe from '../../data/Timeframe';
-import DOCLable from '../forms/DOCLable';
-import TimePicker from '../forms/TimePicker';
-import TextButton from '../buttons/TextButton';
-import LogoTitle from '../icons/LogoTitle';
+import React, { useState } from "react";
+import { Modal, View, Text, StyleSheet } from "react-native";
+import DOCPicker from "../forms/DOCPicker";
+import colors from "../../colors";
+import { Protocol } from "@onato/doc-nfc-module";
+import Timeframe from "../../data/Timeframe";
+import DOCLable from "../forms/DOCLable";
+import TimePicker from "../forms/TimePicker";
+import TextButton from "../buttons/TextButton";
+import LogoTitle from "../icons/LogoTitle";
 
 interface EditTimetableModalProps {
   visible: boolean;
@@ -16,22 +16,41 @@ interface EditTimetableModalProps {
   onCancel: () => void;
 }
 
-const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, onSave, onCancel }) => {
+const EditTimetableModal: React.FC<EditTimetableModalProps> = ({
+  visible,
+  item,
+  onSave,
+  onCancel,
+}) => {
   const [protocol, setProtocol] = useState(item.protocol);
-  const [start, setStart] = useState(`${item.start_hour}:${item.start_minute.toString().padStart(2, '0')}`);
-  const [end, setEnd] = useState(`${item.end_hour}:${item.end_minute.toString().padStart(2, '0')}`);
+  const [start, setStart] = useState(
+    `${item.start_hour}:${item.start_minute.toString().padStart(2, "0")}`,
+  );
+  const [end, setEnd] = useState(
+    `${item.end_hour}:${item.end_minute.toString().padStart(2, "0")}`,
+  );
 
   const handleSave = () => {
-    const [startHour, startMinute] = start.split(':').map(Number);
-    const [endHour, endMinute] = end.split(':').map(Number);
-    onSave({ ...item, protocol, start_hour: startHour, start_minute: startMinute, end_hour: endHour, end_minute: endMinute });
+    const [startHour, startMinute] = start.split(":").map(Number);
+    const [endHour, endMinute] = end.split(":").map(Number);
+    onSave({
+      ...item,
+      protocol,
+      start_hour: startHour,
+      start_minute: startMinute,
+      end_hour: endHour,
+      end_minute: endMinute,
+    });
   };
 
   return (
     <View>
       <Modal visible={visible} animationType="slide" transparent={true}>
         <View style={localStyles.modalContainer}>
-          <LogoTitle title="Edit Timetable Item" style={localStyles.modalTitleContainer} />
+          <LogoTitle
+            title="Edit Timetable Item"
+            style={localStyles.modalTitleContainer}
+          />
           <View style={localStyles.form}>
             <DOCLable>Protocol</DOCLable>
             <DOCPicker
@@ -57,7 +76,8 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
             />
             {protocol.indexOf("Tier1") !== -1 && (
               <Text style={{ padding: 10 }}>
-                The times are set automatically by the device when using a Tier1 protocol.
+                The times are set automatically by the device when using a Tier1
+                protocol.
               </Text>
             )}
           </View>
@@ -78,7 +98,7 @@ const EditTimetableModal: React.FC<EditTimetableModalProps> = ({ visible, item, 
 const localStyles = StyleSheet.create({
   modalContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     backgroundColor: colors.white,
   },
   modalTitleContainer: {
@@ -90,11 +110,11 @@ const localStyles = StyleSheet.create({
     padding: 20,
   },
   buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     backgroundColor: colors.androidNavWhite,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     paddingTop: 15,
     paddingBottom: 15,
@@ -102,7 +122,7 @@ const localStyles = StyleSheet.create({
   button: {
     flex: 1,
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginHorizontal: 10,
   },
 });

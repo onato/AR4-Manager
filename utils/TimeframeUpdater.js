@@ -1,7 +1,12 @@
 export const updateTimeframes = (prevTimeframes, updatedItem) => {
-  const index = prevTimeframes.findIndex(item => item.id === updatedItem.id);
+  const index = prevTimeframes.findIndex((item) => item.id === updatedItem.id);
   const wasAdded = index === -1;
-  if (wasAdded && updatedItem && updatedItem.enabled && prevTimeframes.filter(t => t.enabled).length >= 6) {
+  if (
+    wasAdded &&
+    updatedItem &&
+    updatedItem.enabled &&
+    prevTimeframes.filter((t) => t.enabled).length >= 6
+  ) {
     return { success: false, timeframes: prevTimeframes };
   }
   if (index !== -1) {
@@ -14,5 +19,8 @@ export const updateTimeframes = (prevTimeframes, updatedItem) => {
 
 export const deleteTimeframe = (prevTimeframes, id) => {
   const updatedTimeframes = prevTimeframes.filter((item) => item.id !== id);
-  return updatedTimeframes.map((item, index) => ({ ...item, id: index.toString() }));
+  return updatedTimeframes.map((item, index) => ({
+    ...item,
+    id: index.toString(),
+  }));
 };

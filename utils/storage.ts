@@ -1,7 +1,7 @@
-import { Settings } from '@/data/Settings';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Settings } from "@/data/Settings";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const SETTINGS_KEY = 'settings';
+const SETTINGS_KEY = "settings";
 
 export const loadSettings = async () => {
   try {
@@ -20,4 +20,3 @@ export const saveSettings = async (settings: Settings) => {
     throw new Error(`Failed to save settings: ${e.message}`);
   }
 };
-

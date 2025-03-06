@@ -1,5 +1,5 @@
-import * as IntentLauncher from 'expo-intent-launcher';
-import { Button } from 'react-native';
+import * as IntentLauncher from "expo-intent-launcher";
+import { Button } from "react-native";
 
 const openNfcSettings = () => {
   IntentLauncher.startActivityAsync(IntentLauncher.ActivityAction.NFC_SETTINGS);

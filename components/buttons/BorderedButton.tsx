@@ -1,15 +1,15 @@
-import React from 'react';
-import { Button } from 'react-native-paper';
-import colors from '../../colors.js';
+import React from "react";
+import { Button } from "react-native-paper";
+import colors from "../../colors.js";
 import { StyleSheet } from "react-native";
 
 type BorderedButtonProps = {
-  title: string,
-  onPress: () => void,
-  color?: string,
-  disabled?: boolean,
-  testID?: string,
-}
+  title: string;
+  onPress: () => void;
+  color?: string;
+  disabled?: boolean;
+  testID?: string;
+};
 const BorderedButton: React.FC<BorderedButtonProps> = ({
   title,
   onPress,
@@ -19,7 +19,11 @@ const BorderedButton: React.FC<BorderedButtonProps> = ({
 }) => {
   return (
     <Button
-      style={[textStyles.borderedButton, disabled && textStyles.disabledButton, color && { backgroundColor: color }]}
+      style={[
+        textStyles.borderedButton,
+        disabled && textStyles.disabledButton,
+        color && { backgroundColor: color },
+      ]}
       mode="contained"
       onPress={onPress}
       disabled={disabled}

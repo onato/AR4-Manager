@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import colors from "../../colors";
-import * as Haptics from 'expo-haptics';
+import * as Haptics from "expo-haptics";
 import AR4Sender from "../../utils/AR4Sender";
 import BorderedButton from "../../components/buttons/BorderedButton";
 import NfcIcon, { IconState } from "../../components/icons/NfcIcon";
@@ -10,11 +10,13 @@ import PageContainer from "../../components/layout/PageContainer";
 import { useSettingsContext } from "../../data/SettingsContext";
 
 export default function Tab() {
-  const [nfcResult, setNfcResult] = React.useState('');
+  const [nfcResult, setNfcResult] = React.useState("");
   const [iconState, setIconState] = React.useState(IconState.Default);
   const { settings } = useSettingsContext();
 
-  const enabledTimeframesCount = settings.timeframes.filter(tf => tf.enabled).length;
+  const enabledTimeframesCount = settings.timeframes.filter(
+    (tf) => tf.enabled,
+  ).length;
   const isError = iconState === IconState.Error;
   const isSending = iconState === IconState.Sending;
 
@@ -39,14 +41,14 @@ export default function Tab() {
 
   const showSuccess = () => {
     setIconState(IconState.Success);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
   };
 
   const showError = (message: string): void => {
     setNfcResult(message);
     setIconState(IconState.Error);
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-  }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+  };
 
   const localStyles = StyleSheet.create({
     pageContainer: { alignItems: "center" },
