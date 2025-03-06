@@ -1,7 +1,10 @@
 [![Coverage](https://www.onato.com/AR4-Manager/badge.svg)](https://www.onato.com/AR4-Manager/lcov-report/)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
+
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 
