@@ -11,19 +11,21 @@ jest.mock("react-native-date-picker", () => {
   };
 });
 
+const baseMockItem: Timeframe = {
+  id: "1",
+  protocol: "High",
+  start_hour: 12,
+  start_minute: 0,
+  end_hour: 13,
+  end_minute: 0,
+  enabled: true,
+};
+
 describe("EditTimetableModal", () => {
   it("calls onSave when the save button is pressed", () => {
     const mockOnCancel = jest.fn();
     const mockOnSave = jest.fn();
-    const mockItem: Timeframe = {
-      id: "1",
-      protocol: "High",
-      start_hour: 12,
-      start_minute: 0,
-      end_hour: 13,
-      end_minute: 0,
-      enabled: true,
-    };
+    const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByText } = render(
       <EditTimetableModal
@@ -41,15 +43,7 @@ describe("EditTimetableModal", () => {
   it("calls onCancel when the cancel button is pressed", () => {
     const mockOnCancel = jest.fn();
     const mockOnSave = jest.fn();
-    const mockItem: Timeframe = {
-      id: "1",
-      protocol: "High",
-      start_hour: 12,
-      start_minute: 0,
-      end_hour: 13,
-      end_minute: 0,
-      enabled: true,
-    };
+    const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByText } = render(
       <EditTimetableModal
@@ -67,15 +61,7 @@ describe("EditTimetableModal", () => {
   it("calls onValueChange when a new value is selected in DOCPicker", () => {
     const mockOnCancel = jest.fn();
     const mockOnSave = jest.fn();
-    const mockItem: Timeframe = {
-      id: "1",
-      protocol: "High",
-      start_hour: 12,
-      start_minute: 0,
-      end_hour: 13,
-      end_minute: 0,
-      enabled: true,
-    };
+    const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByTestId } = render(
       <EditTimetableModal
@@ -92,15 +78,7 @@ describe("EditTimetableModal", () => {
   });
 
   it("shows the Tier1 protocol text when the protocol is Tier1", () => {
-    const mockTimeframe: Timeframe = {
-      id: "1",
-      protocol: "Tier1",
-      start_hour: 12,
-      start_minute: 0,
-      end_hour: 13,
-      end_minute: 0,
-      enabled: true,
-    };
+    const mockTimeframe: Timeframe = { ...baseMockItem, protocol: "Tier1" };
 
     const { getByText } = render(
       <EditTimetableModal
