@@ -16,37 +16,35 @@ export enum IconState {
 }
 
 const NfcIcon: React.FC<NfcIconProps> = ({ iconState }) => {
-  return (
-    <View style={styles.nfcIcon}>
-      {iconState === IconState.Success ? (
-        <Ionicons
-          name="checkmark-circle"
-          size={64}
-          color="green"
-          testID="success-icon"
-        />
-      ) : iconState === IconState.Error ? (
-        <Ionicons
-          name="alert-circle"
-          size={64}
-          color="red"
-          testID="error-icon"
-        />
-      ) : iconState === IconState.Sending ? (
-        <ActivityIndicator
-          size="large"
-          color={colors.docYellow}
-          testID="activity-indicator"
-        />
-      ) : (
-        <Image
-          source={require("../../assets/images/nfc_logo.png")}
-          style={styles.nfcImage}
-          testID="nfc-image"
-        />
-      )}
-    </View>
-  );
+  let content;
+  if (iconState === IconState.Success) {
+    content = (<Ionicons
+      name="checkmark-circle"
+      size={64}
+      color="green"
+      testID="success-icon"
+    />)
+  } else if (iconState === IconState.Error) {
+    content = (<Ionicons
+      name="alert-circle"
+      size={64}
+      color="red"
+      testID="error-icon"
+    />)
+  } else if (iconState === IconState.Sending) {
+    content = (<ActivityIndicator
+      size="large"
+      color={colors.docYellow}
+      testID="activity-indicator"
+    />)
+  } else {
+    content = (<Image
+      source={require("../../assets/images/nfc_logo.png")}
+      style={styles.nfcImage}
+      testID="nfc-image"
+    />)
+  };
+  return (<View style={styles.nfcIcon}>{content}</View>);
 };
 
 const styles = StyleSheet.create({
