@@ -28,7 +28,6 @@ describe("NfcHandler", () => {
 
     render(<NfcHandler onNfcCheck={onNfcCheckMock} />);
 
-    // Simulate app state change to active
     const changeHandler = addEventListenerMock.mock.calls[0][1];
     await act(async () => {
       changeHandler("active");
@@ -37,6 +36,7 @@ describe("NfcHandler", () => {
     expect(NfcManager.isEnabled).toHaveBeenCalled();
 
     await waitFor(() => {
+      expect(onNfcCheckMock).toHaveBeenCalledTimes(2);
       expect(onNfcCheckMock).toHaveBeenCalledWith(true);
     });
   });
