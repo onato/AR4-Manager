@@ -1,8 +1,9 @@
 import React from "react";
 import { render, fireEvent, act } from "@testing-library/react-native";
 import { ReorderableList } from "react-native-reorderable-list";
-import TimetableItem from "components/table/TimetableItem";
-import Timeframe from "data/Timeframe";
+import TimetableItem from "@/components/table/TimetableItem";
+import Timeframe from "@/data/Timeframe";
+import colors from "@/colors"
 
 // ✅ Ensure Jest clears mocks before each test
 beforeEach(() => {
@@ -89,6 +90,31 @@ describe("TimetableItem", () => {
 
     expect(getByText("12:00 - 13:00")).toBeTruthy();
     expect(getByText("High")).toBeTruthy();
+  });
+
+  it("reflects enabled prop changes in switch value", () => {
+    const { getByTestId, rerender } = render(
+      <TimetableItem
+        item={{ ...mockTimeframe, enabled: true }}
+        editMode={false}
+        onSave={onSaveMock}
+        onDelete={onDeleteMock}
+      />
+    );
+
+    const switchElement = getByTestId("enable-switch");
+    expect(switchElement.props.value).toBe(true);
+
+    rerender(
+      <TimetableItem
+        item={{ ...mockTimeframe, enabled: false }}
+        editMode={false}
+        onSave={onSaveMock}
+        onDelete={onDeleteMock}
+      />
+    );
+
+    expect(switchElement.props.value).toBe(false);
   });
 
   it("calls onSave when switch is toggled", async () => {
