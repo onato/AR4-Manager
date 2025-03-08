@@ -14,6 +14,7 @@ interface EditTimeframeModalProps {
   item: Timeframe;
   onSave: (updatedItem: Timeframe) => void;
   onCancel: () => void;
+  testID: string;
 }
 
 const EditTimeframeModal: React.FC<EditTimeframeModalProps> = ({
@@ -21,6 +22,7 @@ const EditTimeframeModal: React.FC<EditTimeframeModalProps> = ({
   item,
   onSave,
   onCancel,
+  testID,
 }) => {
   const [protocol, setProtocol] = useState(item.protocol);
   const [start, setStart] = useState(
@@ -45,7 +47,7 @@ const EditTimeframeModal: React.FC<EditTimeframeModalProps> = ({
 
   return (
     <View>
-      <Modal visible={visible} animationType="slide" transparent={true}>
+      <Modal visible={visible} animationType="slide" transparent={true} testID={testID}>
         <View style={localStyles.modalContainer}>
           <LogoTitle
             title="Edit Timetable Item"

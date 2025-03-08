@@ -63,6 +63,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
         style={localStyles.item}
+        testID="timetable-item"
       >
         <Animated.View
           style={CreateAnimatedStyle(positions.delete)}
@@ -113,6 +114,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({
 
       <EditTimeframeModal
         visible={modalVisible}
+        testID="edit-timeframe-modal"
         item={item}
         onSave={(updatedItem) => {
           onSave(updatedItem);
