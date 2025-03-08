@@ -1,10 +1,16 @@
-export const updateTimeframes = (prevTimeframes, updatedItem) => {
+import Timeframe from "./Timeframe";
+
+export interface UpdateResult {
+  success: boolean;
+  timeframes: Timeframe[];
+}
+
+export const updateTimeframes = (prevTimeframes: Timeframe[], updatedItem: Timeframe): UpdateResult => {
   const index = prevTimeframes.findIndex((item) => item.id === updatedItem.id);
   const wasAdded = index === -1;
   if (
     wasAdded &&
-    updatedItem &&
-    updatedItem.enabled &&
+    updatedItem?.enabled &&
     prevTimeframes.filter((t) => t.enabled).length >= 6
   ) {
     return { success: false, timeframes: prevTimeframes };
@@ -17,7 +23,7 @@ export const updateTimeframes = (prevTimeframes, updatedItem) => {
   return { success: true, timeframes: [...prevTimeframes, updatedItem] };
 };
 
-export const deleteTimeframe = (prevTimeframes, id) => {
+export const deleteTimeframe = (prevTimeframes: Timeframe[], id: string): Timeframe[] => {
   const updatedTimeframes = prevTimeframes.filter((item) => item.id !== id);
   return updatedTimeframes.map((item, index) => ({
     ...item,
