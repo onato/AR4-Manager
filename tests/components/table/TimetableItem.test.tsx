@@ -3,8 +3,8 @@ import { render, fireEvent, act } from "@testing-library/react-native";
 
 // Mock NativeEventEmitter to prevent errors during testing
 import { ReorderableList } from "react-native-reorderable-list";
-import TimetableItem from "../components/TimetableItem";
-import Timeframe from "../data/Timeframe";
+import TimetableItem from "@/components/table/TimetableItem";
+import Timeframe from "@/data/Timeframe";
 
 // ✅ Ensure Jest clears mocks before each test
 beforeEach(() => {

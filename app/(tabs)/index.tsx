@@ -4,16 +4,16 @@ import ReorderableList, {
   reorderItems,
 } from "react-native-reorderable-list";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import EditTimeframeModal from "../../components/modals/EditTimeframeModal";
+import EditTimeframeModal from "@/components/modals/EditTimeframeModal";
 import { useState, useCallback, useLayoutEffect } from "react";
 import {
   updateTimeframes,
   deleteTimeframe,
-} from "../../utils/TimeframeUpdater";
-import { defaultNewItem } from "../../utils/TimeframeStore";
+} from "@/utils/TimeframeUpdater";
+import { defaultNewItem } from "@/utils/TimeframeStore";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import TimetableItem from "../../components/TimetableItem";
-import colors from "../../colors";
+import TimetableItem from "@/components/table/TimetableItem";
+import colors from "@/colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 import Timeframe from "@/data/Timeframe";
 

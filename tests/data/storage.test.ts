@@ -1,6 +1,6 @@
-import { saveSettings, loadSettings } from "../utils/storage";
+import { saveSettings, loadSettings } from "@/data/storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Settings } from "../data/Settings";
+import { Settings } from "@/data/Settings";
 
 jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),

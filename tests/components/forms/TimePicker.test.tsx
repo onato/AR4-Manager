@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import TimePicker from "../components/forms/TimePicker";
+import TimePicker from "@/components/forms/TimePicker";
 jest.mock("react-native-date-picker", () => {
   const { View } = require("react-native");
   return {

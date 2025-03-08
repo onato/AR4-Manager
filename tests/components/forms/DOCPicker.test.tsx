@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import DOCPicker from "../components/forms/DOCPicker";
+import DOCPicker from "@/components/forms/DOCPicker";
 
 describe("DOCPicker", () => {
   it("calls onValueChange when a new value is selected", () => {

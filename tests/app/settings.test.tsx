@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { useSettingsContext } from "@/data/SettingsContext";
-import Tab from "../app/(tabs)/settings";
+import Tab from "@/app/(tabs)/settings";
 
 jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),

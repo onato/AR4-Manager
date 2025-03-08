@@ -9,7 +9,7 @@ import {
 } from "react";
 import { Settings } from "./Settings";
 import Timeframe from "./Timeframe";
-import { loadSettings, saveSettings } from "../utils/storage";
+import { loadSettings, saveSettings } from "@/data/storage";
 
 // Default timeframes
 const defaultTimeframes: Timeframe[] = [

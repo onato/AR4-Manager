@@ -1,16 +1,11 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import BorderedButton from "../components/buttons/BorderedButton";
+import TextButton from "@/components/buttons/TextButton";
 
-describe("BorderedButton Component", () => {
+describe("TextButton Component", () => {
   it("renders correctly with given title", () => {
     const { getByText } = render(
-      <BorderedButton
-        title="Click Me"
-        onPress={() => {}}
-        color="blue"
-        disabled={false}
-      />,
+      <TextButton title="Click Me" onPress={() => { }} disabled={false} />,
     );
     expect(getByText("Click Me")).toBeTruthy();
   });
@@ -18,7 +13,7 @@ describe("BorderedButton Component", () => {
   it("calls onPress when pressed", () => {
     const onPressMock = jest.fn();
     const { getByText } = render(
-      <BorderedButton title="Press Me" onPress={onPressMock} color="blue" />,
+      <TextButton title="Press Me" onPress={onPressMock} />,
     );
     fireEvent.press(getByText("Press Me"));
     expect(onPressMock).toHaveBeenCalledTimes(1);
@@ -27,12 +22,7 @@ describe("BorderedButton Component", () => {
   it("does not call onPress when disabled", () => {
     const onPressMock = jest.fn();
     const { getByText } = render(
-      <BorderedButton
-        title="Disabled"
-        onPress={onPressMock}
-        color="blue"
-        disabled={true}
-      />,
+      <TextButton title="Disabled" onPress={onPressMock} disabled={true} />,
     );
     const button = getByText("Disabled");
     fireEvent.press(button);

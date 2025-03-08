@@ -1,11 +1,11 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import SurveyInput from "../components/forms/SurveyInput";
+import SurveyInput from "@/components/forms/SurveyInput";
 
 describe("SurveyInput Component", () => {
   it("renders correctly with initial value", () => {
     const { getByDisplayValue } = render(
-      <SurveyInput value="TEST" onChangeText={() => {}} />,
+      <SurveyInput value="TEST" onChangeText={() => { }} />,
     );
     expect(getByDisplayValue("TEST")).toBeTruthy();
   });

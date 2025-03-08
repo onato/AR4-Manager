@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import EditTimeframeModal from "../components/modals/EditTimeframeModal";
-import Timeframe from "../data/Timeframe";
+import EditTimeframeModal from "@/components/modals/EditTimeframeModal";
+import Timeframe from "@/data/Timeframe";
 
 // Mock the native module used by react-native-date-picker
 jest.mock("react-native-date-picker", () => {

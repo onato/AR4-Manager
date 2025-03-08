@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import NfcIcon, { IconState } from "../components/icons/NfcIcon";
+import NfcIcon, { IconState } from "@/components/icons/NfcIcon";
 
 // Mock Ionicons to prevent errors during testing
 jest.mock("@expo/vector-icons/Ionicons", () => "Ionicons");

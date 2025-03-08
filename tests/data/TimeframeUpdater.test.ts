@@ -1,4 +1,4 @@
-import { updateTimeframes, deleteTimeframe } from "../utils/TimeframeUpdater";
+import { updateTimeframes, deleteTimeframe } from "@/utils/TimeframeUpdater";
 
 describe("TimeframeUpdater", () => {
   const createTimeframe = (id: number, enabled = true) => ({

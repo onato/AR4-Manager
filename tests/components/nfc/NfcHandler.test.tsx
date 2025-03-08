@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react-native";
-import NfcHandler from "../components/nfc/NfcHandler";
+import NfcHandler from "@/components/nfc/NfcHandler";
 import NfcManager from "react-native-nfc-manager";
 
 jest.mock("react-native-nfc-manager", () => ({

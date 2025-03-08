@@ -1,13 +1,13 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { Text, Button } from "react-native";
-import { SettingsProvider, useSettingsContext } from "../data/SettingsContext";
-import * as storageModule from "../utils/storage";
+import { SettingsProvider, useSettingsContext } from "@/data/SettingsContext";
+import * as storageModule from "@/data/storage";
 
 const loadSettings = jest.mocked(storageModule.loadSettings);
 const saveSettings = jest.mocked(storageModule.saveSettings);
 
-jest.mock("../utils/storage", () => ({
+jest.mock("@/data/storage", () => ({
   loadSettings: jest.fn(),
   loadTimeframes: jest.fn(),
   saveSettings: jest.fn(),
@@ -82,7 +82,7 @@ describe("SettingsContext", () => {
   it("throws an error if used outside of SettingsProvider", () => {
     const consoleError = jest
       .spyOn(console, "error")
-      .mockImplementation(() => {});
+      .mockImplementation(() => { });
 
     expect(() => {
       render(<TestComponent />);

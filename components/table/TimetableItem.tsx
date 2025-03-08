@@ -8,11 +8,11 @@ import Animated, {
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import EditTimeframeModal from "./modals/EditTimeframeModal";
+import EditTimeframeModal from "@/components/modals/EditTimeframeModal";
 import * as Haptics from "expo-haptics";
-import Timeframe, { formatTimeframe } from "../data/Timeframe";
+import Timeframe, { formatTimeframe } from "@/data/Timeframe";
 
-import colors from "../colors";
+import colors from "@/colors";
 import { useReorderableDrag } from "react-native-reorderable-list";
 
 interface TimetableItemProps {

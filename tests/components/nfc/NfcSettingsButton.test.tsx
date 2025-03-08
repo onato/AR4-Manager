@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import NfcSettingsButton from "../components/nfc/NfcSettingsButton";
+import NfcSettingsButton from "@/components/nfc/NfcSettingsButton";
 import * as IntentLauncher from "expo-intent-launcher";
 
 jest.mock("expo-intent-launcher", () => ({

@@ -1,6 +1,6 @@
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
-import AR4Sender from "../utils/AR4Sender";
-import { Settings } from "../data/Settings";
+import AR4Sender from "@/utils/AR4Sender";
+import { Settings } from "@/data/Settings";
 
 jest.mock("react-native-nfc-manager", () => ({
   start: jest.fn(),
@@ -22,6 +22,7 @@ describe("AR4Sender", () => {
   const mockSettings: Settings = {
     timeframes: [
       {
+        id: "1",
         start_hour: 12,
         start_minute: 0,
         end_hour: 13,
