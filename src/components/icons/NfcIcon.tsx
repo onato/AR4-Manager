@@ -38,7 +38,7 @@ const NfcIcon: React.FC<NfcIconProps> = ({ iconState }) => {
     />)
   } else {
     content = (<Image
-      source={require("../../assets/images/nfc_logo.png")}
+      source={require("@assets/images/nfc_logo.png")}
       style={styles.nfcImage}
       testID="nfc-image"
     />)
