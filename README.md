@@ -1,4 +1,4 @@
-[![Coverage](https://www.onato.com/AR4-Manager/badge.svg)](https://www.onato.com/AR4-Manager/lcov-report/)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=coverage)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=onato_AR4-Manager&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=onato_AR4-Manager)

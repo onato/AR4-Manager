@@ -41,9 +41,7 @@ jobs:
 
       - name: Run tests
         run: |
-          TEST_COVERAGE=$(npx jest --coverage --coverageReporters="text" --coverageReporters="lcov" --coverageReporters="text-summary" | tee /dev/tty | grep "Lines" | awk '{print $3}' | tr -d '%' | xargs)
-          # These assets are deployed to GitHub Pages
-          node node_modules/badge-maker/lib/badge-cli.js coverage "$TEST_COVERAGE%" :orange > coverage/badge.svg
+          npm run test:coverage
           cp assets/images/qrcode_with_logo.png coverage
 
       - name: Configure git
