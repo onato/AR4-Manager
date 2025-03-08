@@ -1,7 +1,7 @@
 import React from "react";
 import { render, waitFor } from "@testing-library/react-native";
 import Tab from "@/app/(tabs)/index";
-import { SettingsProvider, useSettingsContext } from "@/data/SettingsContext";
+import { SettingsProvider } from "@/data/SettingsContext";
 
 import { NavigationContainer } from "@react-navigation/native";
 
