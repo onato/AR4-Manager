@@ -1,16 +1,16 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import colors from "@/colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 
-interface RightHeaderComponentProps {
+interface AddEditHeaderButtonsProps {
   handleAdd: () => void;
   toggleEditMode: () => void;
   editMode: boolean;
 }
 
-const RightHeaderComponent: React.FC<RightHeaderComponentProps> = ({
+const AddEditHeaderButtons: React.FC<AddEditHeaderButtonsProps> = ({
   handleAdd,
   toggleEditMode,
   editMode,
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RightHeaderComponent;
+export default AddEditHeaderButtons;

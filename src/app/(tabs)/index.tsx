@@ -12,7 +12,7 @@ import {
 import { defaultNewItem } from "@/data/TimeframeStore";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import TimetableItem from "@/components/table/TimetableItem";
-import RightHeaderComponent from "@/components/headers/RightHeaderComponent";
+import AddEditHeaderButtons from "@/components/headers/AddEditHeaderButtons";
 import colors from "@/colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 import Timeframe from "@/data/Timeframe";
@@ -66,9 +66,19 @@ export default function Tab() {
     }, []),
   );
 
+  const RightHeaderComponentLocal = useCallback(() => {
+    return (
+      <AddEditHeaderButtons
+        handleAdd={handleAdd}
+        toggleEditMode={toggleEditMode}
+        editMode={editMode}
+      />
+    );
+  }, [editMode, settings.timeframes, handleAdd]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: RightHeaderComponent,
+      headerRight: RightHeaderComponentLocal,
     });
   }, [navigation, settings.timeframes, editMode, handleAdd, toggleEditMode]);
 
@@ -84,6 +94,7 @@ export default function Tab() {
     <View style={localStyles.listContainer}>
       <EditTimeframeModal
         visible={modalVisible}
+        testID="edit-timeframe-modal"
         item={newItem}
         onSave={handleSave}
         onCancel={() => setModalVisible(false)}

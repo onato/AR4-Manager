@@ -1,7 +1,6 @@
 import React from "react";
-import { render, fireEvent, act } from "@testing-library/react-native";
-import RightHeaderComponent from "@/components/headers/RightHeaderComponent";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
+import AddEditHeaderButtons from "@/components/headers/AddEditHeaderButtons";
 
 jest.mock("react-native-vector-icons/Ionicons", () => "Ionicons");
 import { SettingsProvider } from "@/data/SettingsContext";
@@ -21,7 +20,7 @@ describe("RightHeaderComponent", () => {
     let screen;
     screen = render(
       <SettingsProvider>
-        <RightHeaderComponent
+        <AddEditHeaderButtons
           handleAdd={handleAdd}
           toggleEditMode={toggleEditMode}
           editMode={editMode}
@@ -34,20 +33,26 @@ describe("RightHeaderComponent", () => {
   it("calls handleAdd when add button is pressed", async () => {
     const { getByTestId } = renderComponent();
     const addButton = getByTestId("add");
-    fireEvent.press(addButton);
+    await waitFor(() => {
+      fireEvent.press(addButton);
+    });
     expect(handleAdd).toHaveBeenCalled();
   });
 
   it("calls toggleEditMode when edit button is pressed", async () => {
     const { getByTestId } = renderComponent();
     const editButton = getByTestId("edit");
-    fireEvent.press(editButton);
+    await waitFor(() => {
+      fireEvent.press(editButton);
+    });
     expect(toggleEditMode).toHaveBeenCalled();
   });
 
   it("displays 'Done' when in edit mode", async () => {
     const { getByTestId } = renderComponent(true);
-    const doneButton = getByTestId("done");
-    expect(doneButton).toBeTruthy();
+    await waitFor(() => {
+      const doneButton = getByTestId("done");
+      expect(doneButton).toBeTruthy();
+    });
   });
 });
