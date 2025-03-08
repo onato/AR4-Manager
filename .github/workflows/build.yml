@@ -67,6 +67,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Set up JDK 17 (Required for latest Gradle)
         uses: actions/setup-java@v3
         with:
