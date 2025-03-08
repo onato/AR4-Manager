@@ -114,6 +114,32 @@ describe("TimetableItem", () => {
     });
   });
 
+  it("calls onSave when save button is pressed", async () => {
+    const { getByTestId, queryByTestId } = render(
+      <ReorderableList>
+        <TimetableItem
+          item={mockTimeframe}
+          editMode={false}
+          onSave={onSaveMock}
+          onDelete={onDeleteMock}
+        />
+      </ReorderableList>,
+    );
+
+    const timetableItem = getByTestId("timetable-item");
+    await act(async () => {
+      fireEvent.press(timetableItem);
+    });
+
+    const saveButton = getByTestId("save");
+    await act(async () => {
+      fireEvent.press(saveButton);
+    });
+
+    expect(onSaveMock).toHaveBeenCalledWith(mockTimeframe);
+    expect(queryByTestId("edit-timeframe-modal")).toBeFalsy();
+  });
+
   it("closes modal when cancel button is pressed", async () => {
     const { getByTestId, queryByTestId } = render(
       <ReorderableList>
