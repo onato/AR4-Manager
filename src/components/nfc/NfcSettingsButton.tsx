@@ -6,7 +6,7 @@ const openNfcSettings = () => {
 };
 
 const NfcSettingsButton = () => (
-  <Button title="Open NFC Settings" onPress={openNfcSettings} />
+  <Button title="Open NFC Settings" onPress={openNfcSettings} testID="open-settings-button" />
 );
 
 export default NfcSettingsButton;

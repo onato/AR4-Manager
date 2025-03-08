@@ -31,7 +31,7 @@ const NfcEnableView: React.FC = () => {
           <Text style={{ marginBottom: 20, fontSize: 16 }}>
             {"NFC is not enabled."}
           </Text>
-          <NfcSettingsButton />
+          <NfcSettingsButton testID="open-settings-button" />
         </View>
       )}
     </>
