@@ -1,9 +1,8 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import ReorderableList, {
   ReorderableListReorderEvent,
   reorderItems,
 } from "react-native-reorderable-list";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import EditTimeframeModal from "@/components/modals/EditTimeframeModal";
 import { useState, useCallback, useLayoutEffect } from "react";
 import {
@@ -13,6 +12,7 @@ import {
 import { defaultNewItem } from "@/data/TimeframeStore";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import TimetableItem from "@/components/table/TimetableItem";
+import RightHeaderComponent from "@/components/headers/RightHeaderComponent";
 import colors from "@/colors";
 import { useSettingsContext } from "@/data/SettingsContext";
 import Timeframe from "@/data/Timeframe";
@@ -58,46 +58,6 @@ export default function Tab() {
   const handleReorder = ({ from, to }: ReorderableListReorderEvent) => {
     updateSettings({ timeframes: reorderItems(settings.timeframes, from, to) });
   };
-
-  const RightHeaderComponent = useCallback(() => {
-    const enabledTimeframesCount = settings.timeframes.filter(
-      (item) => item.enabled,
-    ).length;
-
-    return (
-      <View style={localStyles.headerButtonsContainer}>
-        <TouchableOpacity
-          onPress={handleAdd}
-          disabled={enabledTimeframesCount >= 6}
-          style={[
-            localStyles.headerButton,
-            { opacity: enabledTimeframesCount >= 6 ? 0.5 : 1 },
-          ]}
-          testID="add"
-        >
-          <Ionicons
-            name="add"
-            size={24}
-            style={localStyles.headerButtonText}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={toggleEditMode}
-          style={localStyles.headerButton}
-          testID={editMode ? "done" : "edit"}
-        >
-          <Text
-            style={[
-              localStyles.headerButtonText,
-              { fontWeight: editMode ? "bold" : "normal" },
-            ]}
-          >
-            {editMode ? "Done" : "Edit"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    )
-  }, [editMode, settings.timeframes, handleAdd]);
 
 
   useFocusEffect(
