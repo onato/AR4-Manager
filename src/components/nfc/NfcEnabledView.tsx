@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import NfcSettingsButton from "./NfcSettingsButton";
-import NfcHandler from "./NfcHandler";
+import NfcEnabledObserver from "./NfcEnabledObserver";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-const NfcEnableChecker: React.FC = () => {
+const NfcEnableView: React.FC = () => {
   const [nfcEnabled, setNfcEnabled] = useState(true);
 
   return (
     <>
-      <NfcHandler
+      <NfcEnabledObserver
         onNfcCheck={(isEnabled) => {
           setNfcEnabled(isEnabled);
         }}
@@ -38,4 +38,4 @@ const NfcEnableChecker: React.FC = () => {
   );
 };
 
-export default NfcEnableChecker;
+export default NfcEnableView;

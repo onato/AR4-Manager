@@ -5,7 +5,7 @@ import * as Haptics from "expo-haptics";
 import AR4Sender from "@/components/nfc/AR4Sender";
 import BorderedButton from "@/components/buttons/BorderedButton";
 import NfcIcon, { IconState } from "@/components/icons/NfcIcon";
-import NfcEnabledChecker from "@/components/nfc/NfcEnabledChecker";
+import NfcEnabledView from "@/components/nfc/NfcEnabledView";
 import PageContainer from "@/components/layout/PageContainer";
 import { useSettingsContext } from "@/data/SettingsContext";
 
@@ -85,7 +85,7 @@ export default function Tab() {
         />
       </View>
 
-      <NfcEnabledChecker />
+      <NfcEnabledView />
     </PageContainer>
   );
 }
