@@ -1,5 +1,5 @@
 import React from "react";
-import { AppState } from "react-native";
+import { AppState, AppStateStatus } from "react-native";
 
 import { render, waitFor, act } from "@testing-library/react-native";
 import NfcHandler from "@/components/nfc/NfcHandler";
@@ -10,12 +10,17 @@ jest.mock("react-native-nfc-manager", () => {
     isEnabled: jest.fn().mockResolvedValue(true), // Default mock implementation
   };
 });
+const mockedNfcManager = jest.mocked(NfcManager);
 
 describe("NfcHandler", () => {
 
+  let appStateCallback: ((state: AppStateStatus) => void);
   const addEventListenerMock = jest.spyOn(AppState, 'addEventListener');
   beforeEach(() => {
-    addEventListenerMock.mockImplementation((type) => { });
+    jest.spyOn(AppState, 'addEventListener').mockImplementation((type, handler) => {
+      appStateCallback = handler;
+      return { remove: jest.fn() };
+    });
   });
 
   afterEach(() => {
@@ -24,16 +29,22 @@ describe("NfcHandler", () => {
 
   it("should call onNfcCheck when app state changes to active", async () => {
     const onNfcCheckMock = jest.fn();
-    NfcManager.isEnabled.mockResolvedValueOnce(true);
+    mockedNfcManager.isEnabled.mockResolvedValueOnce(true);
 
     render(<NfcHandler onNfcCheck={onNfcCheckMock} />);
 
-    const changeHandler = addEventListenerMock.mock.calls[0][1];
+    const changeHandler = appStateCallback
     await act(async () => {
-      changeHandler("active");
+      appStateCallback("background");
+    });
+    await waitFor(() => {
+      expect(onNfcCheckMock).toHaveBeenCalledWith(true);
+    });
+    expect(NfcManager.isEnabled).toHaveBeenCalled();
+    await act(async () => {
+      appStateCallback("active");
     });
 
-    expect(NfcManager.isEnabled).toHaveBeenCalled();
 
     await waitFor(() => {
       expect(onNfcCheckMock).toHaveBeenCalledTimes(2);
@@ -43,7 +54,7 @@ describe("NfcHandler", () => {
 
   it("should check NFC status on mount and call onNfcCheck with the result", async () => {
     const onNfcCheckMock = jest.fn();
-    NfcManager.isEnabled.mockResolvedValueOnce(true);
+    mockedNfcManager.isEnabled.mockResolvedValueOnce(true);
 
     const { findByTestId } = render(<NfcHandler onNfcCheck={onNfcCheckMock} />);
     await findByTestId("nfc-handler");
@@ -54,7 +65,7 @@ describe("NfcHandler", () => {
 
   it("should call onNfcCheck with false if NFC is not enabled", async () => {
     const onNfcCheckMock = jest.fn();
-    NfcManager.isEnabled.mockResolvedValueOnce(false);
+    mockedNfcManager.isEnabled.mockResolvedValueOnce(false);
 
     const { findByTestId } = render(<NfcHandler onNfcCheck={onNfcCheckMock} />);
     await findByTestId("nfc-handler");
