@@ -1,6 +1,6 @@
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import { AR4, LogEntry } from "@onato/doc-nfc-module";
-import { Settings } from "../data/Settings.js";
+import { Settings } from "@/data/Settings.js";
 
 const start = () => {
   NfcManager.start();

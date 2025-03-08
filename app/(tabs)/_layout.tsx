@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import colors from "../../colors.js";
+import colors from "../../colors";
 import { StatusBar } from "react-native";
 import { useCallback } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";

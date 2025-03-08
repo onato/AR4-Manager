@@ -9,8 +9,8 @@ import { useState, useCallback, useLayoutEffect } from "react";
 import {
   updateTimeframes,
   deleteTimeframe,
-} from "@/utils/TimeframeUpdater";
-import { defaultNewItem } from "@/utils/TimeframeStore";
+} from "@/data/TimeframeUpdater";
+import { defaultNewItem } from "@/data/TimeframeStore";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import TimetableItem from "@/components/table/TimetableItem";
 import colors from "@/colors";

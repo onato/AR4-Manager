@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-native-paper";
-import colors from "../../colors.js";
+import colors from "@/colors";
 import { StyleSheet } from "react-native";
 
 type BorderedButtonProps = {

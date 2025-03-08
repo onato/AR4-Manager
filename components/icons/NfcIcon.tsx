@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image, ActivityIndicator } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import colors from "../../colors";
+import colors from "@/colors";
 
 interface NfcIconProps {
   iconState: IconState;

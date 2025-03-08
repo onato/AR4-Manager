@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import colors from "../../colors.js";
+import colors from "@/colors";
 
 interface LogoTitleProps {
   title: string;

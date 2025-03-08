@@ -1,5 +1,5 @@
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
-import AR4Sender from "@/utils/AR4Sender";
+import AR4Sender from "@/components/nfc/AR4Sender";
 import { Settings } from "@/data/Settings";
 
 jest.mock("react-native-nfc-manager", () => ({

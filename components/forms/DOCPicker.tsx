@@ -1,7 +1,7 @@
 import React from "react";
 import { Picker } from "@react-native-picker/picker";
 import { StyleSheet } from "react-native";
-import colors from "../../colors";
+import colors from "@/colors";
 
 interface DOCPickerProps<T> {
   testID?: string;

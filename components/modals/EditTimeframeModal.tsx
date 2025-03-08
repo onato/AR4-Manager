@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
 import DOCPicker from "../forms/DOCPicker";
-import colors from "../../colors";
+import colors from "@/colors";
 import { Protocol } from "@onato/doc-nfc-module";
-import Timeframe from "../../data/Timeframe";
+import Timeframe from "@/data/Timeframe";
 import DOCLable from "../forms/DOCLable";
 import TimePicker from "../forms/TimePicker";
 import TextButton from "../buttons/TextButton";

@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput, StyleSheet } from "react-native";
-import colors from "../../colors";
+import colors from "@/colors";
 
 interface SurveyInputProps {
   value: string;
