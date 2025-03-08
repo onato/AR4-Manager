@@ -26,7 +26,8 @@ const NfcHandler: React.FC<NfcHandlerProps> = ({ onNfcCheck }) => {
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
       const prevState = appStateRef.current;
-      if (prevState?.match(/inactive|background/) && nextAppState === "active") {
+      const wasBackground = /inactive|background/.exec(prevState);
+      if (wasBackground && nextAppState === "active") {
         checkNfcEnabled();
       }
 
