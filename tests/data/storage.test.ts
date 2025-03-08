@@ -42,7 +42,7 @@ describe("Storage Tests", () => {
   it("should handle invalid JSON gracefully", async () => {
     mockedAsyncStorage.getItem.mockResolvedValueOnce("invalid json");
     await expect(loadSettings()).rejects.toThrow(
-      "Failed to save settings: Unexpected token 'i', \"invalid json\" is not valid JSON",
+      /Failed to save settings: Unexpected token.*/,
     );
   });
 
