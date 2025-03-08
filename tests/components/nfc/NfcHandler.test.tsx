@@ -17,7 +17,7 @@ describe("NfcHandler", () => {
   let appStateCallback: ((state: AppStateStatus) => void);
   const addEventListenerMock = jest.spyOn(AppState, 'addEventListener');
   beforeEach(() => {
-    jest.spyOn(AppState, 'addEventListener').mockImplementation((type, handler) => {
+    jest.spyOn(AppState, 'addEventListener').mockImplementation((_, handler) => {
       appStateCallback = handler;
       return { remove: jest.fn() };
     });
@@ -33,7 +33,6 @@ describe("NfcHandler", () => {
 
     render(<NfcHandler onNfcCheck={onNfcCheckMock} />);
 
-    const changeHandler = appStateCallback
     await act(async () => {
       appStateCallback("background");
     });
