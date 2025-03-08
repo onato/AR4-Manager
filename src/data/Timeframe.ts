@@ -14,12 +14,13 @@ export function formatTimeframe(timeframe: Timeframe): string {
       return "19:00 - 06:00";
     case "Tier1 Night":
       return "20:00 - 10:00";
-    default:
+    default: {
       const startHour = timeframe.start_hour.toString().padStart(2, "0");
       const startMinute = timeframe.start_minute.toString().padStart(2, "0");
       const endHour = timeframe.end_hour.toString().padStart(2, "0");
       const endMinute = timeframe.end_minute.toString().padStart(2, "0");
 
       return `${startHour}:${startMinute} - ${endHour}:${endMinute}`;
+    }
   }
 }
