@@ -7,7 +7,7 @@ interface NfcHandlerProps {
 }
 
 const NfcHandler: React.FC<NfcHandlerProps> = ({ onNfcCheck }) => {
-  const [appState, setAppState] = useState(AppState.currentState);
+  const [appState, setAppState] = useState<string>(AppState.currentState);
 
   const checkNfcEnabled = useCallback(async () => {
     const isEnabled = await NfcManager.isEnabled();
@@ -20,14 +20,14 @@ const NfcHandler: React.FC<NfcHandlerProps> = ({ onNfcCheck }) => {
 
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
-      if (appState.match(/inactive|background/) && nextAppState === "active") {
+      if (appState?.match(/inactive|background/) && nextAppState === "active") {
         checkNfcEnabled();
       }
       setAppState(nextAppState);
     });
 
     return () => {
-      subscription.remove();
+      subscription?.remove();
     };
   }, [appState, checkNfcEnabled]);
 
