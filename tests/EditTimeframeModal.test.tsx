@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import EditTimetableModal from "../components/modals/EditTimetableModal";
+import EditTimeframeModal from "../components/modals/EditTimeframeModal";
 import Timeframe from "../data/Timeframe";
 
 // Mock the native module used by react-native-date-picker
@@ -21,14 +21,14 @@ const baseMockItem: Timeframe = {
   enabled: true,
 };
 
-describe("EditTimetableModal", () => {
+describe("EditTimeframeModal", () => {
   it("calls onSave when the save button is pressed", () => {
     const mockOnCancel = jest.fn();
     const mockOnSave = jest.fn();
     const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByText } = render(
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={true}
         item={mockItem}
         onSave={mockOnSave}
@@ -46,7 +46,7 @@ describe("EditTimetableModal", () => {
     const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByText } = render(
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={true}
         item={mockItem}
         onSave={mockOnSave}
@@ -64,7 +64,7 @@ describe("EditTimetableModal", () => {
     const mockItem: Timeframe = { ...baseMockItem };
 
     const { getByTestId } = render(
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={true}
         item={mockItem}
         onSave={mockOnSave}
@@ -82,7 +82,7 @@ describe("EditTimetableModal", () => {
     const mockTimeframe: Timeframe = { ...baseMockItem, protocol: "Tier1" };
 
     const { getByText } = render(
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={true}
         item={mockTimeframe}
         onSave={jest.fn()}

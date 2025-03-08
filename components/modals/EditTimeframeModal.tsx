@@ -9,14 +9,14 @@ import TimePicker from "../forms/TimePicker";
 import TextButton from "../buttons/TextButton";
 import LogoTitle from "../icons/LogoTitle";
 
-interface EditTimetableModalProps {
+interface EditTimeframeModalProps {
   visible: boolean;
   item: Timeframe;
   onSave: (updatedItem: Timeframe) => void;
   onCancel: () => void;
 }
 
-const EditTimetableModal: React.FC<EditTimetableModalProps> = ({
+const EditTimeframeModal: React.FC<EditTimeframeModalProps> = ({
   visible,
   item,
   onSave,
@@ -127,4 +127,4 @@ const localStyles = StyleSheet.create({
   },
 });
 
-export default EditTimetableModal;
+export default EditTimeframeModal;

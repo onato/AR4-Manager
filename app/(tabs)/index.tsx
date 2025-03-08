@@ -4,7 +4,7 @@ import ReorderableList, {
   reorderItems,
 } from "react-native-reorderable-list";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import EditTimetableModal from "../../components/modals/EditTimetableModal";
+import EditTimeframeModal from "../../components/modals/EditTimeframeModal";
 import { useState, useCallback, useLayoutEffect } from "react";
 import {
   updateTimeframes,
@@ -122,7 +122,7 @@ export default function Tab() {
   );
   return (
     <View style={localStyles.listContainer}>
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={modalVisible}
         item={newItem}
         onSave={handleSave}

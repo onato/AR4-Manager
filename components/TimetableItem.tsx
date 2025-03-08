@@ -8,7 +8,7 @@ import Animated, {
 import { View, Text, Switch, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import EditTimetableModal from "./modals/EditTimetableModal";
+import EditTimeframeModal from "./modals/EditTimeframeModal";
 import * as Haptics from "expo-haptics";
 import Timeframe, { formatTimeframe } from "../data/Timeframe";
 
@@ -111,7 +111,7 @@ const TimetableItem: React.FC<TimetableItemProps> = ({
         </Animated.View>
       </TouchableOpacity>
 
-      <EditTimetableModal
+      <EditTimeframeModal
         visible={modalVisible}
         item={item}
         onSave={(updatedItem) => {
