@@ -53,6 +53,7 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           scripts/bump_version.sh
+          sed -i "s/^sonar.projectVersion=.*/sonar.projectVersion=$(awk -F= '/^versionCode/ {print $2}' android/version.properties)/" sonar-project.properties
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
