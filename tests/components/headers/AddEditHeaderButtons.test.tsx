@@ -12,7 +12,30 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   clear: jest.fn(),
 }));
 
-describe("RightHeaderComponent", () => {
+import Timeframe from "@/data/Timeframe";
+
+const mockSettings = {
+  timeframes: Array(6).fill({
+    id: "1",
+    protocol: "Protocol",
+    start_hour: 0,
+    start_minute: 0,
+    end_hour: 0,
+    end_minute: 0,
+    enabled: true,
+  } as Timeframe),
+  gpsMode: 0,
+  survey: "Survey",
+  station: 1,
+};
+
+describe("AddEditHeaderButtons", () => {
+  beforeEach(() => {
+    jest.spyOn(React, 'useContext').mockImplementation(() => ({
+      settings: mockSettings,
+      setSettings: jest.fn(),
+    }));
+  });
   const handleAdd = jest.fn();
   const toggleEditMode = jest.fn();
 
@@ -30,7 +53,16 @@ describe("RightHeaderComponent", () => {
     return screen!;
   };
 
-  it("calls handleAdd when add button is pressed", async () => {
+  it("disables add button when there are 6 timeframes", async () => {
+    const { getByTestId } = renderComponent();
+    const addButton = getByTestId("add");
+    await waitFor(() => {
+      expect(addButton).toBeDisabled();
+    });
+  });
+
+  it("calls handleAdd when add button is pressed and not disabled", async () => {
+    mockSettings.timeframes = Array(5).fill({ id: 1, name: "Timeframe" });
     const { getByTestId } = renderComponent();
     const addButton = getByTestId("add");
     await waitFor(() => {
