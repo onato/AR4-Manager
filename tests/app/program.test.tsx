@@ -26,6 +26,25 @@ describe("Program Tab", () => {
     });
   });
 
+  it("cancels NFC sending", async () => {
+    (AR4Sender.send as jest.Mock).mockImplementation(() => {
+      return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000));
+    });
+    (AR4Sender.cancel as jest.Mock).mockImplementation(() => {});
+
+    const { getByText } = render(<Tab />);
+    const button = getByText("CONNECT & UPDATE");
+    fireEvent.press(button);
+
+    await waitFor(() => {
+      expect(getByText("CANCEL")).toBeTruthy();
+    });
+
+    fireEvent.press(getByText("CANCEL"));
+
+    expect(AR4Sender.cancel).toHaveBeenCalled();
+  });
+
   it("renders correctly", () => {
     const { getByText } = render(<Tab />);
     expect(getByText("1 enabled recording timeframes")).toBeTruthy();
