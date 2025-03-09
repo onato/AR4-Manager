@@ -29,8 +29,8 @@ export default function Tab() {
       showSuccess();
       setIconState(IconState.Success);
       setTimeout(() => setIconState(IconState.Default), 5000);
-    } else if (result.error) {
-      showError(result.error);
+    } else {
+      showError(result.error || "");
       setIconState(IconState.Error);
     }
   };

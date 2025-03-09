@@ -59,7 +59,6 @@ export default function Tab() {
     updateSettings({ timeframes: reorderItems(settings.timeframes, from, to) });
   };
 
-
   useFocusEffect(
     useCallback(() => {
       return () => setEditMode(false);

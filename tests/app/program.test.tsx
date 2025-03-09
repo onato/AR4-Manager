@@ -30,7 +30,7 @@ describe("Program Tab", () => {
     (AR4Sender.send as jest.Mock).mockImplementation(() => {
       return new Promise((resolve) => setTimeout(() => resolve({ success: true }), 1000));
     });
-    (AR4Sender.cancel as jest.Mock).mockImplementation(() => {});
+    (AR4Sender.cancel as jest.Mock).mockImplementation(() => { });
 
     const { getByText } = render(<Tab />);
     const button = getByText("CONNECT & UPDATE");
@@ -74,6 +74,18 @@ describe("Program Tab", () => {
 
     await waitFor(() => {
       expect(getByText("NFC Error")).toBeTruthy();
+    });
+  });
+
+  it("handles empty NFC error", async () => {
+    (AR4Sender.send as jest.Mock).mockResolvedValue({ success: false, error: "" });
+
+    const { getByText, getByTestId } = render(<Tab />);
+    const button = getByText("CONNECT & UPDATE");
+    fireEvent.press(button);
+
+    await waitFor(() => {
+      expect(getByTestId("error-icon")).toBeTruthy();
     });
   });
 });
