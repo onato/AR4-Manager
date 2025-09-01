@@ -3,8 +3,6 @@ name: Android CI
 on:
   push:
     branches: ["main"]
-  pull_request:
-    branches: ["main"]
 
 permissions:
   contents: write
@@ -12,8 +10,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "build"
-  cancel-in-progress: false
+  group: "build-${{ github.ref }}"
+  cancel-in-progress: true
 
 env:
   GH_USERNAME: ${{ github.actor }}
