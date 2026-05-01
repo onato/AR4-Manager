@@ -1,0 +1,6 @@
+
+### Bug fixes:
+- Finalize release only after successful upload
+
+
+---
