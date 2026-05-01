@@ -38,7 +38,6 @@ generate_changelog() {
   repo_name="$(gh repo view --json owner,name -q '"\(.owner.login)/\(.name)"')"
   scripts/generate_changelog.sh "$repo_name" "$current_release" "$next_release" >"$changelog"
   scripts/generate_playstore_changelog.sh "$repo_name" "$current_release" "$next_release"
-  git add "$changelog"
 }
 
 # Update Android versioning in properties file
@@ -56,8 +55,6 @@ update_android_version() {
 
   update_property "$version_file" versionName "$next_release"
   update_property "$version_file" versionCode "$version_code"
-
-  git add "$version_file"
 }
 
 # Main script logic
@@ -68,10 +65,13 @@ if needs_release; then
   generate_changelog
   update_android_version
 
-  git commit -m "chore: bump version to $next_release"
-  git push
-
-  gh release create "$next_release" --title "$next_release" --notes-file "docs/changelogs/$next_release.md" --prerelease
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    echo "next_release=$next_release" >>"$GITHUB_OUTPUT"
+    echo "needs_release=true" >>"$GITHUB_OUTPUT"
+  fi
 else
   echo "No release necessary"
+  if [ -n "${GITHUB_OUTPUT:-}" ]; then
+    echo "needs_release=false" >>"$GITHUB_OUTPUT"
+  fi
 fi

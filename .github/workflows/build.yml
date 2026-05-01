@@ -48,6 +48,7 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Bump the version if necessary
+        id: bump
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
           scripts/bump_version.sh
@@ -98,3 +99,7 @@ jobs:
         env:
           AR4MANAGER_PLAYSTORE_JSON_FILE: ${{ runner.temp }}/app.json
           AR4MANAGER_UPLOAD_STORE_FILE: ${{ runner.temp }}/app.keystore
+
+      - name: Finalize release
+        if: steps.bump.outputs.needs_release == 'true'
+        run: scripts/finalize_release.sh "${{ steps.bump.outputs.next_release }}"
