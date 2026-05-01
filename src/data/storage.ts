@@ -8,7 +8,7 @@ export const loadSettings = async () => {
     const jsonValue = await AsyncStorage.getItem(SETTINGS_KEY);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e: any) {
-    throw new Error(`Failed to save settings: ${e.message}`);
+    throw new Error(`Failed to load settings: ${e.message}`);
   }
 };
 
